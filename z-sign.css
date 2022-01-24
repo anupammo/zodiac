@@ -10,7 +10,7 @@ td {
     height: 80px;
 }
 #z-sign {
-    font-size: 5em;
+    font-size: 4.5em;
 }
 
 .spin {
@@ -67,11 +67,10 @@ td {
     }
 }
 
-#stop-spin:hover,
+/* #stop-spin:hover,
 #stop-spin:hover tr td div.rspin {
     -webkit-animation-play-state: paused;
     -moz-animation-play-state: paused;
     -o-animation-play-state: paused;
     animation-play-state: paused;
-    /* cursor: pointer; */
-}
+} */
