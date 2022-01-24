@@ -12,15 +12,25 @@
     <link rel="stylesheet" href="z-sign.css">
     <title>My Zodiac Sign</title>
     <style>
-
+        header {
+            padding-top: 50px;
+            padding-bottom: 100px;
+        }
+        #spinner {
+            margin-top: -50px !important;
+        }
+        table {
+            background-color: #ffffff;
+        }
     </style>
 </head>
 
 <body>
-    <header>
+    <header class="bg-warning">
         <div class="container">
             <div class="row">
                 <div class="col-12">
+                    <h1 class="text-center h3 my-2">What is my Zodiac Sign?</h1>
                     <div class="mx-auto my-3" style="width: 18rem;">
                         <form>
                             <!-- <div class="row">
@@ -117,7 +127,7 @@
             </div>
         </div>
     </header>
-    <section class="my-5">
+    <section id="spinner" class="my-5">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -207,26 +217,11 @@
             </div>
         </div>
     </section>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script> -->
     <script>
-        // function yOb() {
-        //     var dy = document.getElementById("yob");
-        //     document.getElementById("dob-y").innerHTML = dy.options[dy.selectedIndex].text;
-        // }
-        // function mOb() {
-        //     var dm = document.getElementById("mob");
-        //     document.getElementById("dob-m").innerHTML = dm.options[dm.selectedIndex].text;
-        // }
-        // function dOb() {
-        //     var dd = document.getElementById("dob");
-        //     document.getElementById("dob-d").innerHTML = dd.options[dd.selectedIndex].text;
-        // }
         function bdate() {
-            // const bd = document.getElementById("bd");
-            // document.getElementById("bdate").innerHTML = bd.getMonth();
-
             var input = document.getElementById('bd').value;
             var d = new Date(input);
 
@@ -274,11 +269,6 @@
                 } else {
                     document.getElementById("bdate").innerHTML = "Others";
                 }
-
-
-                // document.getElementById("dob-d").innerHTML = day;
-                // document.getElementById("dob-m").innerHTML = month;
-                // document.getElementById("dob-y").innerHTML = year;
             } else {
                 document.getElementById("bdate").innerHTML = "Invalid date";
             }
