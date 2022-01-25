@@ -1,21 +1,29 @@
 /* stylesheet by © Anupam Mondal for ZSign */
 
-#bg-gradient {
-    background: rgb(255, 255, 255);
-    background: radial-gradient(circle, rgba(255, 255, 255, 1) 18%, rgba(6, 64, 162, 1) 45%, rgba(255, 255, 255, 1) 48%, rgba(255, 255, 255, 1) 100%);
+body {
+    background-image: url(res/what-is-my-zodiac-sign.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+header {
+    padding-top: 3%;
+    padding-bottom: 3%;
+}
+
+td.rspin {
+    background-color: #000000cc;
 }
 
 td {
     width: 80px;
     height: 80px;
 }
-#z-sign {
-    font-size: 4.5em;
-}
 
 .spin {
-    -webkit-animation: cwspin 5s linear infinite;
-    animation: cwspin 5s linear infinite;
+    -webkit-animation: cwspin 8s linear infinite;
+    animation: cwspin 8s linear infinite;
 }
 
 @-webkit-keyframes cwspin {
@@ -40,11 +48,8 @@ td {
 
 .rspin {
     width: fit-content;
-    /* border-radius: 50%;
-    border: #959595 dashed 1px;
-    background-color: #ffffff; */
-    -webkit-animation: acwspin 5s linear infinite;
-    animation: acwspin 5s linear infinite;
+    -webkit-animation: acwspin 8s linear infinite;
+    animation: acwspin 8s linear infinite;
 }
 
 @-webkit-keyframes acwspin {
@@ -66,11 +71,3 @@ td {
         transform: rotate(0deg);
     }
 }
-
-/* #stop-spin:hover,
-#stop-spin:hover tr td div.rspin {
-    -webkit-animation-play-state: paused;
-    -moz-animation-play-state: paused;
-    -o-animation-play-state: paused;
-    animation-play-state: paused;
-} */
