@@ -11,26 +11,17 @@
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>My Zodiac Sign</title>
     <style>
-        /* body {
-            background-color: #3c44a7;
-            background-image: url(res/what-is-my-zodiac-sign.webp);
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        } */
-        /* 
-        div#layerbg {
-            background-color: #1a235e80;
-            filter: drop-shadow(2px 4px 6px black);
-        } */
-
-        header {
-            padding-top: 10vh;
-            padding-bottom: 10vh;
+        body {
+            /* background: linear-gradient(235deg, #BABC4A 0%, #000000 100%), linear-gradient(235deg, #0026AC 0%, #282534 100%), linear-gradient(235deg, #00FFD1 0%, #000000 100%), radial-gradient(120% 185% at 25% -25%, #EEEEEE 0%, #EEEEEE 40%, #7971EA calc(40% + 1px), #7971EA 50%, #393E46 calc(50% + 1px), #393E46 70%, #222831 calc(70% + 1px), #222831 100%), radial-gradient(70% 140% at 90% 10%, #F5F5C6 0%, #F5F5C6 30%, #7DA87B calc(30% + 1px), #7DA87B 60%, #326765 calc(60% + 1px), #326765 80%, #27253D calc(80% + 1px), #27253D 100%);
+            background-blend-mode: overlay, lighten, overlay, color-burn, normal; */
+            /* background: linear-gradient(125deg, #00FF57 0%, #010033 40%, #460043 70%, #F0FFC5 100%), linear-gradient(55deg, #0014C9 0%, #410060 100%), linear-gradient(300deg, #FFC700 0%, #001AFF 100%), radial-gradient(135% 215% at 115% 40%, #393939 0%, #393939 40%, #849561 calc(40% + 1px), #849561 60%, #EED690 calc(60% + 1px), #EED690 80%, #ECEFD8 calc(80% + 1px), #ECEFD8 100%), linear-gradient(125deg, #282D4F 0%, #282D4F 40%, #23103A calc(40% + 1px), #23103A 70%, #A0204C calc(70% + 1px), #A0204C 88%, #FF6C00 calc(88% + 1px), #FF6C00 100%);
+            background-blend-mode: overlay, screen, overlay, overlay, normal; */
+            background: radial-gradient(100% 225% at 100% 0%, #FAFF00 0%, #000000 100%), linear-gradient(235deg, #FF7A00 0%, #000000 100%), linear-gradient(20deg, #241E92 0%, #241E92 30%, #5432D3 calc(30% + 1px), #5432D3 35%, #7B6CF6 calc(35% + 1px), #7B6CF6 50%, #E5A5FF calc(50% + 1px), #E5A5FF 100%), linear-gradient(120deg, #110133 0%, #110133 40%, #00918E calc(40% + 1px), #00918E 60%, #4DD599 calc(60% + 1px), #4DD599 70%, #FFDC34 calc(70% + 1px), #FFDC34 100%);
+            background-blend-mode: overlay, hard-light, overlay, normal;
         }
 
         td.rspin {
-            background-color: #000000;
+            background-color: #FFF;
         }
 
         td {
@@ -95,288 +86,236 @@
     </style>
 </head>
 
-<body id="bg-center">
-    <div id="layerbg">
-        <header>
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <h1 class="text-center text-primary h3 my-2">What is my Zodiac Sign?</h1>
-                        <div class="mx-auto text-primary my-3" style="width: 18rem;">
-                            <form>
-                                <!-- <div class="row">
-                                <div class="col px-1">
-                                    <select class="form-select shadow-none" id="yob" onchange="yOb()">
-                                        <option selected disabled>Year</option>
-                                        <option value="2022">2022</option>
-                                        <option value="2022">2022</option>
-                                        <option value="2020">2020</option>
-                                        <option value="2019">2019</option>
-                                        <option value="2018">2018</option>
-                                        <option value="2017">2017</option>
-                                        <option value="2016">2016</option>
-                                        <option value="2015">2015</option>
-                                        <option value="2014">2014</option>
-                                        <option value="2013">2013</option>
-                                        <option value="2012">2012</option>
-                                        <option value="2011">2011</option>
-                                        <option value="2010">2010</option>
-                                        <option value="2009">2009</option>
-                                        <option value="2008">2008</option>
-                                        <option value="2007">2007</option>
-                                        <option value="2006">2006</option>
-                                        <option value="2005">2005</option>
-                                        <option value="2004">2004</option>
-                                        <option value="2003">2003</option>
-                                        <option value="2002">2002</option>
-                                        <option value="2001">2001</option>
-                                        <option value="2000">2000</option>
-                                    </select>
-                                </div>
-                                <div class="col px-0">
-                                    <select class="form-select shadow-none" id="mob" onchange="mOb()">
-                                        <option selected disabled>Month</option>
-                                        <option value="Jan">Jan</option>
-                                        <option value="Feb">Feb</option>
-                                        <option value="Mar">Mar</option>
-                                        <option value="Apr">Apr</option>
-                                        <option value="May">May</option>
-                                        <option value="Jun">Jun</option>
-                                        <option value="Jul">Jul</option>
-                                        <option value="Aug">Aug</option>
-                                        <option value="Sep">Sep</option>
-                                        <option value="Oct">Oct</option>
-                                        <option value="Nov">Nov</option>
-                                        <option value="Dec">Dec</option>
-                                    </select>
-                                </div>
-                                <div class="col px-1">
-                                    <select class="form-select shadow-none" id="dob" onchange="dOb()">
-                                        <option selected disabled>Date</option>
-                                        <option value="01">01</option>
-                                        <option value="02">02</option>
-                                        <option value="03">03</option>
-                                        <option value="04">04</option>
-                                        <option value="05">05</option>
-                                        <option value="06">06</option>
-                                        <option value="07">07</option>
-                                        <option value="08">08</option>
-                                        <option value="09">09</option>
-                                        <option value="10">10</option>
-                                        <option value="11">11</option>
-                                        <option value="12">12</option>
-                                        <option value="13">13</option>
-                                        <option value="14">14</option>
-                                        <option value="15">15</option>
-                                        <option value="16">16</option>
-                                        <option value="17">17</option>
-                                        <option value="18">18</option>
-                                        <option value="19">19</option>
-                                        <option value="20">20</option>
-                                        <option value="21">21</option>
-                                        <option value="22">22</option>
-                                        <option value="23">23</option>
-                                        <option value="24">24</option>
-                                        <option value="25">25</option>
-                                        <option value="26">26</option>
-                                        <option value="27">27</option>
-                                        <option value="28">28</option>
-                                        <option value="29">29</option>
-                                        <option value="30">30</option>
-                                        <option value="31">31</option>
-                                    </select>
-                                </div>
-                            </div> -->
-                                <div class="row">
-                                    <div class="col">
-                                        <label class="form-label text-center d-block">Enter date of birth</label>
-                                        <!-- <input class="form-control rounded-pill shadow-none" type="date" id="siderealz"
-                                            onchange="bdate()"> -->
-                                        <input class="form-control rounded-pill shadow-none" type="date" id="tropicalz"
-                                            onchange="bdate()">
+<body>
+    <header class="py-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-check form-switch my-3">
+                        <input class="form-check-input shadow-none" type="checkbox" role="switch" id="zodiacType"
+                            onclick="myFunction()">
+                        <label class="form-check-label text-white text-end" for="zodiacType" id="lblZtype">Sidereal
+                            Zodiac</label>
+                    </div>
+                    <hr>
+                </div>
+                <div class="col-md-6 col-12">
+                    <h1 class="text-primary display-2 my-3">
+                        <strong class="text-white text-shadow">What is my Zodiac Sign?</strong>
+                    </h1>
+                </div>
+                <div class="col-md-6 col-12">
+                    <div class="mx-auto text-primary my-3">
+                        <form id="zForm">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card bg-white text-dark shadow mx-auto my-2" style="width: 15rem;">
+                                        <div class="card-body py-5">
+                                            <label for="tropicalz" class="form-label ps-2 mb-4">Enter Date of
+                                                Birth</label>
+                                            <input class="form-control border-0 shadow-none" type="date" id="tropicalz"
+                                                onchange="bdate()">
+                                        </div>
                                     </div>
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-        </header>
-        <section id="spinner">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <table class="mx-auto spin rounded-circle" id="stop-spin">
-                            <tr>
-                                <td class="h1 align-bottom">
-                                    <div class="rspin float-end">
-                                        <img src="res/aquarius.webp" loading="lazy" width="60" height="60">
-                                    </div>
-                                </td>
-                                <td class="h1 align-top">
-                                    <div class="rspin mx-auto">
-                                        <img src="res/aries.webp" loading="lazy" width="60" height="60">
-                                    </div>
-                                </td>
-                                <td class="h1 align-top">
-                                    <div class="rspin mx-auto">
-                                        <img src="res/cancer.webp" loading="lazy" width="60" height="60">
-                                    </div>
-                                </td>
-                                <td class="h1 align-bottom">
-                                    <div class="rspin">
-                                        <img src="res/capricorn.webp" loading="lazy" width="60" height="60">
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="h1 align-middle text-start">
-                                    <div class="rspin">
-                                        <img src="res/gemini.webp" alt="" loading="lazy" width="60" height="60">
-                                    </div>
-                                </td>
-                                <td colspan="2" rowspan="2" class="rspin rounded-circle">
-                                    <img src="" alt="" id="z-sign" class="rounded mx-auto d-block" loading="lazy">
-                                </td>
-                                <td class="h1 align-middle">
-                                    <div class="rspin float-end">
-                                        <img src="res/leo.webp" alt="" loading="lazy" width="60" height="60">
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="h1 align-middle text-start">
-                                    <div class="rspin">
-                                        <img src="res/libra.webp" alt="" loading="lazy" width="60" height="60">
-                                    </div>
-                                </td>
-                                <td class="h1 align-middle text-end">
-                                    <div class="rspin float-end">
-                                        <img src="res/pisces.webp" alt="" loading="lazy" width="60" height="60">
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="h1 align-top">
-                                    <div class="rspin float-end">
-                                        <img src="res/sagittarius.webp" loading="lazy" width="60" height="60">
-                                    </div>
-                                </td>
-                                <td class="h1 align-bottom">
-                                    <div class="rspin mx-auto">
-                                        <img src="res/scorpio.webp" loading="lazy" width="60" height="60">
-                                    </div>
-                                </td>
-                                <td class="h1 align-bottom">
-                                    <div class="rspin mx-auto">
-                                        <img src="res/taurus.webp" loading="lazy" width="60" height="60">
-                                    </div>
-                                </td>
-                                <td class="h1 align-top">
-                                    <div class="rspin">
-                                        <img src="res/virgo.webp" loading="lazy" width="60" height="60">
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
+        </div>
+    </header>
+    <section class="mt-5" id="spinner">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <table class="mx-auto spin rounded-circle" id="stop-spin">
+                        <tr>
+                            <td class="h1 align-bottom">
+                                <div class="rspin float-end">
+                                    <img src="res/aquarius.webp" alt="Zodiac sign aquarius" loading="lazy" width="60"
+                                        height="60">
+                                </div>
+                            </td>
+                            <td class="h1 align-top">
+                                <div class="rspin mx-auto">
+                                    <img src="res/aries.webp" alt="Zodiac sign aries" loading="lazy" width="60"
+                                        height="60">
+                                </div>
+                            </td>
+                            <td class="h1 align-top">
+                                <div class="rspin mx-auto">
+                                    <img src="res/cancer.webp" alt="Zodiac sign cancer" loading="lazy" width="60"
+                                        height="60">
+                                </div>
+                            </td>
+                            <td class="h1 align-bottom">
+                                <div class="rspin">
+                                    <img src="res/capricorn.webp" alt="Zodiac sign capricorn" loading="lazy" width="60"
+                                        height="60">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="h1 align-middle text-start">
+                                <div class="rspin">
+                                    <img src="res/gemini.webp" alt="Zodiac sign gemini" loading="lazy" width="60"
+                                        height="60">
+                                </div>
+                            </td>
+                            <td colspan="2" rowspan="2" class="rspin rounded-circle">
+                                <img src="res/cancer-b.webp" id="z-sign" class="rounded mx-auto d-block" loading="lazy">
+                            </td>
+                            <td class="h1 align-middle">
+                                <div class="rspin float-end">
+                                    <img src="res/leo.webp" alt="Zodiac sign leo" loading="lazy" width="60" height="60">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="h1 align-middle text-start">
+                                <div class="rspin">
+                                    <img src="res/libra.webp" alt="Zodiac sign libra" loading="lazy" width="60"
+                                        height="60">
+                                </div>
+                            </td>
+                            <td class="h1 align-middle text-end">
+                                <div class="rspin float-end">
+                                    <img src="res/pisces.webp" alt="Zodiac sign pisces" loading="lazy" width="60"
+                                        height="60">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="h1 align-top">
+                                <div class="rspin float-end">
+                                    <img src="res/sagittarius.webp" alt="Zodiac sign sagittarius" loading="lazy"
+                                        width="60" height="60">
+                                </div>
+                            </td>
+                            <td class="h1 align-bottom">
+                                <div class="rspin mx-auto">
+                                    <img src="res/scorpio.webp" alt="Zodiac sign scorpio" loading="lazy" width="60"
+                                        height="60">
+                                </div>
+                            </td>
+                            <td class="h1 align-bottom">
+                                <div class="rspin mx-auto">
+                                    <img src="res/taurus.webp" alt="Zodiac sign taurus" loading="lazy" width="60"
+                                        height="60">
+                                </div>
+                            </td>
+                            <td class="h1 align-top">
+                                <div class="rspin">
+                                    <img src="res/virgo.webp" alt="Zodiac sign virgo" loading="lazy" width="60"
+                                        height="60">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
-        </section>
-        <footer>
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <p class="text-center">
-                            <span class="btn btn-light rounded-pill px-5">2021 © myZodiacSign</span>
-                        </p>
-                    </div>
+        </div>
+    </section>
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- <p class="text-center" id="bdate"></p> -->
+                    <p class="text-center">
+                        <span class="btn rounded-pill text-white px-5">2021 © myZodiacSign by <a
+                                href="http://https://anupammondal.in">Anupam M</a></span>
+                    </p>
                 </div>
             </div>
-        </footer>
-    </div>
+        </div>
+    </footer>
     <script>
+        function myFunction() {
+            var checkBox = document.getElementById("zodiacType");
+            if (checkBox.checked == false) {
+                document.getElementById("lblZtype").innerHTML = "Sidereal Zodiac";
+            } else {
+                document.getElementById("lblZtype").innerHTML = "Tropical Zodiac";
+            }
+        }
         function bdate() {
             var input = document.getElementById('tropicalz').value;
             var d = new Date(input);
+            var checkBox = document.getElementById("zodiacType");
+            if (checkBox.checked == false) {
 
-            if (!!d.valueOf()) { // Valid date
-                year = d.getFullYear();
-                month = d.getMonth();
-                day = d.getDate();
+                if (!!d.valueOf()) {
+                    year = d.getFullYear();
+                    month = d.getMonth();
+                    day = d.getDate();
 
-                if ((month == 10) && ((day > 22)) || (month == 11) && ((day < 23))) {
-                    document.getElementById("z-sign").src = "res/sagittarius-b.webp";
-                } else if ((month == 11) && ((day > 21)) || (month == 0) && ((day < 21))) {
-                    document.getElementById("z-sign").src = "res/capricorn-b.webp";
-                } else if ((month == 0) && ((day > 19)) || (month == 1) && ((day < 20))) {
-                    document.getElementById("z-sign").src = "res/aquarius-b.webp";
-                } else if ((month == 1) && ((day > 20)) || (month == 2) && ((day < 20))) {
-                    document.getElementById("z-sign").src = "res/pisces-b.webp";
-                } else if ((month == 2) && ((day > 20)) || (month == 3) && ((day < 21))) {
-                    document.getElementById("z-sign").src = "res/aries-b.webp";
-                } else if ((month == 3) && ((day > 19)) || (month == 4) && ((day < 22))) {
-                    document.getElementById("z-sign").src = "res/taurus-b.webp";
-                } else if ((month == 4) && ((day > 20)) || (month == 5) && ((day < 22))) {
-                    document.getElementById("z-sign").src = "res/gemini-b.webp";
-                } else if ((month == 5) && ((day > 20)) || (month == 6) && ((day < 24))) {
-                    document.getElementById("z-sign").src = "res/cancer-b.webp";
-                } else if ((month == 6) && ((day > 22)) || (month == 7) && ((day < 24))) {
-                    document.getElementById("z-sign").src = "res/leo-b.webp";
-                } else if ((month == 7) && ((day > 22)) || (month == 8) && ((day < 24))) {
-                    document.getElementById("z-sign").src = "res/virgo-b.webp";
-                } else if ((month == 8) && ((day > 22)) || (month == 9) && ((day < 24))) {
-                    document.getElementById("z-sign").src = "res/libra-b.webp";
-                } else if ((month == 9) && ((day > 22)) || (month == 10) && ((day < 23))) {
-                    document.getElementById("z-sign").src = "res/scorpio-b.webp";
-                } else {
-                    document.getElementById("bdate").innerHTML = "Others";
+                    if ((month == 10) && ((day > 22)) || (month == 11) && ((day < 23))) {
+                        document.getElementById("z-sign").src = "res/sagittarius-b.webp";
+                    } else if ((month == 11) && ((day > 21)) || (month == 0) && ((day < 21))) {
+                        document.getElementById("z-sign").src = "res/capricorn-b.webp";
+                    } else if ((month == 0) && ((day > 19)) || (month == 1) && ((day < 20))) {
+                        document.getElementById("z-sign").src = "res/aquarius-b.webp";
+                    } else if ((month == 1) && ((day > 20)) || (month == 2) && ((day < 20))) {
+                        document.getElementById("z-sign").src = "res/pisces-b.webp";
+                    } else if ((month == 2) && ((day > 20)) || (month == 3) && ((day < 21))) {
+                        document.getElementById("z-sign").src = "res/aries-b.webp";
+                    } else if ((month == 3) && ((day > 19)) || (month == 4) && ((day < 22))) {
+                        document.getElementById("z-sign").src = "res/taurus-b.webp";
+                    } else if ((month == 4) && ((day > 20)) || (month == 5) && ((day < 22))) {
+                        document.getElementById("z-sign").src = "res/gemini-b.webp";
+                    } else if ((month == 5) && ((day > 20)) || (month == 6) && ((day < 24))) {
+                        document.getElementById("z-sign").src = "res/cancer-b.webp";
+                    } else if ((month == 6) && ((day > 22)) || (month == 7) && ((day < 24))) {
+                        document.getElementById("z-sign").src = "res/leo-b.webp";
+                    } else if ((month == 7) && ((day > 22)) || (month == 8) && ((day < 24))) {
+                        document.getElementById("z-sign").src = "res/virgo-b.webp";
+                    } else if ((month == 8) && ((day > 22)) || (month == 9) && ((day < 24))) {
+                        document.getElementById("z-sign").src = "res/libra-b.webp";
+                    } else if ((month == 9) && ((day > 22)) || (month == 10) && ((day < 23))) {
+                        document.getElementById("z-sign").src = "res/scorpio-b.webp";
+                    } else {
+                        document.getElementById("bdate").innerHTML = "Others";
+                    }
                 }
+
             } else {
-                document.getElementById("bdate").innerHTML = "Invalid date";
+
+                if (!!d.valueOf()) {
+                    year = d.getFullYear();
+                    month = d.getMonth();
+                    day = d.getDate();
+
+                    if ((month == 11) && ((day > 15)) || (month == 0) && ((day < 15))) {
+                        document.getElementById("z-sign").src = "res/sagittarius-b.webp";
+                    } else if ((month == 0) && ((day > 14)) || (month == 1) && ((day < 15))) {
+                        document.getElementById("z-sign").src = "res/capricorn-b.webp";
+                    } else if ((month == 1) && ((day > 14)) || (month == 2) && ((day < 15))) {
+                        document.getElementById("z-sign").src = "res/aquarius-b.webp";
+                    } else if ((month == 2) && ((day > 14)) || (month == 3) && ((day < 15))) {
+                        document.getElementById("z-sign").src = "res/pisces-b.webp";
+                    } else if ((month == 3) && ((day > 14)) || (month == 4) && ((day < 16))) {
+                        document.getElementById("z-sign").src = "res/aries-b.webp";
+                    } else if ((month == 4) && ((day > 15)) || (month == 5) && ((day < 16))) {
+                        document.getElementById("z-sign").src = "res/taurus-b.webp";
+                    } else if ((month == 5) && ((day > 15)) || (month == 6) && ((day < 16))) {
+                        document.getElementById("z-sign").src = "res/gemini-b.webp";
+                    } else if ((month == 6) && ((day > 15)) || (month == 7) && ((day < 16))) {
+                        document.getElementById("z-sign").src = "res/cancer-b.webp";
+                    } else if ((month == 7) && ((day > 15)) || (month == 8) && ((day < 16))) {
+                        document.getElementById("z-sign").src = "res/leo-b.webp";
+                    } else if ((month == 8) && ((day > 15)) || (month == 9) && ((day < 16))) {
+                        document.getElementById("z-sign").src = "res/virgo-b.webp";
+                    } else if ((month == 9) && ((day > 16)) || (month == 10) && ((day < 17))) {
+                        document.getElementById("z-sign").src = "res/libra-b.webp";
+                    } else if ((month == 10) && ((day > 16)) || (month == 11) && ((day < 16))) {
+                        document.getElementById("z-sign").src = "res/scorpio-b.webp";
+                    } else {
+                        document.getElementById("bdate").innerHTML = "Others";
+                    }
+                }
             }
         }
-
-        // function bdate() {
-        //     var input = document.getElementById('siderealz').value;
-        //     var d = new Date(input);
-
-        //     if (!!d.valueOf()) { // Valid date
-        //         year = d.getFullYear();
-        //         month = d.getMonth();
-        //         day = d.getDate();
-
-        //         if ((month == 11) && ((day > 15)) || (month == 0) && ((day < 15))) {
-        //             document.getElementById("z-sign").src = "res/sagittarius-b.webp";
-        //         } else if ((month == 0) && ((day > 14)) || (month == 1) && ((day < 15))) {
-        //             document.getElementById("z-sign").src = "res/capricorn-b.webp";
-        //         } else if ((month == 1) && ((day > 14)) || (month == 2) && ((day < 15))) {
-        //             document.getElementById("z-sign").src = "res/aquarius-b.webp";
-        //         } else if ((month == 2) && ((day > 14)) || (month == 3) && ((day < 15))) {
-        //             document.getElementById("z-sign").src = "res/pisces-b.webp";
-        //         } else if ((month == 3) && ((day > 14)) || (month == 4) && ((day < 16))) {
-        //             document.getElementById("z-sign").src = "res/aries-b.webp";
-        //         } else if ((month == 4) && ((day > 15)) || (month == 5) && ((day < 16))) {
-        //             document.getElementById("z-sign").src = "res/taurus-b.webp";
-        //         } else if ((month == 5) && ((day > 15)) || (month == 6) && ((day < 16))) {
-        //             document.getElementById("z-sign").src = "res/gemini-b.webp";
-        //         } else if ((month == 6) && ((day > 15)) || (month == 7) && ((day < 16))) {
-        //             document.getElementById("z-sign").src = "res/cancer-b.webp";
-        //         } else if ((month == 7) && ((day > 15)) || (month == 8) && ((day < 16))) {
-        //             document.getElementById("z-sign").src = "res/leo-b.webp";
-        //         } else if ((month == 8) && ((day > 15)) || (month == 9) && ((day < 16))) {
-        //             document.getElementById("z-sign").src = "res/virgo-b.webp";
-        //         } else if ((month == 9) && ((day > 16)) || (month == 10) && ((day < 17))) {
-        //             document.getElementById("z-sign").src = "res/libra-b.webp";
-        //         } else if ((month == 10) && ((day > 16)) || (month == 11) && ((day < 16))) {
-        //             document.getElementById("z-sign").src = "res/scorpio-b.webp";
-        //         } else {
-        //             document.getElementById("bdate").innerHTML = "Others";
-        //         }
-        //     } else {
-        //         document.getElementById("bdate").innerHTML = "Invalid date";
-        //     }
-        // }
     </script>
 
 </body>
