@@ -33,10 +33,10 @@
             margin-top: 10vh;
         }
 
-        .spin {
+        /* .spin {
             -webkit-animation: cwspin 8s linear infinite;
             animation: cwspin 8s linear infinite;
-        }
+        } */
 
         @-webkit-keyframes cwspin {
             0% {
@@ -58,11 +58,11 @@
             }
         }
 
-        .rspin {
+        /* .rspin {
             width: fit-content;
             -webkit-animation: acwspin 8s linear infinite;
             animation: acwspin 8s linear infinite;
-        }
+        } */
 
         @-webkit-keyframes acwspin {
             0% {
@@ -138,15 +138,15 @@
                                 </div>
                             </td>
                             <td class="h1 align-top">
-                                <div class="rspin mx-auto">
+                                <div class="rspin">
                                     <img src="res/aries.webp" alt="Zodiac sign aries" loading="lazy" width="60"
-                                        height="60">
+                                        height="60" class="d-block mx-auto">
                                 </div>
                             </td>
                             <td class="h1 align-top">
                                 <div class="rspin mx-auto">
                                     <img src="res/cancer.webp" alt="Zodiac sign cancer" loading="lazy" width="60"
-                                        height="60">
+                                        height="60" class="d-block mx-auto">
                                 </div>
                             </td>
                             <td class="h1 align-bottom">
@@ -164,7 +164,7 @@
                                 </div>
                             </td>
                             <td colspan="2" rowspan="2" class="rspin rounded-circle">
-                                <img src="res/cancer-b.webp" id="z-sign" class="rounded mx-auto d-block" loading="lazy">
+                                <img src="res/thinking-zodiac.webp" id="z-sign" class="rounded mx-auto d-block" loading="lazy">
                             </td>
                             <td class="h1 align-middle">
                                 <div class="rspin float-end">
@@ -196,13 +196,13 @@
                             <td class="h1 align-bottom">
                                 <div class="rspin mx-auto">
                                     <img src="res/scorpio.webp" alt="Zodiac sign scorpio" loading="lazy" width="60"
-                                        height="60">
+                                        height="60" class="d-block mx-auto">
                                 </div>
                             </td>
                             <td class="h1 align-bottom">
                                 <div class="rspin mx-auto">
                                     <img src="res/taurus.webp" alt="Zodiac sign taurus" loading="lazy" width="60"
-                                        height="60">
+                                        height="60" class="d-block mx-auto">
                                 </div>
                             </td>
                             <td class="h1 align-top">
@@ -275,7 +275,7 @@
                     } else if ((month == 9) && ((day > 22)) || (month == 10) && ((day < 23))) {
                         document.getElementById("z-sign").src = "res/scorpio-b.webp";
                     } else {
-                        document.getElementById("bdate").innerHTML = "Others";
+                        window.alert("We're Sorry !! 404 (Not Found).");
                     }
                 }
 
@@ -311,7 +311,7 @@
                     } else if ((month == 10) && ((day > 16)) || (month == 11) && ((day < 16))) {
                         document.getElementById("z-sign").src = "res/scorpio-b.webp";
                     } else {
-                        document.getElementById("bdate").innerHTML = "Others";
+                        document.getElementById("bdate").innerHTML = "Sidereal";
                     }
                 }
             }
