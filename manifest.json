@@ -1,41 +1,87 @@
 {
- "name": "App",
- "icons": [
-  {
-   "src": "\/android-icon-36x36.png",
-   "sizes": "36x36",
-   "type": "image\/png",
-   "density": "0.75"
-  },
-  {
-   "src": "\/android-icon-48x48.png",
-   "sizes": "48x48",
-   "type": "image\/png",
-   "density": "1.0"
-  },
-  {
-   "src": "\/android-icon-72x72.png",
-   "sizes": "72x72",
-   "type": "image\/png",
-   "density": "1.5"
-  },
-  {
-   "src": "\/android-icon-96x96.png",
-   "sizes": "96x96",
-   "type": "image\/png",
-   "density": "2.0"
-  },
-  {
-   "src": "\/android-icon-144x144.png",
-   "sizes": "144x144",
-   "type": "image\/png",
-   "density": "3.0"
-  },
-  {
-   "src": "\/android-icon-192x192.png",
-   "sizes": "192x192",
-   "type": "image\/png",
-   "density": "4.0"
-  }
- ]
+    "short_name": "ZodiacSign",
+    "name": "ZodiacSign : What is my Zodiac Sign?",
+    "icons": [
+        {
+            "src": "android-icon-36x36.png",
+            "sizes": "36x36",
+            "type": "image/png",
+            "density": "0.75"
+        },
+        {
+            "src": "android-icon-48x48.png",
+            "sizes": "48x48",
+            "type": "image/png",
+            "density": "1.0"
+        },
+        {
+            "src": "android-icon-72x72.png",
+            "sizes": "72x72",
+            "type": "image/png",
+            "density": "1.5"
+        },
+        {
+            "src": "android-icon-96x96.png",
+            "sizes": "96x96",
+            "type": "image/png",
+            "density": "2.0"
+        },
+        {
+            "src": "android-icon-144x144.png",
+            "sizes": "144x144",
+            "type": "image/png",
+            "density": "3.0"
+        },
+        {
+            "src": "android-icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "density": "4.0"
+        },
+        {
+          "src": "maskable_icon_x192.png",
+          "type": "image/png",
+          "sizes": "192x192",
+          "purpose": "maskable"
+        },
+        {
+          "src": "maskable_icon_x512.png",
+          "type": "image/png",
+          "sizes": "512x512",
+          "purpose": "maskable"
+        }
+    ],
+    "id": "/?source=pwa",
+    "start_url": "/?source=pwa",
+    "background_color": "#3367D6",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#3367D6",
+    "shortcuts": [
+        {
+            "name": "ZodiacSign : What is my Zodiac Sign",
+            "short_name": "ZodiacSign",
+            "description": "Free web app to check your zodiac sign / zodiac symbol, designed and developed by Anupam Mondal. Both Sidereal / Tropical Zodiac options are available for public",
+            "url": "/zodiacsign?source=pwa",
+            "icons": [
+                {
+                    "src": "maskable_icon_x192.png",
+                    "sizes": "192x192"
+                }
+            ]
+        }
+    ],
+    "description": "Free web app to check your zodiac sign / zodiac symbol, designed and developed by Anupam Mondal. Both Sidereal / Tropical Zodiac options are available for public",
+    "screenshots": [
+        {
+            "src": "screenshot1.png",
+            "type": "image/png",
+            "sizes": "540x720"
+        },
+        {
+            "src": "screenshot2.jpg",
+            "type": "image/jpg",
+            "sizes": "540x720"
+        }
+    ]
 }
