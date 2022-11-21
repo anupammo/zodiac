@@ -1,7 +1,7 @@
-if ("pwabuilder-sw" in navigator) {
+if ("service-workers" in navigator) {
     window.addEventListener("load", function() {
-      navigator.pwabuilder-sw
-        .register("./pwabuilder-sw.js")
+      navigator.service-workers
+        .register("./service-workers.js")
         .then(res => console.log("service worker registered"))
         .catch(err => console.log("service worker not registered", err))
     })
