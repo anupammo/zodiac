@@ -94,5 +94,7 @@
     "personalization",
     "productivity",
     "utilities"
-  ]
+  ],
+  "display_override": [],
+  "prefer_related_applications": true
 }
