@@ -1,4 +1,3 @@
-const staticDevCoffee = "My-Zodiac-Sign-v1"
 const assets = [
   "./",
   "./index.html",
