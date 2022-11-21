@@ -2,6 +2,8 @@ const staticDevCoffee = "My-Zodiac-Sign-v1"
 const assets = [
   "./",
   "./index.html",
+  "./css/zodiac-sign.css",
+  "./js/zodiac-sign.js",
   "./js/app.js",
   "./res/aquarius.webp",
   "./res/aries.webp",
