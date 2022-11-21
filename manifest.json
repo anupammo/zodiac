@@ -1,7 +1,7 @@
 {
   "name": "My-Zodiac-Sign",
   "short_name": "ZodiacSign",
-  "start_url": "./index.html",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#00143f",
   "theme_color": "#00143f",
@@ -84,7 +84,7 @@
     }
   ],
   "dir": "ltr",
-  "scope": "https://anupammondal.in/",
+  "scope": "./",
   "lang": "en",
   "categories": [
     "education",
