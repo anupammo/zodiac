@@ -1,0 +1,28 @@
+"Zodiac symbol", "zodiac signs", "zodiac sign", "zodiac", "zodiac sign dates", "what is my zodiac sign", "how to know your zodiac sign", "what is zodiac sign", "astrological sign", "astrological sign by date of birth", "my astrological sign"
+
+
+"aries", "aries horoscope today", "aries zodiac sign", "aries horoscope", "aries dates", "aries sign", "aries personality", "aries meaning", "aries month" 
+
+"aquarius", "aquarius horoscope today", "aquarius zodiac sign", "aquarius horoscope", "aquarius dates", "aquarius sign", "aquarius personality", "aquarius meaning", "aquarius month" 
+
+"Cancer", "astrology", "zodiac", "sign", "horroscope", "symbols", "Personality", "Traits", "Dates", "Facts", "constellation"
+
+"capricorn", "astrology", "zodiac", "sign", "horroscope", "symbols", "Personality", "Traits", "Dates", "Facts", "constellation"
+
+"gemini", "astrology", "zodiac", "sign", "horroscope", "symbols", "Personality", "Traits", "Dates", "Facts", "constellation"
+
+"leo", "astrology", "zodiac", "sign", "horroscope", "symbols", "Personality", "Traits", "Dates", "Facts", "constellation"
+
+"libra", "astrology", "zodiac", "sign", "horroscope", "symbols", "Personality", "Traits", "Dates", "Facts", "constellation"
+
+"pisces", "astrology", "zodiac", "sign", "horroscope", "symbols", "Personality", "Traits", "Dates", "Facts", "constellation"
+
+"sagittarius", "astrology", "zodiac", "sign", "horroscope", "symbols", "Personality", "Traits", "Dates", "Facts", "constellation"
+
+"scorpio", "astrology", "zodiac", "sign", "horroscope", "symbols", "Personality", "Traits", "Dates", "Facts", "constellation"
+
+"taurus", "astrology", "zodiac", "sign", "horroscope", "symbols", "Personality", "Traits", "Dates", "Facts", "constellation"
+
+"virgo", "astrology", "zodiac", "sign", "horroscope", "symbols", "Personality", "Traits", "Dates", "Facts", "constellation"
+
+
