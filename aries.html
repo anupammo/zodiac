@@ -36,6 +36,7 @@
                     <p class="lead mb-5">Unlock the secrets of the Aries zodiac sign, from personality traits to daily
                         horoscope updates. Discover what makes Aries individuals unique and get insights into their
                         horoscope for today. Explore the meaning, dates, and more about the Aries zodiac sign.</p>
+                    <button id="subscribeButton">Subscribe to Push Notifications</button>
                 </div>
                 <div class="col-md-6 col-12">
                     <div class="card my-3 border-0">
@@ -651,6 +652,39 @@
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
         crossorigin="anonymous"></script> -->
+    <script>
+        // Check if the browser supports notifications
+        if ("Notification" in window) {
+            // Request permission to show notifications
+            Notification.requestPermission().then(function (permission) {
+                if (permission === "granted") {
+                    // If permission is granted, display a notification
+                    const notification = new Notification("Welcome to our website!", {
+                        body: "Thank you for visiting!",
+                        icon: "icon.png" // Replace with your own icon URL
+                    });
+                }
+            });
+
+            // Handle subscription to push notifications
+            const subscribeButton = document.getElementById("subscribeButton");
+            subscribeButton.addEventListener("click", function () {
+                if ("serviceWorker" in navigator && "PushManager" in window) {
+                    navigator.serviceWorker.register("service-worker.js").then(function (registration) {
+                        // Subscribe to push notifications
+                        registration.pushManager.subscribe({
+                            userVisibleOnly: true,
+                            applicationServerKey: "your-public-key" // Replace with your own public key
+                        }).then(function (subscription) {
+                            console.log("Subscription successful:", subscription);
+                        }).catch(function (error) {
+                            console.error("Subscription failed:", error);
+                        });
+                    });
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>
