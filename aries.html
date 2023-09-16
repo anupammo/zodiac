@@ -655,67 +655,37 @@
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
         crossorigin="anonymous"></script> -->
     <script>
-        // // Check if the browser supports notifications
-        // if ("Notification" in window) {
-        //     // Request permission to show notifications
-        //     Notification.requestPermission().then(function (permission) {
-        //         if (permission === "granted") {
-        //             // If permission is granted, display a notification
-        //             const notification = new Notification("Welcome to our website!", {
-        //                 body: "Thank you for visiting!",
-        //                 icon: "favicon-32x32.png" // Replace with your own icon URL
-        //             });
-        //         }
-        //     });
-
-        //     // Handle subscription to push notifications
-        //     const subscribeButton = document.getElementById("subscribeButton");
-        //     subscribeButton.addEventListener("click", function () {
-        //         if ("serviceWorker" in navigator && "PushManager" in window) {
-        //             navigator.serviceWorker.register("service-worker.js").then(function (registration) {
-        //                 // Subscribe to push notifications
-        //                 registration.pushManager.subscribe({
-        //                     userVisibleOnly: true,
-        //                     applicationServerKey: "your-public-key" // Replace with your own public key
-        //                 }).then(function (subscription) {
-        //                     console.log("Subscription successful:", subscription);
-        //                 }).catch(function (error) {
-        //                     console.error("Subscription failed:", error);
-        //                 });
-        //             });
-        //         }
-        //     });
-        // }
-    </script>
-
-    <script>
-        function requestNotificationPermission() {
+         // Check if the browser supports notifications
+        if ("Notification" in window) {
+             // Request permission to show notifications
             Notification.requestPermission().then(function (permission) {
-                if (permission === 'granted') {
-                    console.log('Notification permission granted.');
-                } else {
-                    console.log('Notification permission denied.');
+               if (permission === "granted") {
+                   // If permission is granted, display a notification
+                     const notification = new Notification("Welcome to our website!", {
+                        body: "Thank you for visiting!",
+                      icon: "favicon-32x32.png" // Replace with your own icon URL
+                   });
                 }
             });
-        }
 
-        function showNotification() {
-            if (Notification.permission === 'granted') {
-                const options = {
-                    body: 'This is the body text of the notification.',
-                    icon: '/favicon-32x32.png' // Replace with the path to your notification icon
-                };
-
-                const notification = new Notification('Notification Title', options);
-
-                notification.onclick = function () {
-                    console.log('Notification clicked.');
-                    // Add your custom behavior when the notification is clicked
-                };
-            } else {
-                console.log('Notification permission denied. You can request permission.');
-            }
-        }
+             // Handle subscription to push notifications
+             const subscribeButton = document.getElementById("subscribeButton");
+            subscribeButton.addEventListener("click", function () {
+               if ("serviceWorker" in navigator && "PushManager" in window) {
+                    navigator.serviceWorker.register("service-worker.js").then(function (registration) {
+                        // Subscribe to push notifications
+                        registration.pushManager.subscribe({
+                            userVisibleOnly: true,
+                            applicationServerKey: "your-public-key" // Replace with your own public key
+                        }).then(function (subscription) {
+                           console.log("Subscription successful:", subscription);
+                         }).catch(function (error) {
+                            console.error("Subscription failed:", error);
+                         });
+                   });
+                 }
+             });
+         }
     </script>
 </body>
 
