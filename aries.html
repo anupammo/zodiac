@@ -36,7 +36,7 @@
                     <p class="lead mb-5">Unlock the secrets of the Aries zodiac sign, from personality traits to daily
                         horoscope updates. Discover what makes Aries individuals unique and get insights into their
                         horoscope for today. Explore the meaning, dates, and more about the Aries zodiac sign.</p>
-                     <button id="subscribeButton">Subscribe to Push Notifications</button> 
+                    <button id="subscribeButton">Subscribe to Push Notifications</button>
                     <!-- <button onclick="requestNotificationPermission()">Request Permission</button>
                     <button onclick="showNotification()">Show Notification</button> -->
                 </div>
@@ -655,37 +655,67 @@
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
         crossorigin="anonymous"></script> -->
     <script>
-         // Check if the browser supports notifications
-        if ("Notification" in window) {
-             // Request permission to show notifications
-            Notification.requestPermission().then(function (permission) {
-               if (permission === "granted") {
-                   // If permission is granted, display a notification
-                     const notification = new Notification("Welcome to our website!", {
-                        body: "Thank you for visiting!",
-                      icon: "favicon-32x32.png" // Replace with your own icon URL
-                   });
-                }
-            });
+        // // Check if the browser supports notifications
+        // if ("Notification" in window) {
+        //     // Request permission to show notifications
+        //     Notification.requestPermission().then(function (permission) {
+        //         if (permission === "granted") {
+        //             // If permission is granted, display a notification
+        //             const notification = new Notification("Welcome to our website!", {
+        //                 body: "Thank you for visiting!",
+        //                 icon: "favicon-32x32.png" // Replace with your own icon URL
+        //             });
+        //         }
+        //     });
 
-             // Handle subscription to push notifications
-             const subscribeButton = document.getElementById("subscribeButton");
-            subscribeButton.addEventListener("click", function () {
-               if ("serviceWorker" in navigator && "PushManager" in window) {
-                    navigator.serviceWorker.register("service-worker.js").then(function (registration) {
-                        // Subscribe to push notifications
-                        registration.pushManager.subscribe({
-                            userVisibleOnly: true,
-                            applicationServerKey: "your-public-key" // Replace with your own public key
-                        }).then(function (subscription) {
-                           console.log("Subscription successful:", subscription);
-                         }).catch(function (error) {
-                            console.error("Subscription failed:", error);
-                         });
-                   });
-                 }
-             });
-         }
+        //     // Handle subscription to push notifications
+        //     const subscribeButton = document.getElementById("subscribeButton");
+        //     subscribeButton.addEventListener("click", function () {
+        //         if ("serviceWorker" in navigator && "PushManager" in window) {
+        //             navigator.serviceWorker.register("service-worker.js").then(function (registration) {
+        //                 // Subscribe to push notifications
+        //                 registration.pushManager.subscribe({
+        //                     userVisibleOnly: true,
+        //                     applicationServerKey: "your-public-key" // Replace with your own public key
+        //                 }).then(function (subscription) {
+        //                     console.log("Subscription successful:", subscription);
+        //                 }).catch(function (error) {
+        //                     console.error("Subscription failed:", error);
+        //                 });
+        //             });
+        //         }
+        //     });
+        // }
+    </script>
+
+    <script>
+        // Check if the browser supports service workers and push notifications
+        if ('serviceWorker' in navigator && 'PushManager' in window) {
+            navigator.serviceWorker.register('service-worker.js')
+                .then(function (registration) {
+                    console.log('Service Worker registered with scope:', registration.scope);
+                })
+                .catch(function (error) {
+                    console.error('Service Worker registration failed:', error);
+                });
+
+            // Subscribe to push notifications
+            document.getElementById('subscribe').addEventListener('click', function () {
+                navigator.serviceWorker.ready.then(function (registration) {
+                    registration.pushManager.subscribe({ userVisibleOnly: true })
+                        .then(function (subscription) {
+                            console.log('Subscribed to push notifications:', subscription);
+                            // Send the subscription to your server to store for later use
+                            // You can also send this to a push notification service like Firebase Cloud Messaging (FCM)
+                        })
+                        .catch(function (error) {
+                            console.error('Failed to subscribe to push notifications:', error);
+                        });
+                });
+            });
+        } else {
+            console.log('Push notifications are not supported in this browser.');
+        }
     </script>
 </body>
 
