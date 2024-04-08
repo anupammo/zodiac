@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Zodiac Signs</title>
+</head>
+<body>
+  <h1>Zodiac Signs</h1>
+  <form id="form">
+    <label for="dob">Date of Birth:</label><br>
+    <input type="date" id="dob" name="dob"><br>
+    <input type="submit" value="Submit">
+  </form>
+  <p id="sign"></p>
+
+  <script>
+    // Your JSON data
+    var zodiacData = {
+      // ... paste your JSON data here ...
+
+
+{
+  "Aries": {
+    "start": "03-21",
+    "end": "04-19"
+  },
+  "Taurus": {
+    "start": "04-20",
+    "end": "05-20"
+  },
+  "Gemini": {
+    "start": "05-21",
+    "end": "06-20"
+  },
+  "Cancer": {
+    "start": "06-21",
+    "end": "07-22"
+  },
+  "Leo": {
+    "start": "07-23",
+    "end": "08-22"
+  },
+  "Virgo": {
+    "start": "08-23",
+    "end": "09-22"
+  },
+  "Libra": {
+    "start": "09-23",
+    "end": "10-22"
+  },
+  "Scorpio": {
+    "start": "10-23",
+    "end": "11-21"
+  },
+  "Sagittarius": {
+    "start": "11-22",
+    "end": "12-21"
+  },
+  "Capricorn": {
+    "start": "12-22",
+    "end": "01-19"
+  },
+  "Aquarius": {
+    "start": "01-20",
+    "end": "02-18"
+  },
+  "Pisces": {
+    "start": "02-19",
+    "end": "03-20"
+  }
+}
+
+    };
+
+    // Get the form element
+    var form = document.getElementById('form');
+
+    // Add an event listener for form submission
+    form.addEventListener('submit', function(event) {
+      // Prevent the form from being submitted
+      event.preventDefault();
+
+      // Get the user's date of birth
+      var dob = new Date(document.getElementById('dob').value);
+
+      // Get the month and day
+      var month = String(dob.getMonth() + 1).padStart(2, '0');
+      var day = String(dob.getDate()).padStart(2, '0');
+
+      // Iterate over the zodiacData
+      for (var sign in zodiacData) {
+        // Get the start and end dates for this sign
+        var start = new Date(dob.getFullYear() + '-' + zodiacData[sign].start);
+        var end = new Date(dob.getFullYear() + '-' + zodiacData[sign].end);
+
+        // Check if the user's date of birth is within the start and end dates
+        if ((dob.getTime() >= start.getTime()) && (dob.getTime() <= end.getTime())) {
+          // Display the user's zodiac sign
+          document.getElementById('sign').textContent = 'Your Zodiac Sign is ' + sign;
+          break;
+        }
+      }
+    });
+  </script>
+</body>
+</html>
