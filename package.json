@@ -8,11 +8,15 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "overrides": {
+    "serialize-javascript": "^7.0.5",
+    "@rollup/plugin-terser": "^1.0.0"
+  },
   "dependencies": {
+    "@ducanh2912/next-pwa": "^10.2.9",
     "@fortawesome/fontawesome-free": "^6.5.2",
     "bootstrap": "^5.3.3",
-    "next": "^14.2.29",
-    "next-pwa": "^5.6.0",
+    "next": "^15.5.15",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   }
