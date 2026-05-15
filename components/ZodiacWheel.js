@@ -41,7 +41,7 @@ export default function ZodiacWheel() {
                 y={y}
                 textAnchor="middle"
                 dominantBaseline="middle"
-                fontSize="16"
+                fontSize="32"
                 fill="rgba(212,175,55,0.8)"
                 style={{ fontFamily: 'serif' }}
               >

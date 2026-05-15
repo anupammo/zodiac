@@ -11,6 +11,13 @@ export default function ZodiacFinder() {
   const [result, setResult] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [maxDate, setMaxDate] = useState('')
+
+  useEffect(() => {
+    // Calculate max date once on client to ensure consistency
+    const today = new Date()
+    setMaxDate(today.toISOString().split('T')[0])
+  }, [])
 
   const handleFind = () => {
     if (!birthDate) {
@@ -81,7 +88,7 @@ export default function ZodiacFinder() {
           value={birthDate}
           onChange={(e) => setBirthDate(e.target.value)}
           onKeyDown={handleKeyDown}
-          max={new Date().toISOString().split('T')[0]}
+          max={maxDate}
           aria-label="Birth date"
         />
         {error && (
@@ -120,7 +127,7 @@ export default function ZodiacFinder() {
             </span>
           </div>
 
-          <div className="result-sign-symbol mb-2">{result.emoji}</div>
+          <div className="result-sign-symbol mb-2">{result.image}</div>
 
           <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '2.2rem', color: 'var(--color-gold)' }}>
             {result.name}

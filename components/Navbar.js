@@ -28,8 +28,16 @@ export default function Navbar() {
     >
       <div className="container">
         <Link href="/" className="navbar-brand d-flex align-items-center gap-2">
-          <span style={{ color: 'var(--color-gold)', fontFamily: 'var(--font-heading)' }}>✦</span>
-          <span style={{ fontFamily: 'var(--font-heading)', letterSpacing: '0.05em' }}>ZodiacSign</span>
+          {/* <span style={{ color: 'var(--color-gold)', fontFamily: 'var(--font-heading)' }}>✦</span> */}
+          <span style={{ color: 'var(--color-gold)', fontFamily: 'var(--font-heading)' }}>
+            <img
+              src="/favicon-96x96.png"
+              alt="favicon"
+              style={{ width: '2em', height: '2em', verticalAlign: 'middle' }}
+            />
+          </span>
+
+          <span style={{ fontFamily: 'var(--font-heading)', letterSpacing: '0.05em' }}>ZODIACSIGN</span>
         </Link>
 
         <button

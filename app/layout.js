@@ -8,7 +8,7 @@ const siteUrl = 'https://zodiac-ruddy.vercel.app'
 export const metadata = {
   applicationName: 'ZodiacSign',
   title: {
-    default: 'ZodiacSign – Know Your Cosmic Identity',
+    default: 'ZodiacSign - Know Your Cosmic Identity',
     template: '%s | ZodiacSign',
   },
   description: 'Discover your zodiac sign, daily horoscope, compatibility, and cosmic insights. Both Tropical and Sidereal zodiac systems supported.',

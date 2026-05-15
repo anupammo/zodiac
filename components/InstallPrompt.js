@@ -23,7 +23,7 @@ export default function InstallPrompt() {
   useEffect(() => {
     const standalone = getIsStandalone()
     const ios = getIsIOS()
-    const dismissed = localStorage.getItem('pwa-dismissed')
+    const dismissed = localStorage?.getItem('pwa-dismissed') ?? null
 
     setIsIOS(ios)
     setIsInstalled(standalone)
@@ -35,7 +35,7 @@ export default function InstallPrompt() {
     const handleBeforeInstallPrompt = (e) => {
       e.preventDefault()
       setDeferredPrompt(e)
-      if (!localStorage.getItem('pwa-dismissed') && !getIsStandalone()) {
+      if (!(localStorage?.getItem('pwa-dismissed')) && !getIsStandalone()) {
         setShowBanner(true)
       }
     }
@@ -75,7 +75,11 @@ export default function InstallPrompt() {
   return (
     <div className="pwa-banner" role="dialog" aria-live="polite" aria-label="Install ZodiacSign app">
       <div className="d-flex align-items-start gap-3 flex-wrap flex-sm-nowrap">
-        <div style={{ fontSize: '2rem', flexShrink: 0 }}>✦</div>
+        {/* <div style={{ fontSize: '2rem', flexShrink: 0 }}>✦</div> */}
+        <div style={{ fontSize: '2rem', flexShrink: 0 }}>
+          <img src="/favicon-96x96.png" alt="favicon" style={{ width: '4rem', height: '4rem' }} />
+        </div>
+
         <div className="flex-1">
           <div style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-gold)', fontSize: '0.95rem', marginBottom: '0.2rem' }}>
             Install ZodiacSign
@@ -89,6 +93,7 @@ export default function InstallPrompt() {
         <div className="d-flex gap-2 flex-shrink-0 align-items-center">
           {!isIOS && deferredPrompt && (
             <button onClick={handleInstall} className="btn-cosmic btn btn-sm px-3" style={{ fontSize: '0.8rem' }}>
+              <i className="fa fa-download" aria-hidden="true"></i><br />
               Install
             </button>
           )}
@@ -97,7 +102,7 @@ export default function InstallPrompt() {
             style={{ background: 'transparent', border: 'none', color: 'var(--color-text-muted)', cursor: 'pointer', fontSize: '1.2rem', lineHeight: 1, padding: '0.2rem' }}
             aria-label="Dismiss"
           >
-            ×
+            x
           </button>
         </div>
       </div>

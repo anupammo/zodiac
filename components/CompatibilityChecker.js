@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { getAllSigns } from '@/lib/zodiacData'
 
@@ -32,6 +32,18 @@ export default function CompatibilityChecker({ preselected }) {
   const [sign1, setSign1] = useState(preselected || '')
   const [sign2, setSign2] = useState('')
   const [result, setResult] = useState(null)
+  const [subscores, setSubscores] = useState(null)
+
+  useEffect(() => {
+    if (result) {
+      // Generate subscores once when result changes to ensure consistency
+      setSubscores({
+        love: Math.min(100, result.score + Math.floor(Math.random() * 10 - 5)),
+        friendship: Math.min(100, result.score + Math.floor(Math.random() * 10 - 5)),
+        work: Math.min(100, result.score - 5 + Math.floor(Math.random() * 10)),
+      })
+    }
+  }, [result])
 
   const handleCheck = () => {
     if (!sign1 || !sign2) return
@@ -108,21 +120,23 @@ export default function CompatibilityChecker({ preselected }) {
             <div className="compatibility-fill" style={{ width: `${result.score}%` }} />
           </div>
 
-          <div className="row g-3 mt-3">
-            {[
-              { icon: 'fa-heart', label: 'Love', score: Math.min(100, result.score + Math.floor(Math.random() * 10 - 5)) },
-              { icon: 'fa-users', label: 'Friendship', score: Math.min(100, result.score + Math.floor(Math.random() * 10 - 5)) },
-              { icon: 'fa-briefcase', label: 'Work', score: Math.min(100, result.score - 5 + Math.floor(Math.random() * 10)) },
-            ].map(({ icon, label, score: s }) => (
-              <div className="col-4" key={label}>
-                <div className="text-center p-3" style={{ background: 'rgba(212,175,55,0.05)', borderRadius: 12, border: '1px solid rgba(212,175,55,0.15)' }}>
-                  <i className={`fas ${icon} mb-2 d-block`} style={{ color: 'var(--color-gold)' }} />
-                  <div style={{ fontWeight: 700, color: 'var(--color-text-primary)' }}>{s}%</div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{label}</div>
+          {subscores && (
+            <div className="row g-3 mt-3">
+              {[
+                { icon: 'fa-heart', label: 'Love', score: subscores.love },
+                { icon: 'fa-users', label: 'Friendship', score: subscores.friendship },
+                { icon: 'fa-briefcase', label: 'Work', score: subscores.work },
+              ].map(({ icon, label, score: s }) => (
+                <div className="col-4" key={label}>
+                  <div className="text-center p-3" style={{ background: 'rgba(212,175,55,0.05)', borderRadius: 12, border: '1px solid rgba(212,175,55,0.15)' }}>
+                    <i className={`fas ${icon} mb-2 d-block`} style={{ color: 'var(--color-gold)' }} />
+                    <div style={{ fontWeight: 700, color: 'var(--color-text-primary)' }}>{s}%</div>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{label}</div>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>
