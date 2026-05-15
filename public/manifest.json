@@ -1,28 +1,32 @@
 {
+  "id": "/",
   "name": "ZodiacSign - Know Your Cosmic Identity",
   "short_name": "ZodiacSign",
   "description": "Discover your zodiac sign, daily horoscope, and cosmic compatibility. Both Tropical and Sidereal zodiac systems supported.",
-  "start_url": "/",
+  "start_url": "/?source=pwa",
+  "scope": "/",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui", "browser"],
   "background_color": "#0d0221",
   "theme_color": "#6c3fc5",
-  "orientation": "portrait-primary",
+  "orientation": "any",
   "lang": "en",
   "dir": "ltr",
   "categories": ["education", "entertainment", "lifestyle"],
+  "prefer_related_applications": false,
   "icons": [
-    { "src": "/android-icon-36x36.png", "sizes": "36x36", "type": "image/png" },
-    { "src": "/android-icon-48x48.png", "sizes": "48x48", "type": "image/png" },
-    { "src": "/android-icon-72x72.png", "sizes": "72x72", "type": "image/png" },
-    { "src": "/android-icon-96x96.png", "sizes": "96x96", "type": "image/png" },
-    { "src": "/android-icon-144x144.png", "sizes": "144x144", "type": "image/png" },
-    { "src": "/android-icon-192x192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "/maskable_icon_x192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/android-icon-36x36.png", "sizes": "36x36", "type": "image/png", "purpose": "any" },
+    { "src": "/android-icon-48x48.png", "sizes": "48x48", "type": "image/png", "purpose": "any" },
+    { "src": "/android-icon-72x72.png", "sizes": "72x72", "type": "image/png", "purpose": "any" },
+    { "src": "/android-icon-96x96.png", "sizes": "96x96", "type": "image/png", "purpose": "any" },
+    { "src": "/android-icon-144x144.png", "sizes": "144x144", "type": "image/png", "purpose": "any" },
+    { "src": "/android-icon-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/maskable_icon_x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
     { "src": "/maskable_icon_x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
   ],
   "screenshots": [
-    { "src": "/screenshot1.png", "type": "image/png", "sizes": "540x720" },
-    { "src": "/screenshot2.jpg", "type": "image/jpeg", "sizes": "540x720" }
+    { "src": "/screenshot1.png", "type": "image/png", "sizes": "540x720", "form_factor": "narrow" },
+    { "src": "/screenshot2.jpg", "type": "image/jpeg", "sizes": "540x720", "form_factor": "wide" }
   ],
   "shortcuts": [
     {
@@ -30,14 +34,21 @@
       "short_name": "Find Sign",
       "description": "Discover your zodiac sign by birth date",
       "url": "/",
-      "icons": [{ "src": "/maskable_icon_x192.png", "sizes": "192x192" }]
+      "icons": [{ "src": "/maskable_icon_x192.png", "sizes": "192x192", "type": "image/png" }]
     },
     {
       "name": "Daily Horoscope",
       "short_name": "Horoscope",
       "description": "Get your daily horoscope reading",
       "url": "/horoscope",
-      "icons": [{ "src": "/maskable_icon_x192.png", "sizes": "192x192" }]
+      "icons": [{ "src": "/maskable_icon_x192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Compatibility",
+      "short_name": "Match",
+      "description": "Check zodiac compatibility",
+      "url": "/compatibility",
+      "icons": [{ "src": "/maskable_icon_x192.png", "sizes": "192x192", "type": "image/png" }]
     }
   ]
 }

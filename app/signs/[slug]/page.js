@@ -11,7 +11,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  const sign = getSignBySlug(params.slug)
+  const { slug } = await params
+  const sign = getSignBySlug(slug)
   if (!sign) return { title: 'Sign Not Found' }
   return {
     title: `${sign.name} Zodiac Sign – Traits, Love & Horoscope`,
@@ -19,11 +20,12 @@ export async function generateMetadata({ params }) {
   }
 }
 
-export default function SignPage({ params }) {
-  const sign = getSignBySlug(params.slug)
+export default async function SignPage({ params }) {
+  const { slug } = await params
+  const sign = getSignBySlug(slug)
   if (!sign) notFound()
 
-  const horoscope = getHoroscope(params.slug)
+  const horoscope = getHoroscope(slug)
   const allSigns = getAllSigns()
   const compatibleSigns = sign.compatibility.map(s => getSignBySlug(s)).filter(Boolean)
 
@@ -289,7 +291,7 @@ export default function SignPage({ params }) {
           <h2 className="section-title mb-2">Explore Other Signs</h2>
           <div className="section-divider" />
           <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-3 mt-2">
-            {allSigns.filter(s => s.slug !== params.slug).slice(0, 6).map(s => (
+            {allSigns.filter(s => s.slug !== slug).slice(0, 6).map(s => (
               <div className="col" key={s.slug}>
                 <ZodiacCard sign={s} />
               </div>

@@ -554,7 +554,7 @@ h1, h2, h3, h4, h5, h6,
 /* ── PWA Install Banner ─────────────────────────────────────── */
 .pwa-banner {
   position: fixed;
-  bottom: 1.5rem;
+  bottom: max(1rem, env(safe-area-inset-bottom));
   left: 50%;
   transform: translateX(-50%);
   z-index: 9999;
@@ -563,9 +563,16 @@ h1, h2, h3, h4, h5, h6,
   border-radius: 16px;
   padding: 1rem 1.5rem;
   backdrop-filter: blur(20px);
-  width: min(90vw, 460px);
+  width: min(92vw, 520px);
   box-shadow: 0 8px 32px rgba(0,0,0,0.5);
   animation: fade-in-up 0.5s ease;
+}
+
+@media (max-width: 576px) {
+  .pwa-banner {
+    padding: 0.9rem 1rem;
+    border-radius: 14px;
+  }
 }
 
 /* ── Zodiac Wheel ───────────────────────────────────────────── */

@@ -3,7 +3,10 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import InstallPrompt from '@/components/InstallPrompt'
 
+const siteUrl = 'https://zodiac-ruddy.vercel.app'
+
 export const metadata = {
+  applicationName: 'ZodiacSign',
   title: {
     default: 'ZodiacSign – Know Your Cosmic Identity',
     template: '%s | ZodiacSign',
@@ -12,13 +15,26 @@ export const metadata = {
   keywords: ['zodiac sign', 'horoscope', 'astrology', 'zodiac compatibility', 'sidereal zodiac', 'tropical zodiac'],
   authors: [{ name: 'ZodiacSign' }],
   creator: 'ZodiacSign',
+  publisher: 'ZodiacSign',
   manifest: '/manifest.json',
-  metadataBase: new URL('https://zodiac-sign.vercel.app'),
+  metadataBase: new URL(siteUrl),
+  alternates: {
+    canonical: '/',
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'ZodiacSign',
+  },
   icons: {
     icon: [
       { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
       { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
       { url: '/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
+      { url: '/android-icon-192x192.png', sizes: '192x192', type: 'image/png' },
     ],
     apple: [
       { url: '/apple-icon-57x57.png', sizes: '57x57' },
@@ -31,11 +47,14 @@ export const metadata = {
       { url: '/apple-icon-152x152.png', sizes: '152x152' },
       { url: '/apple-icon-180x180.png', sizes: '180x180' },
     ],
+    other: [
+      { rel: 'mask-icon', url: '/maskable_icon_x512.png', color: '#6c3fc5' },
+    ],
   },
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://zodiac-sign.vercel.app',
+    url: siteUrl,
     siteName: 'ZodiacSign',
     title: 'ZodiacSign – Know Your Cosmic Identity',
     description: 'Discover your zodiac sign, daily horoscope, compatibility, and cosmic insights.',
@@ -45,14 +64,19 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'ZodiacSign – Know Your Cosmic Identity',
     description: 'Discover your zodiac sign, daily horoscope, and cosmic compatibility.',
+    images: ['/res/gradient-galaxy-background.jpg'],
   },
 }
 
 export const viewport = {
-  themeColor: '#6c3fc5',
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 5,
+  viewportFit: 'cover',
+  colorScheme: 'dark',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#6c3fc5' },
+    { media: '(prefers-color-scheme: dark)', color: '#0d0221' },
+  ],
 }
 
 export default function RootLayout({ children }) {
@@ -62,6 +86,8 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet" />
+        <meta name="application-name" content="ZodiacSign" />
+        <meta name="mobile-web-app-capable" content="yes" />
         <meta name="msapplication-TileColor" content="#6c3fc5" />
         <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
