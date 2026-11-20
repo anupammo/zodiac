@@ -1,3 +1,6 @@
 .next/
 node_modules/
 .vercel
+public/sw.js
+public/workbox-*.js
+public/fallback-*.js

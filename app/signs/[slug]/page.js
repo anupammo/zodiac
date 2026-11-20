@@ -2,9 +2,12 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { getAllSlugs, getSignBySlug, getAllSigns } from '@/lib/zodiacData'
-import { getHoroscope } from '@/lib/horoscopeData'
+import { getDailyHoroscope } from '@/lib/dailyHoroscope'
 import StarField from '@/components/StarField'
 import ZodiacCard from '@/components/ZodiacCard'
+
+// Regenerate hourly so "Today's Horoscope" follows the calendar.
+export const revalidate = 3600
 
 export async function generateStaticParams() {
   return getAllSlugs().map((slug) => ({ slug }))
@@ -25,7 +28,7 @@ export default async function SignPage({ params }) {
   const sign = getSignBySlug(slug)
   if (!sign) notFound()
 
-  const horoscope = getHoroscope(slug)
+  const horoscope = getDailyHoroscope(slug)
   const allSigns = getAllSigns()
   const compatibleSigns = sign.compatibility.map(s => getSignBySlug(s)).filter(Boolean)
 

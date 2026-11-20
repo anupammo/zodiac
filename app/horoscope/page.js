@@ -1,9 +1,9 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import StarField from '@/components/StarField'
 import HoroscopeCard from '@/components/HoroscopeCard'
 import { getAllSigns } from '@/lib/zodiacData'
-import { getHoroscope } from '@/lib/horoscopeData'
+import { getDailyHoroscope } from '@/lib/dailyHoroscope'
 
 export default function HoroscopePage() {
   const signs = getAllSigns()
@@ -11,7 +11,11 @@ export default function HoroscopePage() {
   const [period, setPeriod] = useState('daily')
 
   const sign = signs.find(s => s.slug === selectedSign)
-  const horoscope = getHoroscope(selectedSign)
+  // Resolve the date on the client so readings follow the visitor's local day
+  // (and the prerendered HTML can't mismatch on hydration).
+  const [today, setToday] = useState(null)
+  useEffect(() => { setToday(new Date()) }, [])
+  const horoscope = today ? getDailyHoroscope(selectedSign, today) : null
 
   const periods = [
     { id: 'daily', label: 'Daily', icon: 'fa-sun' },
