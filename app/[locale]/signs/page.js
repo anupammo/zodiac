@@ -1,15 +1,27 @@
-import Link from 'next/link'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { Link } from '@/i18n/navigation'
 import { getAllSigns } from '@/lib/zodiacData'
+import { alternatesFor } from '@/lib/site'
 import ZodiacCard from '@/components/ZodiacCard'
 import StarField from '@/components/StarField'
 
-export const metadata = {
-  title: 'All Zodiac Signs',
-  description: 'Explore detailed profiles for all 12 zodiac signs. Discover their personalities, traits, compatibility, and cosmic insights.',
+export async function generateMetadata({ params }) {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'meta' })
+  return {
+    title: t('signsTitle'),
+    description: t('signsDescription'),
+    alternates: alternatesFor(locale, '/signs'),
+  }
 }
 
-export default function SignsPage() {
-  const signs = getAllSigns()
+export default async function SignsPage({ params }) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations('signs')
+  const terms = await getTranslations('terms')
+  const nav = await getTranslations('nav')
+  const signs = getAllSigns(locale)
 
   const elementGroups = [
     { element: 'Fire', emoji: '🔥', color: '#ff6b35', signs: signs.filter(s => s.element === 'Fire') },
@@ -32,14 +44,13 @@ export default function SignsPage() {
         <StarField count={50} />
         <div className="container py-5 text-center" style={{ position: 'relative', zIndex: 2 }}>
           <span className="badge-gold mb-3 d-inline-block">
-            <i className="fas fa-star me-1" /> The Cosmic Twelve
+            <i className="fas fa-star me-1" /> {t('badge')}
           </span>
           <h1 className="hero-title mb-3">
-            All <span className="shimmer-text">Zodiac Signs</span>
+            {t('titleStart')} <span className="shimmer-text">{t('titleHighlight')}</span>
           </h1>
           <p className="hero-subtitle" style={{ maxWidth: 560, margin: '0 auto' }}>
-            Explore the unique essence of each of the twelve celestial archetypes.
-            From fiery Aries to mystical Pisces, discover your place in the cosmic order.
+            {t('subtitle')}
           </p>
         </div>
       </section>
@@ -53,13 +64,10 @@ export default function SignsPage() {
                 <span style={{ fontSize: '1.8rem' }}>{emoji}</span>
                 <div>
                   <h2 style={{ fontFamily: 'var(--font-heading)', color, margin: 0, fontSize: '1.4rem' }}>
-                    {element} Signs
+                    {t('elementSigns', { element: terms(`elements.${element}`) })}
                   </h2>
                   <p style={{ color: 'var(--color-text-muted)', margin: 0, fontSize: '0.85rem' }}>
-                    {element === 'Fire' && 'Bold, passionate, and full of life'}
-                    {element === 'Earth' && 'Grounded, practical, and dependable'}
-                    {element === 'Air' && 'Intellectual, social, and communicative'}
-                    {element === 'Water' && 'Intuitive, emotional, and empathetic'}
+                    {t(`${element.toLowerCase()}Desc`)}
                   </p>
                 </div>
               </div>
@@ -79,14 +87,14 @@ export default function SignsPage() {
       <section className="section-accent py-5">
         <div className="container text-center">
           <h2 style={{ fontFamily: 'var(--font-heading)', marginBottom: '1rem' }}>
-            Don&apos;t Know Your Sign?
+            {t('dontKnow')}
           </h2>
           <p style={{ color: 'var(--color-text-muted)', marginBottom: '2rem' }}>
-            Enter your birth date to discover your cosmic identity instantly.
+            {t('dontKnowText')}
           </p>
           <Link href="/" className="btn btn-cosmic px-5">
             <i className="fas fa-magic me-2" />
-            Find My Sign
+            {nav('findMySign')}
           </Link>
         </div>
       </section>

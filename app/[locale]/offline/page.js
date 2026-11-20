@@ -1,12 +1,18 @@
-import Link from 'next/link'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { Link } from '@/i18n/navigation'
 import StarField from '@/components/StarField'
 import ReloadButton from '@/components/ReloadButton'
 
-export const metadata = {
-  title: 'Offline – ZodiacSign',
+export async function generateMetadata({ params }) {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'meta' })
+  return { title: t('offlineTitle'), robots: { index: false } }
 }
 
-export default function OfflinePage() {
+export default async function OfflinePage({ params }) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations('offline')
   return (
     <section
       className="hero-section"
@@ -16,11 +22,10 @@ export default function OfflinePage() {
       <div className="container text-center py-5" style={{ position: 'relative', zIndex: 2 }}>
         <div className="animate-float mb-4" style={{ fontSize: '5rem' }}>🌌</div>
         <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(2rem, 5vw, 3.5rem)', marginBottom: '1rem' }}>
-          Lost in the <span className="shimmer-text">Cosmos</span>
+          {t('titleStart')} <span className="shimmer-text">{t('titleHighlight')}</span>
         </h1>
         <p style={{ color: 'var(--color-text-muted)', fontSize: '1.1rem', maxWidth: 480, margin: '0 auto 2rem', lineHeight: 1.8 }}>
-          The stars are temporarily out of reach. It seems you&apos;re offline.
-          Your cosmic journey will resume once you reconnect to the universe.
+          {t('text')}
         </p>
         <div
           className="p-4 rounded-4 d-inline-block mb-4"
@@ -28,13 +33,13 @@ export default function OfflinePage() {
         >
           <p style={{ color: 'var(--color-text-muted)', margin: 0, fontSize: '0.9rem' }}>
             <i className="fas fa-wifi me-2" style={{ color: '#e74c3c' }} />
-            No internet connection detected
+            {t('noConnection')}
           </p>
         </div>
         <div className="d-flex gap-3 justify-content-center flex-wrap">
           <Link href="/" className="btn btn-cosmic px-4">
             <i className="fas fa-home me-2" />
-            Return Home
+            {t('home')}
           </Link>
           <ReloadButton />
         </div>

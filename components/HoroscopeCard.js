@@ -1,12 +1,15 @@
+import { useTranslations } from 'next-intl'
+
 export default function HoroscopeCard({ horoscope, period = 'daily' }) {
+  const t = useTranslations('horoscope')
   if (!horoscope) return null
 
   if (period === 'daily') {
     const sections = [
-      { icon: 'fa-globe', label: 'General', key: 'general', color: 'var(--color-primary)' },
-      { icon: 'fa-heart', label: 'Love', key: 'love', color: '#e74c3c' },
-      { icon: 'fa-briefcase', label: 'Career', key: 'career', color: 'var(--color-gold)' },
-      { icon: 'fa-heartbeat', label: 'Health', key: 'health', color: '#2ecc71' },
+      { icon: 'fa-globe', label: t('general'), key: 'general', color: 'var(--color-primary)' },
+      { icon: 'fa-heart', label: t('love'), key: 'love', color: '#e74c3c' },
+      { icon: 'fa-briefcase', label: t('career'), key: 'career', color: 'var(--color-gold)' },
+      { icon: 'fa-heartbeat', label: t('health'), key: 'health', color: '#2ecc71' },
     ]
 
     return (
@@ -48,13 +51,13 @@ export default function HoroscopeCard({ horoscope, period = 'daily' }) {
         <div className="cosmic-card p-4">
           <h5 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-gold)', marginBottom: '1rem', fontSize: '1rem' }}>
             <i className="fas fa-star me-2" />
-            Lucky Influences
+            {t('lucky')}
           </h5>
           <div className="row g-3">
             {[
-              { label: 'Lucky Color', value: horoscope.luckyColor, icon: 'fa-palette' },
-              { label: 'Lucky Number', value: horoscope.luckyNumber, icon: 'fa-hashtag' },
-              { label: 'Lucky Stone', value: horoscope.luckyStone, icon: 'fa-gem' },
+              { label: t('luckyColor'), value: horoscope.luckyColor, icon: 'fa-palette' },
+              { label: t('luckyNumber'), value: horoscope.luckyNumber, icon: 'fa-hashtag' },
+              { label: t('luckyStone'), value: horoscope.luckyStone, icon: 'fa-gem' },
             ].map(({ label, value, icon }) => (
               <div className="col-4" key={label}>
                 <div className="text-center p-3" style={{ background: 'rgba(212,175,55,0.05)', borderRadius: 12, border: '1px solid rgba(212,175,55,0.15)' }}>
@@ -75,7 +78,7 @@ export default function HoroscopeCard({ horoscope, period = 'daily' }) {
       <div className="cosmic-card p-4">
         <h5 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-gold)', marginBottom: '1rem' }}>
           <i className="fas fa-calendar-week me-2" />
-          This Week&apos;s Forecast
+          {t('weekTitle')}
         </h5>
         <p style={{ color: 'var(--color-text-muted)', lineHeight: 1.8, margin: 0 }}>
           {horoscope.weekly}
@@ -88,7 +91,7 @@ export default function HoroscopeCard({ horoscope, period = 'daily' }) {
     <div className="cosmic-card p-4">
       <h5 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-gold)', marginBottom: '1rem' }}>
         <i className="fas fa-calendar-alt me-2" />
-        Monthly Cosmic Overview
+        {t('monthTitle')}
       </h5>
       <p style={{ color: 'var(--color-text-muted)', lineHeight: 1.8, margin: 0 }}>
         {horoscope.monthly}

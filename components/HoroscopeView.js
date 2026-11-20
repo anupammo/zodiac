@@ -1,12 +1,16 @@
 'use client'
 import { useState, useEffect } from 'react'
+import { useTranslations, useLocale } from 'next-intl'
 import StarField from '@/components/StarField'
 import HoroscopeCard from '@/components/HoroscopeCard'
 import { getAllSigns } from '@/lib/zodiacData'
 import { getDailyHoroscope } from '@/lib/dailyHoroscope'
 
-export default function HoroscopePage() {
-  const signs = getAllSigns()
+export default function HoroscopeView() {
+  const t = useTranslations('horoscope')
+  const terms = useTranslations('terms')
+  const locale = useLocale()
+  const signs = getAllSigns(locale)
   const [selectedSign, setSelectedSign] = useState('aries')
   const [period, setPeriod] = useState('daily')
 
@@ -15,12 +19,12 @@ export default function HoroscopePage() {
   // (and the prerendered HTML can't mismatch on hydration).
   const [today, setToday] = useState(null)
   useEffect(() => { setToday(new Date()) }, [])
-  const horoscope = today ? getDailyHoroscope(selectedSign, today) : null
+  const horoscope = today ? getDailyHoroscope(selectedSign, today, locale) : null
 
   const periods = [
-    { id: 'daily', label: 'Daily', icon: 'fa-sun' },
-    { id: 'weekly', label: 'Weekly', icon: 'fa-calendar-week' },
-    { id: 'monthly', label: 'Monthly', icon: 'fa-calendar-alt' },
+    { id: 'daily', label: t('daily'), icon: 'fa-sun' },
+    { id: 'weekly', label: t('weekly'), icon: 'fa-calendar-week' },
+    { id: 'monthly', label: t('monthly'), icon: 'fa-calendar-alt' },
   ]
 
   return (
@@ -39,14 +43,13 @@ export default function HoroscopePage() {
         <StarField count={60} />
         <div className="container py-5 text-center" style={{ position: 'relative', zIndex: 2 }}>
           <span className="badge-gold mb-3 d-inline-block">
-            <i className="fas fa-moon me-1" /> Cosmic Forecasts
+            <i className="fas fa-moon me-1" /> {t('badge')}
           </span>
           <h1 className="hero-title mb-3">
-            Your <span className="shimmer-text">Horoscope</span>
+            {t('titleStart')} <span className="shimmer-text">{t('titleHighlight')}</span>
           </h1>
           <p className="hero-subtitle" style={{ maxWidth: 540, margin: '0 auto' }}>
-            Receive personalized cosmic guidance for every day, week, and month.
-            The stars speak — let us help you listen.
+            {t('subtitle')}
           </p>
         </div>
       </section>
@@ -59,7 +62,7 @@ export default function HoroscopePage() {
             <div className="col-lg-3">
               <div className="cosmic-card p-3 mb-4">
                 <h6 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-gold)', marginBottom: '1rem', fontSize: '0.85rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                  Select Your Sign
+                  {t('selectSign')}
                 </h6>
                 <div className="d-flex flex-column gap-1">
                   {signs.map(s => (
@@ -77,7 +80,7 @@ export default function HoroscopePage() {
                         gap: '0.6rem',
                         transition: 'all 0.2s ease',
                         width: '100%',
-                        textAlign: 'left',
+                        textAlign: 'start',
                         color: selectedSign === s.slug ? 'var(--color-text-primary)' : 'var(--color-text-muted)',
                       }}
                     >
@@ -106,7 +109,7 @@ export default function HoroscopePage() {
                         {sign.name}
                       </h2>
                       <p style={{ color: 'var(--color-text-muted)', margin: 0 }}>
-                        {sign.dates.tropical} · Ruled by {sign.planet}
+                        {sign.dates.tropical} · {t('ruledBy', { planet: terms(`planets.${sign.planet}`) })}
                       </p>
                     </div>
                   </div>

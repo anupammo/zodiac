@@ -1,8 +1,9 @@
 import { notFound } from 'next/navigation'
-import Link from 'next/link'
-import Image from 'next/image'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { Link } from '@/i18n/navigation'
 import { getAllSlugs, getSignBySlug, getAllSigns } from '@/lib/zodiacData'
 import { getDailyHoroscope } from '@/lib/dailyHoroscope'
+import { alternatesFor } from '@/lib/site'
 import StarField from '@/components/StarField'
 import ZodiacCard from '@/components/ZodiacCard'
 
@@ -14,33 +15,41 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  const { slug } = await params
-  const sign = getSignBySlug(slug)
-  if (!sign) return { title: 'Sign Not Found' }
+  const { slug, locale } = await params
+  const t = await getTranslations({ locale, namespace: 'meta' })
+  const sign = getSignBySlug(slug, locale)
+  if (!sign) return { title: t('notFoundTitle') }
   return {
-    title: `${sign.name} Zodiac Sign – Traits, Love & Horoscope`,
-    description: `Discover everything about ${sign.name} (${sign.dates.tropical}). Personality traits, love compatibility, career insights, and daily horoscope.`,
+    title: t('signTitle', { name: sign.name }),
+    description: t('signDescription', { name: sign.name, dates: sign.dates.tropical }),
+    alternates: alternatesFor(locale, `/signs/${slug}`),
   }
 }
 
 export default async function SignPage({ params }) {
-  const { slug } = await params
-  const sign = getSignBySlug(slug)
+  const { slug, locale } = await params
+  setRequestLocale(locale)
+  const sign = getSignBySlug(slug, locale)
   if (!sign) notFound()
+  const t = await getTranslations('sign')
+  const terms = await getTranslations('terms')
 
-  const horoscope = getDailyHoroscope(slug)
-  const allSigns = getAllSigns()
-  const compatibleSigns = sign.compatibility.map(s => getSignBySlug(s)).filter(Boolean)
+  const horoscope = getDailyHoroscope(slug, new Date(), locale)
+  const allSigns = getAllSigns(locale)
+  const compatibleSigns = sign.compatibility.map(s => getSignBySlug(s, locale)).filter(Boolean)
+  const element = terms(`elements.${sign.element}`)
+  const planet = terms(`planets.${sign.planet}`)
+  const quality = terms(`qualities.${sign.quality}`)
 
   const elementEmoji = { Fire: '🔥', Earth: '🌍', Air: '💨', Water: '🌊' }
 
   const stats = [
-    { icon: 'fa-circle-dot', label: 'Ruling Planet', value: sign.planet },
-    { icon: 'fa-layer-group', label: 'Element', value: `${elementEmoji[sign.element]} ${sign.element}` },
-    { icon: 'fa-shapes', label: 'Quality', value: sign.quality },
-    { icon: 'fa-gem', label: 'Birthstone', value: sign.stone },
-    { icon: 'fa-calendar', label: 'Dates', value: sign.dates.tropical },
-    { icon: 'fa-dice', label: 'Lucky Day', value: sign.luckyDay },
+    { icon: 'fa-circle-dot', label: t('rulingPlanet'), value: planet },
+    { icon: 'fa-layer-group', label: t('element'), value: `${elementEmoji[sign.element]} ${element}` },
+    { icon: 'fa-shapes', label: t('quality'), value: quality },
+    { icon: 'fa-gem', label: t('birthstone'), value: sign.stone },
+    { icon: 'fa-calendar', label: t('dates'), value: sign.dates.tropical },
+    { icon: 'fa-dice', label: t('luckyDay'), value: sign.luckyDay },
   ]
 
   return (
@@ -63,10 +72,10 @@ export default async function SignPage({ params }) {
               <nav aria-label="breadcrumb" className="mb-3">
                 <ol className="breadcrumb" style={{ background: 'transparent', padding: 0 }}>
                   <li className="breadcrumb-item">
-                    <Link href="/" style={{ color: 'var(--color-text-muted)', textDecoration: 'none' }}>Home</Link>
+                    <Link href="/" style={{ color: 'var(--color-text-muted)', textDecoration: 'none' }}>{t('breadcrumbHome')}</Link>
                   </li>
                   <li className="breadcrumb-item">
-                    <Link href="/signs" style={{ color: 'var(--color-text-muted)', textDecoration: 'none' }}>Signs</Link>
+                    <Link href="/signs" style={{ color: 'var(--color-text-muted)', textDecoration: 'none' }}>{t('breadcrumbSigns')}</Link>
                   </li>
                   <li className="breadcrumb-item active" style={{ color: 'var(--color-gold)' }}>{sign.name}</li>
                 </ol>
@@ -92,20 +101,20 @@ export default async function SignPage({ params }) {
 
               <div className="d-flex flex-wrap gap-2">
                 <span className={`element-badge element-${sign.element.toLowerCase()}`}>
-                  {elementEmoji[sign.element]} {sign.element}
+                  {elementEmoji[sign.element]} {element}
                 </span>
                 <span className="badge-gold">
                   <i className="fas fa-circle-dot me-1" style={{ fontSize: '0.7rem' }} />
-                  {sign.planet}
+                  {planet}
                 </span>
-                <span className="badge-cosmic">{sign.quality}</span>
+                <span className="badge-cosmic">{quality}</span>
               </div>
             </div>
 
             <div className="col-lg-5">
               <div className="cosmic-card p-4">
                 <h5 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-gold)', marginBottom: '1.2rem', fontSize: '0.9rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                  Sign Overview
+                  {t('overview')}
                 </h5>
                 <div className="row g-3">
                   {stats.map(({ icon, label, value }) => (
@@ -134,7 +143,7 @@ export default async function SignPage({ params }) {
               <div className="mb-5">
                 <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.6rem', marginBottom: '0.5rem' }}>
                   <i className="fas fa-sparkles me-2" style={{ color: 'var(--color-gold)' }} />
-                  Personality Traits
+                  {t('traits')}
                 </h2>
                 <div className="section-divider" style={{ margin: '0.5rem 0 1.5rem' }} />
                 <div className="row g-3">
@@ -142,7 +151,7 @@ export default async function SignPage({ params }) {
                     <div className="cosmic-card p-4 h-100">
                       <h6 style={{ color: '#2ecc71', fontFamily: 'var(--font-heading)', marginBottom: '1rem' }}>
                         <i className="fas fa-plus-circle me-2" />
-                        Strengths
+                        {t('strengths')}
                       </h6>
                       <ul className="list-unstyled d-flex flex-column gap-2 mb-0">
                         {sign.traits.positive.map(trait => (
@@ -158,7 +167,7 @@ export default async function SignPage({ params }) {
                     <div className="cosmic-card p-4 h-100">
                       <h6 style={{ color: '#e74c3c', fontFamily: 'var(--font-heading)', marginBottom: '1rem' }}>
                         <i className="fas fa-minus-circle me-2" />
-                        Challenges
+                        {t('challenges')}
                       </h6>
                       <ul className="list-unstyled d-flex flex-column gap-2 mb-0">
                         {sign.traits.negative.map(trait => (
@@ -175,9 +184,9 @@ export default async function SignPage({ params }) {
 
               {/* Life Sections */}
               {[
-                { icon: 'fa-heart', title: 'Love & Relationships', color: '#e74c3c', content: sign.love },
-                { icon: 'fa-briefcase', title: 'Career & Money', color: 'var(--color-gold)', content: sign.career },
-                { icon: 'fa-heartbeat', title: 'Health & Wellness', color: '#2ecc71', content: sign.health },
+                { icon: 'fa-heart', title: t('love'), color: '#e74c3c', content: sign.love },
+                { icon: 'fa-briefcase', title: t('career'), color: 'var(--color-gold)', content: sign.career },
+                { icon: 'fa-heartbeat', title: t('health'), color: '#2ecc71', content: sign.health },
               ].map(({ icon, title, color, content }) => (
                 <div className="mb-5" key={title}>
                   <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.6rem', marginBottom: '0.5rem' }}>
@@ -196,7 +205,7 @@ export default async function SignPage({ params }) {
                 <div className="mb-5">
                   <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.6rem', marginBottom: '0.5rem' }}>
                     <i className="fas fa-moon me-2" style={{ color: 'var(--color-primary)' }} />
-                    Today&apos;s Horoscope
+                    {t('today')}
                   </h2>
                   <div className="section-divider" style={{ margin: '0.5rem 0 1.5rem' }} />
                   <div className="cosmic-card p-4">
@@ -205,7 +214,7 @@ export default async function SignPage({ params }) {
                     </p>
                     <Link href="/horoscope" className="btn btn-cosmic btn-sm px-4">
                       <i className="fas fa-arrow-right me-2" />
-                      Full Horoscope
+                      {t('fullHoroscope')}
                     </Link>
                   </div>
                 </div>
@@ -218,7 +227,7 @@ export default async function SignPage({ params }) {
               <div className="cosmic-card p-4 mb-4">
                 <h5 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-gold)', marginBottom: '1.2rem' }}>
                   <i className="fas fa-heart me-2" />
-                  Best Matches
+                  {t('bestMatches')}
                 </h5>
                 <div className="d-flex flex-column gap-2">
                   {compatibleSigns.map(s => (
@@ -236,7 +245,7 @@ export default async function SignPage({ params }) {
                   ))}
                 </div>
                 <Link href="/compatibility" className="btn btn-outline-cosmic btn-sm w-100 mt-3">
-                  Full Compatibility Chart
+                  {t('fullChart')}
                 </Link>
               </div>
 
@@ -244,13 +253,13 @@ export default async function SignPage({ params }) {
               <div className="cosmic-card p-4 mb-4">
                 <h5 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-gold)', marginBottom: '1.2rem' }}>
                   <i className="fas fa-star me-2" />
-                  Lucky Influences
+                  {t('lucky')}
                 </h5>
                 {[
-                  { label: 'Lucky Numbers', value: sign.luckyNumbers.join(', '), icon: 'fa-hashtag' },
-                  { label: 'Lucky Day', value: sign.luckyDay, icon: 'fa-calendar-check' },
-                  { label: 'Lucky Color', value: sign.color, icon: 'fa-palette', isColor: true },
-                  { label: 'Birthstone', value: sign.stone, icon: 'fa-gem' },
+                  { label: t('luckyNumbers'), value: sign.luckyNumbers.join(', '), icon: 'fa-hashtag' },
+                  { label: t('luckyDay'), value: sign.luckyDay, icon: 'fa-calendar-check' },
+                  { label: t('luckyColor'), value: sign.color, icon: 'fa-palette', isColor: true },
+                  { label: t('birthstone'), value: sign.stone, icon: 'fa-gem' },
                 ].map(({ label, value, icon, isColor }) => (
                   <div key={label} className="d-flex align-items-center gap-3 mb-3">
                     <i className={`fas ${icon}`} style={{ color: 'var(--color-gold)', width: 16, textAlign: 'center' }} />
@@ -274,13 +283,13 @@ export default async function SignPage({ params }) {
                 }}
               >
                 <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>🔮</div>
-                <h5 style={{ fontFamily: 'var(--font-heading)', marginBottom: '0.75rem' }}>Find Your Sign</h5>
+                <h5 style={{ fontFamily: 'var(--font-heading)', marginBottom: '0.75rem' }}>{t('findTitle')}</h5>
                 <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', marginBottom: '1rem' }}>
-                  Not sure if you&apos;re a {sign.name}? Enter your birth date to confirm.
+                  {t('findText', { name: sign.name })}
                 </p>
                 <Link href="/" className="btn btn-gold btn-sm px-4" style={{ color: '#0d0221' }}>
                   <i className="fas fa-magic me-2" />
-                  Check My Sign
+                  {t('checkMySign')}
                 </Link>
               </div>
             </div>
@@ -291,7 +300,7 @@ export default async function SignPage({ params }) {
       {/* Other Signs */}
       <section className="section-accent py-5">
         <div className="container">
-          <h2 className="section-title mb-2">Explore Other Signs</h2>
+          <h2 className="section-title mb-2">{t('otherSigns')}</h2>
           <div className="section-divider" />
           <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-3 mt-2">
             {allSigns.filter(s => s.slug !== slug).slice(0, 6).map(s => (
@@ -303,7 +312,7 @@ export default async function SignPage({ params }) {
           <div className="text-center mt-4">
             <Link href="/signs" className="btn btn-outline-cosmic px-4">
               <i className="fas fa-th-large me-2" />
-              View All Signs
+              {t('viewAll')}
             </Link>
           </div>
         </div>

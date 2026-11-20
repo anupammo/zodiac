@@ -1,9 +1,13 @@
 'use client'
-import Link from 'next/link'
+import { useTranslations, useLocale } from 'next-intl'
+import { Link } from '@/i18n/navigation'
 import { getAllSigns } from '@/lib/zodiacData'
 
 export default function Footer() {
-  const signs = getAllSigns()
+  const t = useTranslations('footer')
+  const nav = useTranslations('nav')
+  const locale = useLocale()
+  const signs = getAllSigns(locale)
 
   return (
     <footer className="footer-cosmic">
@@ -18,8 +22,7 @@ export default function Footer() {
               </span>
             </div>
             <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', lineHeight: '1.8' }}>
-              Explore your cosmic identity through ancient wisdom and modern insights.
-              Discover your zodiac sign, daily horoscope, and compatibility.
+              {t('about')}
             </p>
             <div className="d-flex gap-3 mt-3">
               {['fa-twitter', 'fa-facebook-f', 'fa-instagram', 'fa-pinterest-p'].map(icon => (
@@ -58,14 +61,14 @@ export default function Footer() {
           {/* Quick Links */}
           <div className="col-6 col-lg-2">
             <h6 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-gold)', fontSize: '0.9rem', letterSpacing: '0.08em', marginBottom: '1rem', textTransform: 'uppercase' }}>
-              Explore
+              {t('explore')}
             </h6>
             <ul className="list-unstyled d-flex flex-column gap-2">
               {[
-                { href: '/', label: 'Find My Sign' },
-                { href: '/signs', label: 'All Signs' },
-                { href: '/horoscope', label: 'Horoscope' },
-                { href: '/compatibility', label: 'Compatibility' },
+                { href: '/', label: nav('findMySign') },
+                { href: '/signs', label: nav('signs') },
+                { href: '/horoscope', label: nav('horoscope') },
+                { href: '/compatibility', label: nav('compatibility') },
               ].map(({ href, label }) => (
                 <li key={href}>
                   <Link href={href} style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', textDecoration: 'none', transition: 'color 0.3s' }}
@@ -83,7 +86,7 @@ export default function Footer() {
           {/* Zodiac Signs */}
           <div className="col-6 col-lg-3">
             <h6 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-gold)', fontSize: '0.9rem', letterSpacing: '0.08em', marginBottom: '1rem', textTransform: 'uppercase' }}>
-              Zodiac Signs
+              {t('zodiacSigns')}
             </h6>
             <div className="row g-1">
               {signs.map(sign => (
@@ -105,18 +108,18 @@ export default function Footer() {
           {/* Newsletter */}
           <div className="col-lg-3">
             <h6 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-gold)', fontSize: '0.9rem', letterSpacing: '0.08em', marginBottom: '1rem', textTransform: 'uppercase' }}>
-              Cosmic Updates
+              {t('updates')}
             </h6>
             <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', marginBottom: '1rem' }}>
-              Receive your weekly cosmic forecast and spiritual insights.
+              {t('updatesText')}
             </p>
             <div className="d-flex gap-2">
               <input
                 type="email"
-                placeholder="Your email"
+                placeholder={t('emailPlaceholder')}
                 className="form-control form-control-cosmic flex-1"
                 style={{ fontSize: '0.85rem', flex: 1 }}
-                aria-label="Email for newsletter"
+                aria-label={t('emailLabel')}
               />
               <button className="btn-gold btn" style={{ whiteSpace: 'nowrap', fontSize: '0.8rem', padding: '0.5rem 1rem', color: '#0d0221' }}>
                 <i className="fas fa-paper-plane" />
@@ -131,11 +134,12 @@ export default function Footer() {
           style={{ borderTop: '1px solid rgba(212,175,55,0.1)' }}
         >
           <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', margin: 0 }}>
-            © {new Date().getFullYear()} ZodiacSign. All rights reserved. Made with{' '}
-            <span style={{ color: '#e74c3c' }}>♥</span> for the cosmos.
+            {t('rights', { year: new Date().getFullYear() })} {t('madeWith')}
+            <br />
+            <small>{t('disclaimer')}</small>
           </p>
           <div className="d-flex gap-4">
-            {['Privacy Policy', 'Terms of Service'].map(label => (
+            {[t('privacy'), t('terms')].map(label => (
               <a key={label} href="#" style={{ color: 'var(--color-text-muted)', fontSize: '0.8rem', textDecoration: 'none' }}>
                 {label}
               </a>

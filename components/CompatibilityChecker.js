@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
+import { useTranslations, useLocale } from 'next-intl'
 import { getAllSigns } from '@/lib/zodiacData'
 
 const compatibilityMatrix = {
@@ -19,16 +19,18 @@ const compatibilityMatrix = {
 }
 
 function getCompatibilityLabel(score) {
-  if (score >= 90) return { label: 'Soulmates', color: '#d4af37' }
-  if (score >= 80) return { label: 'Excellent', color: '#2ecc71' }
-  if (score >= 70) return { label: 'Very Good', color: '#3498db' }
-  if (score >= 60) return { label: 'Good', color: '#9b59b6' }
-  if (score >= 50) return { label: 'Moderate', color: '#e67e22' }
-  return { label: 'Challenging', color: '#e74c3c' }
+  if (score >= 90) return { labelKey: 'soulmates', color: '#d4af37' }
+  if (score >= 80) return { labelKey: 'excellent', color: '#2ecc71' }
+  if (score >= 70) return { labelKey: 'veryGood', color: '#3498db' }
+  if (score >= 60) return { labelKey: 'good', color: '#9b59b6' }
+  if (score >= 50) return { labelKey: 'moderate', color: '#e67e22' }
+  return { labelKey: 'challenging', color: '#e74c3c' }
 }
 
 export default function CompatibilityChecker({ preselected }) {
-  const signs = getAllSigns()
+  const t = useTranslations('compatibility')
+  const locale = useLocale()
+  const signs = getAllSigns(locale)
   const [sign1, setSign1] = useState(preselected || '')
   const [sign2, setSign2] = useState('')
   const [result, setResult] = useState(null)
@@ -58,8 +60,8 @@ export default function CompatibilityChecker({ preselected }) {
     <div>
       <div className="row g-4 mb-4">
         {[
-          { value: sign1, setter: setSign1, label: 'Your Sign' },
-          { value: sign2, setter: setSign2, label: "Partner's Sign" },
+          { value: sign1, setter: setSign1, label: t('yourSign') },
+          { value: sign2, setter: setSign2, label: t('partnerSign') },
         ].map(({ value, setter, label }, idx) => (
           <div className="col-12 col-md-5" key={idx}>
             <label className="form-label-cosmic d-block mb-2">
@@ -72,7 +74,7 @@ export default function CompatibilityChecker({ preselected }) {
               onChange={(e) => { setter(e.target.value); setResult(null) }}
               aria-label={label}
             >
-              <option value="">Select sign…</option>
+              <option value="">{t('selectSign')}</option>
               {signs.map(s => (
                 <option key={s.slug} value={s.slug}>{s.emoji} {s.name}</option>
               ))}
@@ -92,7 +94,7 @@ export default function CompatibilityChecker({ preselected }) {
         style={{ fontSize: '1rem' }}
       >
         <i className="fas fa-heart me-2" />
-        Check Compatibility
+        {t('check')}
       </button>
 
       {result && sign1Data && sign2Data && (
@@ -113,7 +115,7 @@ export default function CompatibilityChecker({ preselected }) {
             <div style={{ fontSize: '3rem', fontFamily: 'var(--font-heading)', color: result.color, fontWeight: 700 }}>
               {result.score}%
             </div>
-            <div style={{ color: result.color, fontWeight: 700, fontSize: '1.1rem' }}>{result.label}</div>
+            <div style={{ color: result.color, fontWeight: 700, fontSize: '1.1rem' }}>{t(result.labelKey)}</div>
           </div>
 
           <div className="compatibility-meter mb-2">
@@ -123,9 +125,9 @@ export default function CompatibilityChecker({ preselected }) {
           {subscores && (
             <div className="row g-3 mt-3">
               {[
-                { icon: 'fa-heart', label: 'Love', score: subscores.love },
-                { icon: 'fa-users', label: 'Friendship', score: subscores.friendship },
-                { icon: 'fa-briefcase', label: 'Work', score: subscores.work },
+                { icon: 'fa-heart', label: t('love'), score: subscores.love },
+                { icon: 'fa-users', label: t('friendship'), score: subscores.friendship },
+                { icon: 'fa-briefcase', label: t('work'), score: subscores.work },
               ].map(({ icon, label, score: s }) => (
                 <div className="col-4" key={label}>
                   <div className="text-center p-3" style={{ background: 'rgba(212,175,55,0.05)', borderRadius: 12, border: '1px solid rgba(212,175,55,0.15)' }}>

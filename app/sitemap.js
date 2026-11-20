@@ -1,20 +1,28 @@
 import { getAllSlugs } from '@/lib/zodiacData'
-
-const siteUrl = 'https://zodiac-ruddy.vercel.app'
+import { routing } from '@/i18n/routing'
+import { siteUrl, localePath } from '@/lib/site'
 
 export default function sitemap() {
   const now = new Date()
-  const staticRoutes = ['', '/signs', '/horoscope', '/compatibility'].map((path) => ({
-    url: `${siteUrl}${path}`,
-    lastModified: now,
-    changeFrequency: path === '/horoscope' ? 'daily' : 'weekly',
-    priority: path === '' ? 1 : 0.8,
-  }))
-  const signRoutes = getAllSlugs().map((slug) => ({
-    url: `${siteUrl}/signs/${slug}`,
-    lastModified: now,
-    changeFrequency: 'daily',
-    priority: 0.9,
-  }))
-  return [...staticRoutes, ...signRoutes]
+  const pages = [
+    { path: '', changeFrequency: 'weekly', priority: 1 },
+    { path: '/signs', changeFrequency: 'weekly', priority: 0.8 },
+    { path: '/horoscope', changeFrequency: 'daily', priority: 0.8 },
+    { path: '/compatibility', changeFrequency: 'weekly', priority: 0.8 },
+    ...getAllSlugs().map((slug) => ({ path: `/signs/${slug}`, changeFrequency: 'daily', priority: 0.9 })),
+  ]
+
+  // One entry per page per language, each listing all its translations (hreflang).
+  return pages.flatMap(({ path, changeFrequency, priority }) => {
+    const languages = Object.fromEntries(
+      routing.locales.map((l) => [l, `${siteUrl}${localePath(l, path) === '/' ? '' : localePath(l, path)}`])
+    )
+    return routing.locales.map((locale) => ({
+      url: languages[locale],
+      lastModified: now,
+      changeFrequency,
+      priority,
+      alternates: { languages },
+    }))
+  })
 }

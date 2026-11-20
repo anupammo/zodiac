@@ -1,17 +1,31 @@
-'use client'
-import { useState } from 'react'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import StarField from '@/components/StarField'
 import CompatibilityChecker from '@/components/CompatibilityChecker'
 import { getAllSigns } from '@/lib/zodiacData'
+import { alternatesFor } from '@/lib/site'
 
-export default function CompatibilityPage() {
-  const signs = getAllSigns()
+export async function generateMetadata({ params }) {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'meta' })
+  return {
+    title: t('compatibilityTitle'),
+    description: t('compatibilityDescription'),
+    alternates: alternatesFor(locale, '/compatibility'),
+  }
+}
+
+export default async function CompatibilityPage({ params }) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations('compatibility')
+  const terms = await getTranslations('terms')
+  const signs = getAllSigns(locale)
 
   const pairings = [
-    { sign1: 'aries', sign2: 'leo', score: 95, label: 'Fire Power Duo' },
-    { sign1: 'taurus', sign2: 'cancer', score: 90, label: 'Nurturing Bond' },
-    { sign1: 'gemini', sign2: 'libra', score: 95, label: 'Intellectual Match' },
-    { sign1: 'scorpio', sign2: 'pisces', score: 95, label: 'Mystic Union' },
+    { sign1: 'aries', sign2: 'leo', score: 95, label: t('pairFire') },
+    { sign1: 'taurus', sign2: 'cancer', score: 90, label: t('pairNurturing') },
+    { sign1: 'gemini', sign2: 'libra', score: 95, label: t('pairIntellectual') },
+    { sign1: 'scorpio', sign2: 'pisces', score: 95, label: t('pairMystic') },
   ]
 
   return (
@@ -30,14 +44,13 @@ export default function CompatibilityPage() {
         <StarField count={60} />
         <div className="container py-5 text-center" style={{ position: 'relative', zIndex: 2 }}>
           <span className="badge-gold mb-3 d-inline-block">
-            <i className="fas fa-heart me-1" /> Cosmic Compatibility
+            <i className="fas fa-heart me-1" /> {t('badge')}
           </span>
           <h1 className="hero-title mb-3">
-            Discover Your <span className="shimmer-text">Cosmic Match</span>
+            {t('titleStart')} <span className="shimmer-text">{t('titleHighlight')}</span>
           </h1>
           <p className="hero-subtitle" style={{ maxWidth: 540, margin: '0 auto' }}>
-            The stars reveal which signs harmonize best with yours. Explore compatibility in love,
-            friendship, and work through the wisdom of the zodiac.
+            {t('subtitle')}
           </p>
         </div>
       </section>
@@ -51,10 +64,10 @@ export default function CompatibilityPage() {
                 <div className="text-center mb-4">
                   <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>💞</div>
                   <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.8rem' }}>
-                    Compatibility <span className="shimmer-text">Calculator</span>
+                    {t('calcTitleStart')} <span className="shimmer-text">{t('calcTitleHighlight')}</span>
                   </h2>
                   <p style={{ color: 'var(--color-text-muted)' }}>
-                    Select two signs to reveal your cosmic connection
+                    {t('calcSubtitle')}
                   </p>
                 </div>
                 <CompatibilityChecker />
@@ -68,9 +81,9 @@ export default function CompatibilityPage() {
       <section className="section-accent py-5">
         <div className="container">
           <div className="text-center mb-5">
-            <h2 className="section-title">Legendary <span className="shimmer-text">Cosmic Pairings</span></h2>
+            <h2 className="section-title">{t('pairingsTitleStart')} <span className="shimmer-text">{t('pairingsTitleHighlight')}</span></h2>
             <div className="section-divider" />
-            <p style={{ color: 'var(--color-text-muted)' }}>The most compatible sign combinations in the zodiac</p>
+            <p style={{ color: 'var(--color-text-muted)' }}>{t('pairingsSubtitle')}</p>
           </div>
           <div className="row g-4">
             {pairings.map(({ sign1, sign2, score, label }) => {
@@ -106,25 +119,30 @@ export default function CompatibilityPage() {
       <section className="section-gradient py-5">
         <div className="container">
           <div className="text-center mb-5">
-            <h2 className="section-title">Understanding <span className="shimmer-text">Compatibility</span></h2>
+            <h2 className="section-title">{t('guideTitleStart')} <span className="shimmer-text">{t('guideTitleHighlight')}</span></h2>
             <div className="section-divider" />
           </div>
           <div className="row g-4">
             {[
-              { emoji: '🔥🔥', title: 'Fire + Fire', desc: 'Intense and passionate. An explosive combination full of energy, ambition, and creativity, but prone to clashes.', score: 85 },
-              { emoji: '🌍🌊', title: 'Earth + Water', desc: 'Deeply nurturing. Earth provides stability while Water brings emotional depth. A grounding and fulfilling bond.', score: 90 },
-              { emoji: '💨💨', title: 'Air + Air', desc: 'Mentally stimulating. Great for conversation and shared ideas, but may lack emotional depth and grounding.', score: 80 },
-              { emoji: '🔥💨', title: 'Fire + Air', desc: 'Exciting and dynamic. Air fuels Fire\'s enthusiasm. Great chemistry and lots of fun adventures together.', score: 88 },
-              { emoji: '🌍🌍', title: 'Earth + Earth', desc: 'Steady and reliable. Share the same values and approach to life. Building lasting bonds through shared goals.', score: 82 },
-              { emoji: '🌊🌊', title: 'Water + Water', desc: 'Deeply intuitive. Powerful emotional connection and understanding, but may struggle with boundaries.', score: 85 },
-            ].map(({ emoji, title, desc, score }) => (
+              { emoji: '🔥🔥', a: 'Fire', b: 'Fire', key: 'fireFire', score: 85 },
+              { emoji: '🌍🌊', a: 'Earth', b: 'Water', key: 'earthWater', score: 90 },
+              { emoji: '💨💨', a: 'Air', b: 'Air', key: 'airAir', score: 80 },
+              { emoji: '🔥💨', a: 'Fire', b: 'Air', key: 'fireAir', score: 88 },
+              { emoji: '🌍🌍', a: 'Earth', b: 'Earth', key: 'earthEarth', score: 82 },
+              { emoji: '🌊🌊', a: 'Water', b: 'Water', key: 'waterWater', score: 85 },
+            ].map(({ emoji, a, b, key, score }) => ({
+              emoji,
+              score,
+              title: `${terms(`elements.${a}`)} + ${terms(`elements.${b}`)}`,
+              desc: t(key),
+            })).map(({ emoji, title, desc, score }) => (
               <div className="col-md-6 col-lg-4" key={title}>
                 <div className="cosmic-card p-4 h-100">
                   <div className="d-flex align-items-center gap-3 mb-3">
                     <span style={{ fontSize: '1.8rem' }}>{emoji}</span>
                     <div>
                       <div style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)', fontSize: '1rem' }}>{title}</div>
-                      <div style={{ color: 'var(--color-gold)', fontWeight: 700, fontSize: '0.9rem' }}>{score}% average</div>
+                      <div style={{ color: 'var(--color-gold)', fontWeight: 700, fontSize: '0.9rem' }}>{t('average', { score })}</div>
                     </div>
                   </div>
                   <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', lineHeight: 1.7, margin: 0 }}>{desc}</p>

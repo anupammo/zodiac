@@ -2,43 +2,53 @@ import ZodiacFinder from '@/components/ZodiacFinder'
 import ZodiacCard from '@/components/ZodiacCard'
 import ZodiacWheel from '@/components/ZodiacWheel'
 import StarField from '@/components/StarField'
-import Link from 'next/link'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { Link } from '@/i18n/navigation'
 import { getAllSigns } from '@/lib/zodiacData'
+import { alternatesFor } from '@/lib/site'
 
-export const metadata = {
-  title: 'ZodiacSign – Discover Your Cosmic Identity',
-  description: 'Find your zodiac sign instantly. Enter your birth date and discover your cosmic identity with both Tropical and Sidereal zodiac systems.',
+export async function generateMetadata({ params }) {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'meta' })
+  return {
+    title: { absolute: t('homeTitle') },
+    description: t('homeDescription'),
+    alternates: alternatesFor(locale, ''),
+  }
 }
 
-export default function HomePage() {
-  const signs = getAllSigns()
+export default async function HomePage({ params }) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations('home')
+  const signs = getAllSigns(locale)
 
   const features = [
     {
       icon: 'fa-moon',
-      title: 'Daily Horoscope',
-      description: 'Receive personalized daily, weekly, and monthly cosmic forecasts aligned with your sign.',
+      title: t('featureHoroscope'),
+      description: t('featureHoroscopeText'),
       href: '/horoscope',
       gradient: 'linear-gradient(135deg, rgba(108,63,197,0.3), rgba(108,63,197,0.05))',
     },
     {
       icon: 'fa-heart',
-      title: 'Compatibility',
-      description: 'Discover your cosmic compatibility with every other zodiac sign in love, friendship, and work.',
+      title: t('featureCompatibility'),
+      description: t('featureCompatibilityText'),
       href: '/compatibility',
       gradient: 'linear-gradient(135deg, rgba(231,76,60,0.3), rgba(231,76,60,0.05))',
     },
     {
       icon: 'fa-star',
-      title: 'Sign Profiles',
-      description: 'Explore in-depth personality profiles, traits, love patterns, and cosmic insights for all 12 signs.',
+      title: t('featureProfiles'),
+      description: t('featureProfilesText'),
       href: '/signs',
       gradient: 'linear-gradient(135deg, rgba(212,175,55,0.3), rgba(212,175,55,0.05))',
     },
     {
       icon: 'fa-globe',
-      title: 'Two Systems',
-      description: 'Support for both Tropical (Western) and Sidereal (Vedic/Eastern) zodiac calculation systems.',
+      title: t('featureSystems'),
+      description: t('featureSystemsText'),
       href: '/#finder',
       gradient: 'linear-gradient(135deg, rgba(46,204,113,0.3), rgba(46,204,113,0.05))',
     },
@@ -55,17 +65,16 @@ export default function HomePage() {
               <div className="d-flex align-items-center gap-2 mb-3">
                 <span className="badge-gold">
                   <i className="fas fa-star me-1" />
-                  Ancient Wisdom · Modern Insight
+                  {t('badge')}
                 </span>
               </div>
               <h1 className="hero-title mb-3">
-                Discover Your{' '}
-                <span className="shimmer-text">Cosmic</span>{' '}
-                Identity
+                {t('heroTitleStart')}{' '}
+                <span className="shimmer-text">{t('heroTitleHighlight')}</span>{' '}
+                {t('heroTitleEnd')}
               </h1>
               <p className="hero-subtitle mb-5">
-                Unlock the secrets of the stars. Your zodiac sign reveals your personality,
-                destiny, and place in the cosmos. Both Tropical and Sidereal systems supported.
+                {t('heroSubtitle')}
               </p>
               <ZodiacFinder />
             </div>
@@ -91,12 +100,11 @@ export default function HomePage() {
         <div className="container">
           <div className="text-center mb-5">
             <h2 className="section-title">
-              The <span className="shimmer-text">12 Zodiac Signs</span>
+              {t('signsTitleStart')} <span className="shimmer-text">{t('signsTitleHighlight')}</span>
             </h2>
             <div className="section-divider" />
             <p style={{ color: 'var(--color-text-muted)', maxWidth: 500, margin: '0 auto' }}>
-              Each sign carries unique cosmic energy, personality traits, and ancient wisdom.
-              Explore them all and discover the tapestry of the zodiac.
+              {t('signsSubtitle')}
             </p>
           </div>
 
@@ -115,7 +123,7 @@ export default function HomePage() {
         <div className="container">
           <div className="text-center mb-5">
             <h2 className="section-title">
-              Explore the <span className="gradient-text">Cosmos</span>
+              {t('exploreTitleStart')} <span className="gradient-text">{t('exploreTitleHighlight')}</span>
             </h2>
             <div className="section-divider" />
           </div>
@@ -169,20 +177,19 @@ export default function HomePage() {
           >
             <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🌟</div>
             <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.5rem, 3vw, 2.2rem)', marginBottom: '1rem' }}>
-              Begin Your <span className="shimmer-text">Cosmic Journey</span>
+              {t('ctaTitleStart')} <span className="shimmer-text">{t('ctaTitleHighlight')}</span>
             </h2>
             <p style={{ color: 'var(--color-text-muted)', maxWidth: 480, margin: '0 auto 2rem', lineHeight: 1.8 }}>
-              The stars have guided humanity for millennia. Let them guide you today.
-              Explore your horoscope and discover your cosmic compatibility.
+              {t('ctaText')}
             </p>
             <div className="d-flex gap-3 justify-content-center flex-wrap">
               <Link href="/horoscope" className="btn btn-cosmic px-4">
                 <i className="fas fa-moon me-2" />
-                Read Horoscope
+                {t('ctaHoroscope')}
               </Link>
               <Link href="/compatibility" className="btn btn-outline-cosmic px-4">
                 <i className="fas fa-heart me-2" />
-                Check Compatibility
+                {t('ctaCompatibility')}
               </Link>
             </div>
           </div>

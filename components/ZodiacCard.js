@@ -1,6 +1,8 @@
-import Link from 'next/link'
+import { useTranslations } from 'next-intl'
+import { Link } from '@/i18n/navigation'
 
 export default function ZodiacCard({ sign }) {
+  const terms = useTranslations('terms')
   const elementColors = {
     Fire: { bg: 'rgba(255,69,0,0.08)', border: 'rgba(255,69,0,0.2)', glow: 'rgba(255,69,0,0.3)' },
     Earth: { bg: 'rgba(34,139,34,0.08)', border: 'rgba(34,139,34,0.2)', glow: 'rgba(34,139,34,0.3)' },
@@ -22,7 +24,7 @@ export default function ZodiacCard({ sign }) {
             style={{ fontSize: '0.72rem', padding: '0.25rem 0.6rem' }}
           >
             {sign.element === 'Fire' ? '🔥' : sign.element === 'Earth' ? '🌍' : sign.element === 'Air' ? '💨' : '🌊'}
-            {sign.element}
+            {terms(`elements.${sign.element}`)}
           </span>
         </div>
         <p

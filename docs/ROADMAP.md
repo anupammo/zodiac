@@ -68,8 +68,10 @@ The current name "ZodiacSign" on `zodiac-ruddy.vercel.app` is too generic to tra
 - [x] `sitemap.xml` + `robots.txt`.
 - [ ] Own domain + brand (section 3).
 - [ ] Analytics (Vercel Analytics or Plausible + GA4) and Search Console.
-- [ ] **i18n foundation**: `next-intl`, locale routes (`/hi/…`, `/bn/…`), `hreflang`, translation files. Move all strings out of components.
-- [ ] Move sign data to JSON (no JSX in data files) so it can be translated and served by an API.
+- [x] **i18n foundation**: `next-intl`, English at existing URLs + Hindi at `/hi/…`, `hreflang` + per-language sitemap, language switcher, Devanagari font. All UI strings live in `messages/<locale>.json`.
+- [x] Sign text moved to `content/signs/<locale>.json`; horoscope phrases in `content/horoscope/<locale>.js`.
+- [x] Fixed the Vedic (sidereal) finder, which returned the sign *after* the correct one for most birth dates.
+- [ ] Native-speaker review of the Hindi copy before promoting `/hi`.
 - [ ] Dynamic OG share images per sign per day (`next/og`).
 - [ ] Legal pages: privacy, terms, disclaimer, cookie consent.
 
@@ -204,9 +206,21 @@ At 1 lakh DAU with real retention data, you're in a strong position to raise a s
 | 2 | Point domain at Vercel, update `siteUrl` in `app/layout.js`, `app/sitemap.js`, `app/robots.js` | Dev |
 | 3 | Submit sitemap to Google Search Console + Bing | Dev |
 | 4 | Add analytics + privacy policy + disclaimer | Dev |
-| 5 | Set up `next-intl` with `en` + `hi`, extract all strings | Dev |
-| 6 | Convert `lib/zodiacData.js` to JSON content files | Dev |
+| 5 | ~~Set up `next-intl` with `en` + `hi`, extract all strings~~ ✅ | Dev |
+| 6 | ~~Convert sign data to JSON content files~~ ✅ | Dev |
 | 7 | Dynamic OG share image per sign/day + WhatsApp share button | Dev |
 | 8 | Start Instagram + YouTube channels; post one daily card per sign | Founder/creator |
 | 9 | Prototype the transit calculation (`astronomy-engine`) for horoscope engine v2 | Dev |
 | 10 | Weekly KPI review ritual (every Monday) | Founder |
+
+---
+
+## Appendix: adding a language
+
+1. Add the code to `locales` and `localeNames` in `i18n/routing.js`.
+2. Copy `messages/en.json` → `messages/<code>.json` and translate (keep the keys).
+3. Copy `content/signs/en.json` → `content/signs/<code>.json` and translate.
+4. Copy `content/horoscope/en.js` → `content/horoscope/<code>.js`, translate, and register it in `lib/dailyHoroscope.js` (`pools`, `terms`).
+5. Register the sign content in `lib/zodiacData.js` (`content`).
+6. If the script needs it, add a font for `html[lang='<code>']` in `app/globals.css` (see the Hindi rule).
+7. Run `npm run build`. Every page in the new language is prerendered and added to the sitemap automatically.

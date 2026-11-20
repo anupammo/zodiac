@@ -29,6 +29,14 @@
   --font-body: 'Nunito', 'Segoe UI', system-ui, sans-serif;
 }
 
+/* Hindi: Cinzel/Nunito have no Devanagari glyphs, so lead with Noto Sans Devanagari.
+   Cinzel's uppercase letter-spacing also hurts Devanagari readability. */
+html[lang='hi'] {
+  --font-heading: 'Noto Sans Devanagari', 'Cinzel', Georgia, serif;
+  --font-body: 'Noto Sans Devanagari', 'Nunito', system-ui, sans-serif;
+}
+html[lang='hi'] body { line-height: 1.75; }
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -616,4 +624,10 @@ h1, h2, h3, h4, h5, h6,
 input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(1) sepia(1) saturate(2) hue-rotate(10deg);
   cursor: pointer;
+}
+
+/* Phones: Bootstrap .g-5 rows (-1.5rem side margins) are wider than the container
+   padding and caused ~12px of horizontal scroll. Use the standard gutter instead. */
+@media (max-width: 575.98px) {
+  .row.g-5 { --bs-gutter-x: 1.5rem; }
 }

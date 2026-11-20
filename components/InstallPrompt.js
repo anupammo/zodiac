@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
+import { useTranslations } from 'next-intl'
 
 function getIsStandalone() {
   if (typeof window === 'undefined') return false
@@ -15,6 +16,7 @@ function getIsIOS() {
 }
 
 export default function InstallPrompt() {
+  const t = useTranslations('install')
   const [deferredPrompt, setDeferredPrompt] = useState(null)
   const [showBanner, setShowBanner] = useState(false)
   const [isIOS, setIsIOS] = useState(false)
@@ -73,7 +75,7 @@ export default function InstallPrompt() {
   if (!showBanner || isInstalled) return null
 
   return (
-    <div className="pwa-banner" role="dialog" aria-live="polite" aria-label="Install ZodiacSign app">
+    <div className="pwa-banner" role="dialog" aria-live="polite" aria-label={t('title')}>
       <div className="d-flex align-items-start gap-3 flex-wrap flex-sm-nowrap">
         {/* <div style={{ fontSize: '2rem', flexShrink: 0 }}>✦</div> */}
         <div style={{ fontSize: '2rem', flexShrink: 0 }}>
@@ -82,25 +84,25 @@ export default function InstallPrompt() {
 
         <div className="flex-1">
           <div style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-gold)', fontSize: '0.95rem', marginBottom: '0.2rem' }}>
-            Install ZodiacSign
+            {t('title')}
           </div>
           <div style={{ color: 'var(--color-text-muted)', fontSize: '0.8rem', lineHeight: 1.5 }}>
             {isIOS
-              ? 'On iPhone or iPad, tap Share and choose Add to Home Screen for the full app experience.'
-              : 'Add to your device for fast loading, offline access, and an app-like experience.'}
+              ? t('ios')
+              : t('other')}
           </div>
         </div>
         <div className="d-flex gap-2 flex-shrink-0 align-items-center">
           {!isIOS && deferredPrompt && (
             <button onClick={handleInstall} className="btn-cosmic btn btn-sm px-3" style={{ fontSize: '0.8rem' }}>
               <i className="fa fa-download" aria-hidden="true"></i><br />
-              Install
+              {t('install')}
             </button>
           )}
           <button
             onClick={handleDismiss}
             style={{ background: 'transparent', border: 'none', color: 'var(--color-text-muted)', cursor: 'pointer', fontSize: '1.2rem', lineHeight: 1, padding: '0.2rem' }}
-            aria-label="Dismiss"
+            aria-label={t('dismiss')}
           >
             x
           </button>

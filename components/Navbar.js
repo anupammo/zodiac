@@ -1,9 +1,12 @@
 'use client'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
+import { useTranslations, useLocale } from 'next-intl'
+import { Link, usePathname } from '@/i18n/navigation'
+import { locales, localeNames } from '@/i18n/routing'
 
 export default function Navbar() {
+  const t = useTranslations('nav')
+  const locale = useLocale()
   const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -15,10 +18,10 @@ export default function Navbar() {
   }, [])
 
   const links = [
-    { href: '/', label: 'Home', icon: 'fa-house' },
-    { href: '/signs', label: 'All Signs', icon: 'fa-star' },
-    { href: '/horoscope', label: 'Horoscope', icon: 'fa-moon' },
-    { href: '/compatibility', label: 'Compatibility', icon: 'fa-heart' },
+    { href: '/', label: t('home'), icon: 'fa-house' },
+    { href: '/signs', label: t('signs'), icon: 'fa-star' },
+    { href: '/horoscope', label: t('horoscope'), icon: 'fa-moon' },
+    { href: '/compatibility', label: t('compatibility'), icon: 'fa-heart' },
   ]
 
   return (
@@ -44,7 +47,7 @@ export default function Navbar() {
           className="navbar-toggler"
           type="button"
           onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle navigation"
+          aria-label={t('toggle')}
         >
           <span className="navbar-toggler-icon" />
         </button>
@@ -71,8 +74,25 @@ export default function Navbar() {
                 onClick={() => setMenuOpen(false)}
               >
                 <i className="fas fa-magic me-1" />
-                Find My Sign
+                {t('findMySign')}
               </Link>
+            </li>
+            <li className="nav-item ms-lg-2 mt-2 mt-lg-0 d-flex gap-1" role="group" aria-label={t('language')}>
+              {locales.map((l) => (
+                <Link
+                  key={l}
+                  href={pathname}
+                  locale={l}
+                  hrefLang={l}
+                  lang={l}
+                  aria-current={l === locale ? 'true' : undefined}
+                  className={`btn btn-sm ${l === locale ? 'btn-cosmic' : 'btn-outline-cosmic'}`}
+                  style={{ fontSize: '0.8rem', padding: '0.25rem 0.7rem' }}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {localeNames[l]}
+                </Link>
+              ))}
             </li>
           </ul>
         </div>
