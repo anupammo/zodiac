@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useTranslations, useLocale } from 'next-intl'
 import { getAllSigns } from '@/lib/zodiacData'
 
@@ -18,6 +18,15 @@ const compatibilityMatrix = {
   pisces:      { aries: 65, taurus: 85, gemini: 60, cancer: 95, leo: 65, virgo: 75, libra: 70, scorpio: 95, sagittarius: 65, capricorn: 80, aquarius: 65, pisces: 75 },
 }
 
+function subscoresFor(score, a, b) {
+  const key = [a, b].sort().join('|')
+  let h = 0
+  for (let i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0
+  const offset = (n) => ((h >>> n) % 11) - 5 // -5…+5
+  const clamp = (v) => Math.max(0, Math.min(100, v))
+  return { love: clamp(score + offset(0)), friendship: clamp(score + offset(4)), work: clamp(score + offset(8)) }
+}
+
 function getCompatibilityLabel(score) {
   if (score >= 90) return { labelKey: 'soulmates', color: '#d4af37' }
   if (score >= 80) return { labelKey: 'excellent', color: '#2ecc71' }
@@ -34,18 +43,9 @@ export default function CompatibilityChecker({ preselected }) {
   const [sign1, setSign1] = useState(preselected || '')
   const [sign2, setSign2] = useState('')
   const [result, setResult] = useState(null)
-  const [subscores, setSubscores] = useState(null)
-
-  useEffect(() => {
-    if (result) {
-      // Generate subscores once when result changes to ensure consistency
-      setSubscores({
-        love: Math.min(100, result.score + Math.floor(Math.random() * 10 - 5)),
-        friendship: Math.min(100, result.score + Math.floor(Math.random() * 10 - 5)),
-        work: Math.min(100, result.score - 5 + Math.floor(Math.random() * 10)),
-      })
-    }
-  }, [result])
+  // Sub-scores are a fixed offset per sign pair (and the same in either order),
+  // so the same two signs always give the same result.
+  const subscores = result ? subscoresFor(result.score, sign1, sign2) : null
 
   const handleCheck = () => {
     if (!sign1 || !sign2) return
@@ -64,11 +64,12 @@ export default function CompatibilityChecker({ preselected }) {
           { value: sign2, setter: setSign2, label: t('partnerSign') },
         ].map(({ value, setter, label }, idx) => (
           <div className="col-12 col-md-5" key={idx}>
-            <label className="form-label-cosmic d-block mb-2">
-              <i className={`fas fa-${idx === 0 ? 'user' : 'heart'} me-2`} style={{ color: 'var(--color-gold)' }} />
+            <label className="form-label-cosmic d-block mb-2" htmlFor={`compat-sign-${idx}`}>
+              <i className={`fas fa-${idx === 0 ? 'user' : 'heart'} me-2`} style={{ color: 'var(--color-gold)' }} aria-hidden="true" />
               {label}
             </label>
             <select
+              id={`compat-sign-${idx}`}
               className="form-control form-control-cosmic"
               value={value}
               onChange={(e) => { setter(e.target.value); setResult(null) }}
@@ -88,17 +89,18 @@ export default function CompatibilityChecker({ preselected }) {
       </div>
 
       <button
+        type="button"
         className="btn btn-cosmic w-100 py-3"
         onClick={handleCheck}
         disabled={!sign1 || !sign2}
         style={{ fontSize: '1rem' }}
       >
-        <i className="fas fa-heart me-2" />
+        <i className="fas fa-heart me-2" aria-hidden="true" />
         {t('check')}
       </button>
 
       {result && sign1Data && sign2Data && (
-        <div className="result-card mt-4 p-4">
+        <div className="result-card mt-4 p-4" role="status" aria-live="polite">
           <div className="d-flex justify-content-center align-items-center gap-4 mb-4">
             <div className="text-center">
               <div style={{ fontSize: '3rem' }}>{sign1Data.emoji}</div>
@@ -131,7 +133,7 @@ export default function CompatibilityChecker({ preselected }) {
               ].map(({ icon, label, score: s }) => (
                 <div className="col-4" key={label}>
                   <div className="text-center p-3" style={{ background: 'rgba(212,175,55,0.05)', borderRadius: 12, border: '1px solid rgba(212,175,55,0.15)' }}>
-                    <i className={`fas ${icon} mb-2 d-block`} style={{ color: 'var(--color-gold)' }} />
+                    <i className={`fas ${icon} mb-2 d-block`} style={{ color: 'var(--color-gold)' }} aria-hidden="true" />
                     <div style={{ fontWeight: 700, color: 'var(--color-text-primary)' }}>{s}%</div>
                     <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{label}</div>
                   </div>

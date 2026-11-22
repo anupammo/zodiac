@@ -66,7 +66,7 @@ export default function ThemeToggle() {
       aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
       title={dark ? 'Switch to light mode' : 'Switch to dark mode'}
     >
-      <i className={`fas ${dark ? 'fa-sun' : 'fa-moon'}`} style={{ fontSize: '0.9rem' }} />
+      <i className={`fas ${dark ? 'fa-sun' : 'fa-moon'}`} style={{ fontSize: '0.9rem' }} aria-hidden="true" />
     </button>
   )
 }

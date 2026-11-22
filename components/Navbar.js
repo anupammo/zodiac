@@ -35,7 +35,9 @@ export default function Navbar() {
           <span style={{ color: 'var(--color-gold)', fontFamily: 'var(--font-heading)' }}>
             <img
               src="/favicon-96x96.png"
-              alt="favicon"
+              alt=""
+              width="40"
+              height="40"
               style={{ width: '2em', height: '2em', verticalAlign: 'middle' }}
             />
           </span>
@@ -48,20 +50,23 @@ export default function Navbar() {
           type="button"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label={t('toggle')}
+          aria-expanded={menuOpen}
+          aria-controls="main-nav"
         >
           <span className="navbar-toggler-icon" />
         </button>
 
-        <div className={`collapse navbar-collapse ${menuOpen ? 'show' : ''}`}>
+        <div id="main-nav" className={`collapse navbar-collapse ${menuOpen ? 'show' : ''}`}>
           <ul className="navbar-nav ms-auto align-items-lg-center gap-lg-1">
             {links.map(({ href, label, icon }) => (
               <li className="nav-item" key={href}>
                 <Link
                   href={href}
                   className={`nav-link d-flex align-items-center gap-2 ${pathname === href ? 'active' : ''}`}
+                  aria-current={pathname === href ? 'page' : undefined}
                   onClick={() => setMenuOpen(false)}
                 >
-                  <i className={`fas ${icon}`} style={{ fontSize: '0.8rem' }} />
+                  <i className={`fas ${icon}`} style={{ fontSize: '0.8rem' }} aria-hidden="true" />
                   {label}
                 </Link>
               </li>
@@ -73,26 +78,34 @@ export default function Navbar() {
                 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8rem', letterSpacing: '0.05em', color: '#0d0221' }}
                 onClick={() => setMenuOpen(false)}
               >
-                <i className="fas fa-magic me-1" />
+                <i className="fas fa-magic me-1" aria-hidden="true" />
                 {t('findMySign')}
               </Link>
             </li>
-            <li className="nav-item ms-lg-2 mt-2 mt-lg-0 d-flex gap-1" role="group" aria-label={t('language')}>
-              {locales.map((l) => (
-                <Link
-                  key={l}
-                  href={pathname}
-                  locale={l}
-                  hrefLang={l}
-                  lang={l}
-                  aria-current={l === locale ? 'true' : undefined}
-                  className={`btn btn-sm ${l === locale ? 'btn-cosmic' : 'btn-outline-cosmic'}`}
-                  style={{ fontSize: '0.8rem', padding: '0.25rem 0.7rem' }}
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {localeNames[l]}
-                </Link>
-              ))}
+            <li className="nav-item ms-lg-2 mt-2 mt-lg-0">
+              <details className="lang-menu">
+                <summary aria-label={t('languageMenu')}>
+                  <i className="fas fa-globe" aria-hidden="true" />
+                  <span lang={locale}>{localeNames[locale]}</span>
+                  <i className="fas fa-chevron-down" style={{ fontSize: '0.65rem' }} aria-hidden="true" />
+                </summary>
+                <ul>
+                  {locales.map((l) => (
+                    <li key={l}>
+                      <Link
+                        href={pathname}
+                        locale={l}
+                        hrefLang={l}
+                        lang={l}
+                        aria-current={l === locale ? 'true' : undefined}
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        {localeNames[l]}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </details>
             </li>
           </ul>
         </div>

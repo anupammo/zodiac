@@ -5,9 +5,15 @@ import StarField from '@/components/StarField'
 import HoroscopeCard from '@/components/HoroscopeCard'
 import { getAllSigns } from '@/lib/zodiacData'
 import { getDailyHoroscope } from '@/lib/dailyHoroscope'
+import { absoluteUrl } from '@/lib/seo'
+import ShareBar from '@/components/ShareBar'
 
-export default function HoroscopeView() {
+// `initialDate` (YYYY-MM-DD) comes from the server so the first HTML already
+// contains a real reading for search engines; the browser then switches to the
+// visitor's own local date. `heroExtra` holds server-rendered breadcrumbs/dates.
+export default function HoroscopeView({ initialDate, heroExtra }) {
   const t = useTranslations('horoscope')
+  const shareT = useTranslations('share')
   const terms = useTranslations('terms')
   const locale = useLocale()
   const signs = getAllSigns(locale)
@@ -15,11 +21,10 @@ export default function HoroscopeView() {
   const [period, setPeriod] = useState('daily')
 
   const sign = signs.find(s => s.slug === selectedSign)
-  // Resolve the date on the client so readings follow the visitor's local day
-  // (and the prerendered HTML can't mismatch on hydration).
-  const [today, setToday] = useState(null)
+  const [today, setToday] = useState(() => new Date(`${initialDate}T12:00:00`))
   useEffect(() => { setToday(new Date()) }, [])
-  const horoscope = today ? getDailyHoroscope(selectedSign, today, locale) : null
+  const horoscope = getDailyHoroscope(selectedSign, today, locale)
+  const dateLabel = new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'long', year: 'numeric' }).format(today)
 
   const periods = [
     { id: 'daily', label: t('daily'), icon: 'fa-sun' },
@@ -43,7 +48,7 @@ export default function HoroscopeView() {
         <StarField count={60} />
         <div className="container py-5 text-center" style={{ position: 'relative', zIndex: 2 }}>
           <span className="badge-gold mb-3 d-inline-block">
-            <i className="fas fa-moon me-1" /> {t('badge')}
+            <i className="fas fa-moon me-1" aria-hidden="true" /> {t('badge')}
           </span>
           <h1 className="hero-title mb-3">
             {t('titleStart')} <span className="shimmer-text">{t('titleHighlight')}</span>
@@ -51,6 +56,7 @@ export default function HoroscopeView() {
           <p className="hero-subtitle" style={{ maxWidth: 540, margin: '0 auto' }}>
             {t('subtitle')}
           </p>
+          {heroExtra}
         </div>
       </section>
 
@@ -61,13 +67,15 @@ export default function HoroscopeView() {
             {/* Sign Selector */}
             <div className="col-lg-3">
               <div className="cosmic-card p-3 mb-4">
-                <h6 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-gold)', marginBottom: '1rem', fontSize: '0.85rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                <h2 id="select-sign" style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-gold)', marginBottom: '1rem', fontSize: '0.85rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                   {t('selectSign')}
-                </h6>
-                <div className="d-flex flex-column gap-1">
+                </h2>
+                <div className="d-flex flex-column gap-1" role="group" aria-labelledby="select-sign">
                   {signs.map(s => (
                     <button
                       key={s.slug}
+                      type="button"
+                      aria-pressed={selectedSign === s.slug}
                       onClick={() => setSelectedSign(s.slug)}
                       style={{
                         background: selectedSign === s.slug ? 'rgba(108,63,197,0.25)' : 'transparent',
@@ -101,7 +109,7 @@ export default function HoroscopeView() {
                 <>
                   {/* Sign header */}
                   <div className="d-flex align-items-center gap-3 mb-4">
-                    <span style={{ fontSize: '3rem', filter: 'drop-shadow(0 0 15px rgba(212,175,55,0.5))' }}>
+                    <span style={{ fontSize: '3rem', filter: 'drop-shadow(0 0 15px rgba(212,175,55,0.5))' }} aria-hidden="true">
                       {sign.emoji}
                     </span>
                     <div>
@@ -111,25 +119,40 @@ export default function HoroscopeView() {
                       <p style={{ color: 'var(--color-text-muted)', margin: 0 }}>
                         {sign.dates.tropical} · {t('ruledBy', { planet: terms(`planets.${sign.planet}`) })}
                       </p>
+                      <p style={{ color: 'var(--color-gold)', margin: 0, fontSize: '0.9rem' }}>
+                        <time dateTime={horoscope.date}>{t('forDate', { date: dateLabel })}</time>
+                      </p>
                     </div>
                   </div>
 
                   {/* Period tabs */}
-                  <ul className="nav nav-tabs-cosmic mb-4 d-flex gap-0">
+                  <div className="nav nav-tabs-cosmic mb-4 d-flex gap-0" role="tablist">
                     {periods.map(({ id, label, icon }) => (
-                      <li className="nav-item" key={id}>
-                        <button
-                          className={`nav-link ${period === id ? 'active' : ''}`}
-                          onClick={() => setPeriod(id)}
-                        >
-                          <i className={`fas ${icon} me-2`} style={{ fontSize: '0.8rem' }} />
-                          {label}
-                        </button>
-                      </li>
+                      <button
+                        key={id}
+                        type="button"
+                        role="tab"
+                        id={`tab-${id}`}
+                        aria-selected={period === id}
+                        aria-controls="horoscope-panel"
+                        className={`nav-link ${period === id ? 'active' : ''}`}
+                        onClick={() => setPeriod(id)}
+                      >
+                        <i className={`fas ${icon} me-2`} style={{ fontSize: '0.8rem' }} aria-hidden="true" />
+                        {label}
+                      </button>
                     ))}
-                  </ul>
+                  </div>
 
-                  {horoscope && <HoroscopeCard horoscope={period === 'daily' ? horoscope.daily : horoscope} period={period} />}
+                  <div role="tabpanel" id="horoscope-panel" aria-labelledby={`tab-${period}`}>
+                    <HoroscopeCard horoscope={period === 'daily' ? horoscope.daily : horoscope} period={period} />
+                  </div>
+                  <ShareBar
+                    variant="inline"
+                    url={absoluteUrl(locale, `/signs/${sign.slug}`)}
+                    title={shareT('readingText', { sign: sign.name, date: dateLabel })}
+                    text={`${shareT('readingText', { sign: sign.name, date: dateLabel })}: ${horoscope.daily.general}`}
+                  />
                 </>
               )}
             </div>

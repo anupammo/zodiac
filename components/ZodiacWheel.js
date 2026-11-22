@@ -8,7 +8,7 @@ export default function ZodiacWheel() {
       <svg
         viewBox="0 0 320 320"
         className="zodiac-wheel w-100"
-        aria-label="Zodiac wheel"
+        aria-hidden="true" focusable="false"
         style={{ maxWidth: 320 }}
       >
         {/* Outer ring */}

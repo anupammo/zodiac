@@ -37,6 +37,13 @@ html[lang='hi'] {
 }
 html[lang='hi'] body { line-height: 1.75; }
 
+/* Bengali: same reasoning as Hindi. */
+html[lang='bn'] {
+  --font-heading: 'Noto Sans Bengali', 'Cinzel', Georgia, serif;
+  --font-body: 'Noto Sans Bengali', 'Nunito', system-ui, sans-serif;
+}
+html[lang='bn'] body { line-height: 1.75; }
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -631,3 +638,68 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 @media (max-width: 575.98px) {
   .row.g-5 { --bs-gutter-x: 1.5rem; }
 }
+
+/* ── Accessibility ─────────────────────────────────────────── */
+.skip-link {
+  position: absolute; left: 1rem; top: -100px; z-index: 2000;
+  background: var(--color-gold); color: #0d0221; padding: 0.6rem 1rem; border-radius: 8px; font-weight: 700;
+}
+.skip-link:focus { top: 1rem; }
+main:focus { outline: none; }
+
+/* ── Breadcrumbs ───────────────────────────────────────────── */
+.breadcrumb-cosmic { background: transparent; padding: 0; margin: 0; font-size: 0.9rem; }
+.breadcrumb-cosmic a { color: var(--color-text-muted); text-decoration: none; }
+.breadcrumb-cosmic a:hover { color: var(--color-gold); }
+.breadcrumb-cosmic .active { color: var(--color-gold); }
+.breadcrumb-cosmic .breadcrumb-item + .breadcrumb-item::before { color: var(--color-text-muted); }
+
+/* ── Published / updated dates ─────────────────────────────── */
+.page-dates { color: var(--color-text-muted); font-size: 0.85rem; margin: 0.75rem 0 0; }
+
+/* ── Share widget ──────────────────────────────────────────── */
+.share-section { background: rgba(108, 63, 197, 0.08); border-top: 1px solid rgba(212, 175, 55, 0.12); }
+.share-heading { font-family: var(--font-heading); font-size: 1.1rem; color: var(--color-gold); margin: 0 0 0.25rem; }
+.share-text { color: var(--color-text-muted); font-size: 0.9rem; }
+.share-list { display: flex; flex-wrap: wrap; gap: 0.5rem; list-style: none; margin: 0; padding: 0; justify-content: center; }
+.share-btn {
+  --share-color: var(--color-gold);
+  width: 44px; height: 44px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+  background: rgba(108, 63, 197, 0.2); border: 1px solid rgba(212, 175, 55, 0.25); color: var(--color-text-primary);
+  font-size: 1.05rem; text-decoration: none; cursor: pointer; transition: all 0.2s ease;
+}
+.share-btn:hover, .share-btn:focus-visible { color: var(--share-color); border-color: var(--share-color); background: rgba(255, 255, 255, 0.06); transform: translateY(-2px); }
+.share-inline { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; margin-top: 1.25rem; }
+.share-inline-label { color: var(--color-text-muted); font-size: 0.9rem; }
+.share-inline .share-btn { width: 38px; height: 38px; font-size: 0.95rem; }
+
+/* ── Language menu ─────────────────────────────────────────── */
+.lang-menu { position: relative; }
+.lang-menu summary {
+  list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;
+  border: 1px solid rgba(212, 175, 55, 0.35); border-radius: 50px; padding: 0.3rem 0.85rem; color: var(--color-text-primary); font-size: 0.85rem;
+}
+.lang-menu summary::-webkit-details-marker { display: none; }
+.lang-menu ul {
+  position: absolute; right: 0; top: calc(100% + 6px); min-width: 150px; list-style: none; margin: 0; padding: 0.4rem;
+  background: #1a0533; border: 1px solid rgba(212, 175, 55, 0.25); border-radius: 12px; box-shadow: var(--shadow-card); z-index: 1100;
+}
+.lang-menu li a { display: block; padding: 0.45rem 0.75rem; border-radius: 8px; color: var(--color-text-muted); text-decoration: none; }
+.lang-menu li a:hover, .lang-menu li a[aria-current='true'] { background: rgba(108, 63, 197, 0.3); color: var(--color-text-primary); }
+@media (max-width: 991.98px) { .lang-menu ul { position: static; margin-top: 0.4rem; } }
+
+/* ── Long-form text pages (about / privacy / terms) ───────── */
+.prose-cosmic h2 { font-family: var(--font-heading); font-size: 1.35rem; margin: 2rem 0 0.75rem; color: var(--color-gold); }
+.prose-cosmic p, .prose-cosmic li { color: var(--color-text-muted); line-height: 1.85; }
+.prose-cosmic ul { padding-left: 1.25rem; }
+
+/* ── Footer ───────────────────────────────────────────────── */
+.footer-heading {
+  font-family: var(--font-heading); color: var(--color-gold); font-size: 0.9rem;
+  letter-spacing: 0.08em; margin-bottom: 1rem; text-transform: uppercase;
+}
+.footer-link { color: var(--color-text-muted); font-size: 0.9rem; text-decoration: none; transition: color 0.3s; }
+.footer-link:hover, .footer-link:focus-visible { color: var(--color-gold); }
+
+.lang-menu [lang='hi'] { font-family: 'Noto Sans Devanagari', system-ui, sans-serif; }
+.lang-menu [lang='bn'] { font-family: 'Noto Sans Bengali', system-ui, sans-serif; }

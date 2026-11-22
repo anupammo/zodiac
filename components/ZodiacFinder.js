@@ -45,7 +45,7 @@ export default function ZodiacFinder() {
   return (
     <div className="cosmic-card-glass p-4 p-md-5 rounded-4" style={{ maxWidth: 640, margin: '0 auto' }}>
       <div className="text-center mb-4">
-        <span className="animate-float d-block" style={{ fontSize: '3rem' }}>🔮</span>
+        <span className="animate-float d-block" style={{ fontSize: '3rem' }} aria-hidden="true">🔮</span>
         <h2 className="mt-2" style={{ fontFamily: 'var(--font-heading)', fontSize: '1.6rem' }}>
           {t('titleStart')} <span className="shimmer-text">{t('titleHighlight')}</span>
         </h2>
@@ -58,17 +58,21 @@ export default function ZodiacFinder() {
       <div className="d-flex justify-content-center mb-4">
         <div className="zodiac-toggle">
           <button
+            type="button"
+            aria-pressed={system === 'tropical'}
             onClick={() => setSystem('tropical')}
             className={system === 'tropical' ? 'active' : ''}
           >
-            <i className="fas fa-sun me-2" style={{ fontSize: '0.8rem' }} />
+            <i className="fas fa-sun me-2" style={{ fontSize: '0.8rem' }} aria-hidden="true" />
             {t('tropical')}
           </button>
           <button
+            type="button"
+            aria-pressed={system === 'sidereal'}
             onClick={() => setSystem('sidereal')}
             className={system === 'sidereal' ? 'active' : ''}
           >
-            <i className="fas fa-moon me-2" style={{ fontSize: '0.8rem' }} />
+            <i className="fas fa-moon me-2" style={{ fontSize: '0.8rem' }} aria-hidden="true" />
             {t('sidereal')}
           </button>
         </div>
@@ -82,12 +86,14 @@ export default function ZodiacFinder() {
 
       {/* Date Input */}
       <div className="mb-4 mt-3">
-        <label className="form-label-cosmic d-block mb-2">
-          <i className="fas fa-calendar-alt me-2" style={{ color: 'var(--color-gold)' }} />
+        <label className="form-label-cosmic d-block mb-2" htmlFor="birth-date">
+          <i className="fas fa-calendar-alt me-2" style={{ color: 'var(--color-gold)' }} aria-hidden="true" />
           {t('dob')}
         </label>
         <input
           type="date"
+          id="birth-date"
+          aria-describedby={error ? 'birth-date-error' : undefined}
           className="form-control form-control-cosmic"
           value={birthDate}
           onChange={(e) => setBirthDate(e.target.value)}
@@ -96,14 +102,15 @@ export default function ZodiacFinder() {
           aria-label={t('dobLabel')}
         />
         {error && (
-          <p className="mt-2" style={{ color: '#ff6b6b', fontSize: '0.85rem' }}>
-            <i className="fas fa-exclamation-circle me-1" />
+          <p className="mt-2" id="birth-date-error" role="alert" style={{ color: '#ff6b6b', fontSize: '0.85rem' }}>
+            <i className="fas fa-exclamation-circle me-1" aria-hidden="true" />
             {error}
           </p>
         )}
       </div>
 
       <button
+        type="button"
         onClick={handleFind}
         disabled={loading}
         className="btn btn-cosmic w-100 py-3"
@@ -116,7 +123,7 @@ export default function ZodiacFinder() {
           </>
         ) : (
           <>
-            <i className="fas fa-magic me-2" />
+            <i className="fas fa-magic me-2" aria-hidden="true" />
             {t('reveal')}
           </>
         )}
@@ -124,7 +131,7 @@ export default function ZodiacFinder() {
 
       {/* Result */}
       {result && !loading && (
-        <div className="result-card mt-4 p-4 text-center">
+        <div className="result-card mt-4 p-4 text-center" role="status" aria-live="polite">
           <div className="cosmic-separator">
             <span style={{ color: 'var(--color-gold)', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
               {t('yourSign')}
@@ -132,7 +139,7 @@ export default function ZodiacFinder() {
           </div>
 
           <div className="result-sign-symbol mb-2">
-            <img src={result.image} alt={result.name} style={{ width: '2em', height: '2em', verticalAlign: 'middle' }} />
+            <img src={result.image} alt="" width="48" height="48" style={{ width: '2em', height: '2em', verticalAlign: 'middle' }} />
           </div>
 
           <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '2.2rem', color: 'var(--color-gold)' }}>
@@ -140,7 +147,7 @@ export default function ZodiacFinder() {
           </h3>
 
           <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem' }}>
-            <i className="fas fa-calendar me-1" />
+            <i className="fas fa-calendar me-1" aria-hidden="true" />
             {system === 'tropical' ? result.dates.tropical : result.dates.sidereal}
           </p>
 
@@ -150,11 +157,11 @@ export default function ZodiacFinder() {
               {terms(`elements.${result.element}`)}
             </span>
             <span className="badge-gold">
-              <i className="fas fa-circle-dot me-1" style={{ fontSize: '0.7rem' }} />
+              <i className="fas fa-circle-dot me-1" style={{ fontSize: '0.7rem' }} aria-hidden="true" />
               {terms(`planets.${result.planet}`)}
             </span>
             <span className="badge-cosmic">
-              <i className="fas fa-gem me-1" style={{ fontSize: '0.7rem' }} />
+              <i className="fas fa-gem me-1" style={{ fontSize: '0.7rem' }} aria-hidden="true" />
               {result.stone}
             </span>
           </div>
@@ -164,7 +171,7 @@ export default function ZodiacFinder() {
           </p>
 
           <Link href={`/signs/${result.slug}`} className="btn btn-gold mt-3" style={{ color: '#0d0221' }}>
-            <i className="fas fa-arrow-right me-2" />
+            <i className="fas fa-arrow-right me-2" aria-hidden="true" />
             {t('fullProfile')}
           </Link>
         </div>

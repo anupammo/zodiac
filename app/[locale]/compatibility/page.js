@@ -2,16 +2,16 @@ import { getTranslations, setRequestLocale } from 'next-intl/server'
 import StarField from '@/components/StarField'
 import CompatibilityChecker from '@/components/CompatibilityChecker'
 import { getAllSigns } from '@/lib/zodiacData'
-import { alternatesFor } from '@/lib/site'
+import { buildMetadata, pageGraph, pageDates, absoluteUrl } from '@/lib/seo'
+import Breadcrumbs from '@/components/Breadcrumbs'
+import PageDates from '@/components/PageDates'
+import JsonLd from '@/components/JsonLd'
+import ShareBar from '@/components/ShareBar'
 
 export async function generateMetadata({ params }) {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'meta' })
-  return {
-    title: t('compatibilityTitle'),
-    description: t('compatibilityDescription'),
-    alternates: alternatesFor(locale, '/compatibility'),
-  }
+  return buildMetadata({ locale, path: '/compatibility', title: t('compatibilityTitle'), description: t('compatibilityDescription'), page: 'compatibility' })
 }
 
 export default async function CompatibilityPage({ params }) {
@@ -20,6 +20,10 @@ export default async function CompatibilityPage({ params }) {
   const t = await getTranslations('compatibility')
   const terms = await getTranslations('terms')
   const signs = getAllSigns(locale)
+  const meta = await getTranslations('meta')
+  const nav = await getTranslations('nav')
+  const crumbs = [{ name: nav('home'), path: '' }, { name: nav('compatibility'), path: '/compatibility' }]
+  const graph = pageGraph({ locale, path: '/compatibility', page: 'compatibility', title: meta('compatibilityTitle'), description: meta('compatibilityDescription'), crumbs })
 
   const pairings = [
     { sign1: 'aries', sign2: 'leo', score: 95, label: t('pairFire') },
@@ -30,6 +34,7 @@ export default async function CompatibilityPage({ params }) {
 
   return (
     <>
+      <JsonLd data={graph} />
       {/* Hero */}
       <section
         style={{
@@ -43,8 +48,9 @@ export default async function CompatibilityPage({ params }) {
       >
         <StarField count={60} />
         <div className="container py-5 text-center" style={{ position: 'relative', zIndex: 2 }}>
+          <div className="d-flex justify-content-center"><Breadcrumbs crumbs={crumbs} /></div>
           <span className="badge-gold mb-3 d-inline-block">
-            <i className="fas fa-heart me-1" /> {t('badge')}
+            <i className="fas fa-heart me-1" aria-hidden="true" /> {t('badge')}
           </span>
           <h1 className="hero-title mb-3">
             {t('titleStart')} <span className="shimmer-text">{t('titleHighlight')}</span>
@@ -52,18 +58,19 @@ export default async function CompatibilityPage({ params }) {
           <p className="hero-subtitle" style={{ maxWidth: 540, margin: '0 auto' }}>
             {t('subtitle')}
           </p>
+          <PageDates dates={pageDates('compatibility', locale)} />
         </div>
       </section>
 
       {/* Checker */}
-      <section className="section-dark py-5">
+      <section className="section-dark py-5" aria-labelledby="calc-title">
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-lg-8">
               <div className="cosmic-card-glass p-4 p-md-5 rounded-4">
                 <div className="text-center mb-4">
                   <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>💞</div>
-                  <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.8rem' }}>
+                  <h2 id="calc-title" style={{ fontFamily: 'var(--font-heading)', fontSize: '1.8rem' }}>
                     {t('calcTitleStart')} <span className="shimmer-text">{t('calcTitleHighlight')}</span>
                   </h2>
                   <p style={{ color: 'var(--color-text-muted)' }}>
@@ -78,10 +85,10 @@ export default async function CompatibilityPage({ params }) {
       </section>
 
       {/* Famous Pairings */}
-      <section className="section-accent py-5">
+      <section className="section-accent py-5" aria-labelledby="pairings-title">
         <div className="container">
           <div className="text-center mb-5">
-            <h2 className="section-title">{t('pairingsTitleStart')} <span className="shimmer-text">{t('pairingsTitleHighlight')}</span></h2>
+            <h2 className="section-title" id="pairings-title">{t('pairingsTitleStart')} <span className="shimmer-text">{t('pairingsTitleHighlight')}</span></h2>
             <div className="section-divider" />
             <p style={{ color: 'var(--color-text-muted)' }}>{t('pairingsSubtitle')}</p>
           </div>
@@ -97,9 +104,9 @@ export default async function CompatibilityPage({ params }) {
                       <span style={{ color: '#e74c3c' }}>♥</span>
                       <span style={{ fontSize: '2rem' }}>{s2?.emoji}</span>
                     </div>
-                    <div style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)', marginBottom: '0.3rem', fontSize: '0.95rem' }}>
+                    <h3 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)', marginBottom: '0.3rem', fontSize: '0.95rem' }}>
                       {s1?.name} & {s2?.name}
-                    </div>
+                    </h3>
                     <div style={{ color: 'var(--color-gold)', fontWeight: 700, fontSize: '1.5rem', fontFamily: 'var(--font-heading)' }}>
                       {score}%
                     </div>
@@ -116,10 +123,10 @@ export default async function CompatibilityPage({ params }) {
       </section>
 
       {/* Compatibility Guide */}
-      <section className="section-gradient py-5">
+      <section className="section-gradient py-5" aria-labelledby="guide-title">
         <div className="container">
           <div className="text-center mb-5">
-            <h2 className="section-title">{t('guideTitleStart')} <span className="shimmer-text">{t('guideTitleHighlight')}</span></h2>
+            <h2 className="section-title" id="guide-title">{t('guideTitleStart')} <span className="shimmer-text">{t('guideTitleHighlight')}</span></h2>
             <div className="section-divider" />
           </div>
           <div className="row g-4">
@@ -141,7 +148,7 @@ export default async function CompatibilityPage({ params }) {
                   <div className="d-flex align-items-center gap-3 mb-3">
                     <span style={{ fontSize: '1.8rem' }}>{emoji}</span>
                     <div>
-                      <div style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)', fontSize: '1rem' }}>{title}</div>
+                      <h3 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)', fontSize: '1rem', margin: 0 }}>{title}</h3>
                       <div style={{ color: 'var(--color-gold)', fontWeight: 700, fontSize: '0.9rem' }}>{t('average', { score })}</div>
                     </div>
                   </div>
@@ -152,6 +159,8 @@ export default async function CompatibilityPage({ params }) {
           </div>
         </div>
       </section>
+
+      <ShareBar url={absoluteUrl(locale, '/compatibility')} title={meta('compatibilityTitle')} />
     </>
   )
 }

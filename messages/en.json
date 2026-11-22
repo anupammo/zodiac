@@ -16,7 +16,13 @@
     "signTitle": "{name} Zodiac Sign – Traits, Love & Horoscope",
     "signDescription": "Discover everything about {name} ({dates}). Personality traits, love compatibility, career insights, and daily horoscope.",
     "offlineTitle": "Offline",
-    "notFoundTitle": "Page Not Found"
+    "notFoundTitle": "Page Not Found",
+    "aboutTitle": "About ZodiacSign",
+    "aboutDescription": "What ZodiacSign is, how our daily horoscopes are created, and the principles behind our astrology content.",
+    "privacyTitle": "Privacy Policy",
+    "privacyDescription": "How ZodiacSign handles your data: no accounts, no tracking cookies, birth dates stay in your browser.",
+    "termsTitle": "Terms of Use",
+    "termsDescription": "The terms for using ZodiacSign, including our entertainment-only disclaimer."
   },
   "nav": {
     "home": "Home",
@@ -25,21 +31,22 @@
     "compatibility": "Compatibility",
     "findMySign": "Find My Sign",
     "toggle": "Toggle navigation",
-    "language": "Language"
+    "language": "Language",
+    "about": "About",
+    "skip": "Skip to main content",
+    "languageMenu": "Change language"
   },
   "footer": {
     "about": "Explore your cosmic identity through ancient wisdom and modern insights. Discover your zodiac sign, daily horoscope, and compatibility.",
     "explore": "Explore",
     "zodiacSigns": "Zodiac Signs",
-    "updates": "Cosmic Updates",
-    "updatesText": "Receive your weekly cosmic forecast and spiritual insights.",
-    "emailPlaceholder": "Your email",
-    "emailLabel": "Email for newsletter",
     "rights": "© {year} ZodiacSign. All rights reserved.",
     "madeWith": "Made with ♥ for the cosmos.",
     "privacy": "Privacy Policy",
     "terms": "Terms of Service",
-    "disclaimer": "Astrology content is for guidance and entertainment only."
+    "disclaimer": "Astrology content is for guidance and entertainment only.",
+    "aboutLink": "About Us",
+    "info": "Information"
   },
   "home": {
     "badge": "Ancient Wisdom · Modern Insight",
@@ -143,7 +150,8 @@
     "luckyNumber": "Lucky Number",
     "luckyStone": "Lucky Stone",
     "weekTitle": "This Week's Forecast",
-    "monthTitle": "Monthly Cosmic Overview"
+    "monthTitle": "Monthly Cosmic Overview",
+    "forDate": "Horoscope for {date}"
   },
   "compatibility": {
     "badge": "Cosmic Compatibility",
@@ -203,12 +211,51 @@
     "text": "We couldn't find what you were looking for.",
     "home": "Return Home"
   },
+  "share": {
+    "title": "Share this page",
+    "text": "Found this useful? Send it to a friend.",
+    "native": "Share…",
+    "whatsapp": "Share on WhatsApp",
+    "facebook": "Share on Facebook",
+    "x": "Share on X",
+    "telegram": "Share on Telegram",
+    "linkedin": "Share on LinkedIn",
+    "copy": "Copy link",
+    "copied": "Link copied!",
+    "reading": "Share this reading",
+    "readingText": "{sign} horoscope for {date}"
+  },
+  "dates": {
+    "published": "Published",
+    "updated": "Updated"
+  },
+  "breadcrumb": {
+    "label": "Breadcrumb",
+    "home": "Home"
+  },
   "terms": {
-    "elements": { "Fire": "Fire", "Earth": "Earth", "Air": "Air", "Water": "Water" },
-    "qualities": { "Cardinal": "Cardinal", "Fixed": "Fixed", "Mutable": "Mutable" },
+    "elements": {
+      "Fire": "Fire",
+      "Earth": "Earth",
+      "Air": "Air",
+      "Water": "Water"
+    },
+    "qualities": {
+      "Cardinal": "Cardinal",
+      "Fixed": "Fixed",
+      "Mutable": "Mutable"
+    },
     "planets": {
-      "Sun": "Sun", "Moon": "Moon", "Mercury": "Mercury", "Venus": "Venus", "Mars": "Mars",
-      "Jupiter": "Jupiter", "Saturn": "Saturn", "Uranus": "Uranus", "Neptune": "Neptune", "Pluto": "Pluto"
+      "Sun": "Sun",
+      "Moon": "Moon",
+      "Mercury": "Mercury",
+      "Venus": "Venus",
+      "Mars": "Mars",
+      "Jupiter": "Jupiter",
+      "Saturn": "Saturn",
+      "Uranus": "Uranus",
+      "Neptune": "Neptune",
+      "Pluto": "Pluto"
     }
   }
 }

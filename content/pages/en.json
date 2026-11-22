@@ -1,0 +1,72 @@
+{
+  "about": {
+    "lead": "ZodiacSign is a free guide to zodiac signs, daily horoscopes and sign compatibility, available in English, Hindi and Bengali.",
+    "sections": [
+      { "h": "What you will find here", "list": [
+        "Profiles of all 12 zodiac signs: personality, strengths and challenges, love, career and health.",
+        "Daily, weekly and monthly horoscopes for every sign.",
+        "A compatibility calculator for love, friendship and work.",
+        "A zodiac sign finder that supports both the Tropical (Western) and Sidereal (Vedic) systems."
+      ] },
+      { "h": "How our horoscopes are written", "p": [
+        "Each day's reading is put together automatically from a library of guidance written by our editors. The selection depends only on the sign and the date, so everyone born under the same sign sees the same reading on the same day, in every language.",
+        "These are general sun-sign readings, not personal predictions from your birth chart. We are working on readings based on real planetary positions and will explain the method here when they launch."
+      ] },
+      { "h": "Tropical and Sidereal dates", "p": [
+        "Western astrology uses the Tropical zodiac, tied to the seasons. Vedic astrology uses the Sidereal zodiac, tied to the stars, which today sits about 24 degrees behind. That is why your Vedic sign is often the one before your Western sign. Sidereal dates on this site are approximate and can move by a day from year to year."
+      ] },
+      { "h": "Our principles", "list": [
+        "Astrology here is for reflection, guidance and entertainment.",
+        "We avoid fear-based predictions and never claim certainty about the future.",
+        "Nothing on ZodiacSign replaces advice from a doctor, lawyer, financial adviser or other qualified professional."
+      ] }
+    ]
+  },
+  "privacy": {
+    "lead": "Short version: you do not need an account, we show no ads, and we use no analytics or tracking cookies.",
+    "sections": [
+      { "h": "Your birth date", "p": [
+        "The zodiac sign finder works entirely in your browser. The birth date you enter is not sent to our servers or stored by us."
+      ] },
+      { "h": "What is stored on your device", "list": [
+        "A language cookie (NEXT_LOCALE) so the site remembers whether you prefer English, Hindi or Bengali.",
+        "A small local-storage entry if you dismiss the \"Install app\" banner, so it does not keep reappearing.",
+        "Copies of pages saved by the app's offline cache, so the site can open without a connection."
+      ], "p": [ "You can clear all of these at any time in your browser settings." ] },
+      { "h": "Third-party services", "list": [
+        "Hosting: the site is served by Vercel, whose servers keep standard technical logs (such as IP address and browser type) for security and reliability.",
+        "Fonts: text fonts load from Google Fonts, so your browser contacts Google's servers when a page opens.",
+        "Share buttons are plain links. Nothing is sent to WhatsApp, Facebook, X, Telegram or LinkedIn unless you click one; after that, that service's own privacy policy applies."
+      ] },
+      { "h": "Your choices", "p": [
+        "We do not keep personal data about you, so there is nothing for us to look up, correct or delete."
+      ] },
+      { "h": "Changes to this policy", "p": [
+        "If we ever add accounts, analytics or advertising, we will update this page before doing so. The date at the top of the page shows when it last changed."
+      ] }
+    ]
+  },
+  "terms": {
+    "lead": "By using ZodiacSign you agree to these terms. Please read them; they are short.",
+    "sections": [
+      { "h": "Entertainment and guidance only", "p": [
+        "Horoscopes, sign profiles and compatibility scores are offered for reflection and entertainment. They are not professional advice. Do not make medical, legal, financial or other important decisions based on them."
+      ] },
+      { "h": "No guarantees", "p": [
+        "We try to keep the site accurate and available, but it is provided \"as is\", without warranties of any kind. To the extent the law allows, we are not liable for any loss arising from using it."
+      ] },
+      { "h": "Using our content", "p": [
+        "The text, design and images on ZodiacSign belong to us or our licensors. You are welcome to share links and short quotes with a link back. Please do not copy whole pages or republish our content elsewhere."
+      ] },
+      { "h": "Fair use of the site", "p": [
+        "Do not attempt to disrupt the site, overload it with automated requests, or use it for anything unlawful."
+      ] },
+      { "h": "Links to other sites", "p": [
+        "Share buttons and other links may take you to third-party websites. We are not responsible for their content or practices."
+      ] },
+      { "h": "Changes", "p": [
+        "We may update these terms. The date at the top of the page shows when they last changed; continuing to use the site means you accept the current version."
+      ] }
+    ]
+  }
+}

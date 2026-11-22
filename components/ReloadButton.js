@@ -8,7 +8,7 @@ export default function ReloadButton() {
       onClick={() => window.location.reload()}
       className="btn btn-outline-cosmic px-4"
     >
-      <i className="fas fa-redo me-2" />
+      <i className="fas fa-redo me-2" aria-hidden="true" />
       {t('retry')}
     </button>
   )

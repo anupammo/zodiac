@@ -14,7 +14,7 @@ export default function NotFound() {
         </h1>
         <p style={{ color: 'var(--color-text-muted)', marginBottom: '2rem' }}>{t('text')}</p>
         <Link href="/" className="btn btn-cosmic px-4">
-          <i className="fas fa-home me-2" />
+          <i className="fas fa-home me-2" aria-hidden="true" />
           {t('home')}
         </Link>
       </div>

@@ -3,7 +3,14 @@ import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import { getAllSlugs, getSignBySlug, getAllSigns } from '@/lib/zodiacData'
 import { getDailyHoroscope } from '@/lib/dailyHoroscope'
-import { alternatesFor } from '@/lib/site'
+import { buildMetadata, pageGraph, pageDates, absoluteUrl } from '@/lib/seo'
+import { siteUrl } from '@/lib/site'
+import Breadcrumbs from '@/components/Breadcrumbs'
+import PageDates from '@/components/PageDates'
+import JsonLd from '@/components/JsonLd'
+import ShareBar from '@/components/ShareBar'
+
+const ogImage = (slug) => `${siteUrl}/og/${slug}.png`
 import StarField from '@/components/StarField'
 import ZodiacCard from '@/components/ZodiacCard'
 
@@ -19,11 +26,12 @@ export async function generateMetadata({ params }) {
   const t = await getTranslations({ locale, namespace: 'meta' })
   const sign = getSignBySlug(slug, locale)
   if (!sign) return { title: t('notFoundTitle') }
-  return {
+  return buildMetadata({
+    locale, path: `/signs/${slug}`, page: 'sign', type: 'article',
     title: t('signTitle', { name: sign.name }),
     description: t('signDescription', { name: sign.name, dates: sign.dates.tropical }),
-    alternates: alternatesFor(locale, `/signs/${slug}`),
-  }
+    image: ogImage(slug), imageAlt: sign.name,
+  })
 }
 
 export default async function SignPage({ params }) {
@@ -33,9 +41,22 @@ export default async function SignPage({ params }) {
   if (!sign) notFound()
   const t = await getTranslations('sign')
   const terms = await getTranslations('terms')
+  const nav = await getTranslations('nav')
+  const meta = await getTranslations('meta')
+  const path = `/signs/${slug}`
+  const title = meta('signTitle', { name: sign.name })
+  const description = meta('signDescription', { name: sign.name, dates: sign.dates.tropical })
+  const crumbs = [{ name: nav('home'), path: '' }, { name: nav('signs'), path: '/signs' }, { name: sign.name, path }]
+  const graph = pageGraph({
+    locale, path, page: 'sign', title, description, crumbs, image: ogImage(slug),
+    article: { articleSection: nav('signs'), about: { '@type': 'Thing', name: sign.name } },
+  })
+  const dates = pageDates('sign', locale)
 
   const horoscope = getDailyHoroscope(slug, new Date(), locale)
   const allSigns = getAllSigns(locale)
+  const idx = allSigns.findIndex((s) => s.slug === slug)
+  const otherSigns = Array.from({ length: 6 }, (_, i) => allSigns[(idx + 1 + i) % allSigns.length])
   const compatibleSigns = sign.compatibility.map(s => getSignBySlug(s, locale)).filter(Boolean)
   const element = terms(`elements.${sign.element}`)
   const planet = terms(`planets.${sign.planet}`)
@@ -53,9 +74,10 @@ export default async function SignPage({ params }) {
   ]
 
   return (
-    <>
+    <article>
+      <JsonLd data={graph} />
       {/* Hero */}
-      <section
+      <header
         style={{
           background: `linear-gradient(135deg, #0d0221 0%, #1a0533 40%, ${sign.color}33 100%)`,
           paddingTop: 80,
@@ -69,20 +91,10 @@ export default async function SignPage({ params }) {
         <div className="container py-5" style={{ position: 'relative', zIndex: 2 }}>
           <div className="row align-items-center g-4">
             <div className="col-lg-7">
-              <nav aria-label="breadcrumb" className="mb-3">
-                <ol className="breadcrumb" style={{ background: 'transparent', padding: 0 }}>
-                  <li className="breadcrumb-item">
-                    <Link href="/" style={{ color: 'var(--color-text-muted)', textDecoration: 'none' }}>{t('breadcrumbHome')}</Link>
-                  </li>
-                  <li className="breadcrumb-item">
-                    <Link href="/signs" style={{ color: 'var(--color-text-muted)', textDecoration: 'none' }}>{t('breadcrumbSigns')}</Link>
-                  </li>
-                  <li className="breadcrumb-item active" style={{ color: 'var(--color-gold)' }}>{sign.name}</li>
-                </ol>
-              </nav>
+              <Breadcrumbs crumbs={crumbs} />
 
               <div className="d-flex align-items-center gap-3 mb-3">
-                <span style={{ fontSize: '4rem', filter: 'drop-shadow(0 0 20px rgba(212,175,55,0.6))' }}>
+                <span style={{ fontSize: '4rem', filter: 'drop-shadow(0 0 20px rgba(212,175,55,0.6))' }} aria-hidden="true">
                   {sign.emoji}
                 </span>
                 <div>
@@ -104,55 +116,56 @@ export default async function SignPage({ params }) {
                   {elementEmoji[sign.element]} {element}
                 </span>
                 <span className="badge-gold">
-                  <i className="fas fa-circle-dot me-1" style={{ fontSize: '0.7rem' }} />
+                  <i className="fas fa-circle-dot me-1" style={{ fontSize: '0.7rem' }} aria-hidden="true" />
                   {planet}
                 </span>
                 <span className="badge-cosmic">{quality}</span>
               </div>
+              <PageDates dates={dates} />
             </div>
 
             <div className="col-lg-5">
               <div className="cosmic-card p-4">
-                <h5 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-gold)', marginBottom: '1.2rem', fontSize: '0.9rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                <h2 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-gold)', marginBottom: '1.2rem', fontSize: '0.9rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                   {t('overview')}
-                </h5>
-                <div className="row g-3">
+                </h2>
+                <dl className="row g-3 mb-0">
                   {stats.map(({ icon, label, value }) => (
                     <div className="col-6" key={label}>
-                      <div style={{ background: 'rgba(212,175,55,0.05)', borderRadius: 12, padding: '0.75rem', border: '1px solid rgba(212,175,55,0.1)' }}>
-                        <i className={`fas ${icon} mb-1 d-block`} style={{ color: 'var(--color-gold)', fontSize: '0.9rem' }} />
-                        <div style={{ fontSize: '0.85rem', color: 'var(--color-text-primary)', fontWeight: 600 }}>{value}</div>
-                        <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)' }}>{label}</div>
+                      <div style={{ background: 'rgba(212,175,55,0.05)', borderRadius: 12, padding: '0.75rem', border: '1px solid rgba(212,175,55,0.1)', height: '100%' }}>
+                        <i className={`fas ${icon} mb-1 d-block`} style={{ color: 'var(--color-gold)', fontSize: '0.9rem' }} aria-hidden="true" />
+                        <dt style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', fontWeight: 400 }}>{label}</dt>
+                        <dd style={{ fontSize: '0.85rem', color: 'var(--color-text-primary)', fontWeight: 600, margin: 0 }}>{value}</dd>
                       </div>
                     </div>
                   ))}
-                </div>
+                </dl>
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </header>
 
       {/* Main Content */}
-      <section className="section-dark py-5">
+      <div className="section-dark py-5">
         <div className="container">
           <div className="row g-5">
             <div className="col-lg-8">
 
               {/* Traits */}
-              <div className="mb-5">
-                <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.6rem', marginBottom: '0.5rem' }}>
-                  <i className="fas fa-sparkles me-2" style={{ color: 'var(--color-gold)' }} />
+              <section className="mb-5" aria-labelledby="traits">
+                <h2 id="traits" style={{ fontFamily: 'var(--font-heading)', fontSize: '1.6rem', marginBottom: '0.5rem' }}>
+                  <i className="fas fa-sparkles me-2" style={{ color: 'var(--color-gold)' }} aria-hidden="true" />
                   {t('traits')}
                 </h2>
                 <div className="section-divider" style={{ margin: '0.5rem 0 1.5rem' }} />
                 <div className="row g-3">
                   <div className="col-md-6">
                     <div className="cosmic-card p-4 h-100">
-                      <h6 style={{ color: '#2ecc71', fontFamily: 'var(--font-heading)', marginBottom: '1rem' }}>
-                        <i className="fas fa-plus-circle me-2" />
+                      <h3 style={{ color: '#2ecc71', fontFamily: 'var(--font-heading)', marginBottom: '1rem', fontSize: '1.1rem' }}>
+                        <i className="fas fa-plus-circle me-2" aria-hidden="true" />
                         {t('strengths')}
-                      </h6>
+                      </h3>
                       <ul className="list-unstyled d-flex flex-column gap-2 mb-0">
                         {sign.traits.positive.map(trait => (
                           <li key={trait} className="d-flex align-items-center gap-2">
@@ -165,10 +178,10 @@ export default async function SignPage({ params }) {
                   </div>
                   <div className="col-md-6">
                     <div className="cosmic-card p-4 h-100">
-                      <h6 style={{ color: '#e74c3c', fontFamily: 'var(--font-heading)', marginBottom: '1rem' }}>
-                        <i className="fas fa-minus-circle me-2" />
+                      <h3 style={{ color: '#e74c3c', fontFamily: 'var(--font-heading)', marginBottom: '1rem', fontSize: '1.1rem' }}>
+                        <i className="fas fa-minus-circle me-2" aria-hidden="true" />
                         {t('challenges')}
-                      </h6>
+                      </h3>
                       <ul className="list-unstyled d-flex flex-column gap-2 mb-0">
                         {sign.traits.negative.map(trait => (
                           <li key={trait} className="d-flex align-items-center gap-2">
@@ -180,7 +193,7 @@ export default async function SignPage({ params }) {
                     </div>
                   </div>
                 </div>
-              </div>
+              </section>
 
               {/* Life Sections */}
               {[
@@ -188,47 +201,52 @@ export default async function SignPage({ params }) {
                 { icon: 'fa-briefcase', title: t('career'), color: 'var(--color-gold)', content: sign.career },
                 { icon: 'fa-heartbeat', title: t('health'), color: '#2ecc71', content: sign.health },
               ].map(({ icon, title, color, content }) => (
-                <div className="mb-5" key={title}>
-                  <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.6rem', marginBottom: '0.5rem' }}>
-                    <i className={`fas ${icon} me-2`} style={{ color }} />
+                <section className="mb-5" key={title} aria-labelledby={`sec-${icon}`}>
+                  <h2 id={`sec-${icon}`} style={{ fontFamily: 'var(--font-heading)', fontSize: '1.6rem', marginBottom: '0.5rem' }}>
+                    <i className={`fas ${icon} me-2`} style={{ color }} aria-hidden="true" />
                     {title}
                   </h2>
                   <div className="section-divider" style={{ margin: '0.5rem 0 1.5rem' }} />
                   <div className="cosmic-card p-4">
                     <p style={{ color: 'var(--color-text-muted)', lineHeight: 1.9, margin: 0 }}>{content}</p>
                   </div>
-                </div>
+                </section>
               ))}
 
               {/* Today's Horoscope */}
               {horoscope && (
-                <div className="mb-5">
-                  <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.6rem', marginBottom: '0.5rem' }}>
-                    <i className="fas fa-moon me-2" style={{ color: 'var(--color-primary)' }} />
+                <section className="mb-5" aria-labelledby="today">
+                  <h2 id="today" style={{ fontFamily: 'var(--font-heading)', fontSize: '1.6rem', marginBottom: '0.5rem' }}>
+                    <i className="fas fa-moon me-2" style={{ color: 'var(--color-primary)' }} aria-hidden="true" />
                     {t('today')}
                   </h2>
                   <div className="section-divider" style={{ margin: '0.5rem 0 1.5rem' }} />
                   <div className="cosmic-card p-4">
+                    <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', marginBottom: '0.5rem' }}>
+                      <time dateTime={horoscope.date}>
+                        {new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${horoscope.date}T00:00:00Z`))}
+                      </time>
+                    </p>
                     <p style={{ color: 'var(--color-text-muted)', lineHeight: 1.9, marginBottom: '1.5rem' }}>
                       {horoscope.daily.general}
                     </p>
                     <Link href="/horoscope" className="btn btn-cosmic btn-sm px-4">
-                      <i className="fas fa-arrow-right me-2" />
+                      <i className="fas fa-arrow-right me-2" aria-hidden="true" />
                       {t('fullHoroscope')}
                     </Link>
                   </div>
-                </div>
+                </section>
               )}
             </div>
 
             {/* Sidebar */}
-            <div className="col-lg-4">
+            <aside className="col-lg-4">
               {/* Compatible Signs */}
               <div className="cosmic-card p-4 mb-4">
-                <h5 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-gold)', marginBottom: '1.2rem' }}>
-                  <i className="fas fa-heart me-2" />
+                <h2 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-gold)', marginBottom: '1.2rem', fontSize: '1.25rem' }}>
+                  <i className="fas fa-heart me-2" aria-hidden="true" />
                   {t('bestMatches')}
-                </h5>
+                </h2>
                 <div className="d-flex flex-column gap-2">
                   {compatibleSigns.map(s => (
                     <Link
@@ -251,10 +269,10 @@ export default async function SignPage({ params }) {
 
               {/* Lucky Info */}
               <div className="cosmic-card p-4 mb-4">
-                <h5 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-gold)', marginBottom: '1.2rem' }}>
-                  <i className="fas fa-star me-2" />
+                <h2 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-gold)', marginBottom: '1.2rem', fontSize: '1.25rem' }}>
+                  <i className="fas fa-star me-2" aria-hidden="true" />
                   {t('lucky')}
-                </h5>
+                </h2>
                 {[
                   { label: t('luckyNumbers'), value: sign.luckyNumbers.join(', '), icon: 'fa-hashtag' },
                   { label: t('luckyDay'), value: sign.luckyDay, icon: 'fa-calendar-check' },
@@ -262,7 +280,7 @@ export default async function SignPage({ params }) {
                   { label: t('birthstone'), value: sign.stone, icon: 'fa-gem' },
                 ].map(({ label, value, icon, isColor }) => (
                   <div key={label} className="d-flex align-items-center gap-3 mb-3">
-                    <i className={`fas ${icon}`} style={{ color: 'var(--color-gold)', width: 16, textAlign: 'center' }} />
+                    <i className={`fas ${icon}`} style={{ color: 'var(--color-gold)', width: 16, textAlign: 'center' }} aria-hidden="true" />
                     <div>
                       <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</div>
                       <div style={{ color: 'var(--color-text-primary)', fontWeight: 600, fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -283,40 +301,42 @@ export default async function SignPage({ params }) {
                 }}
               >
                 <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>🔮</div>
-                <h5 style={{ fontFamily: 'var(--font-heading)', marginBottom: '0.75rem' }}>{t('findTitle')}</h5>
+                <h2 style={{ fontFamily: 'var(--font-heading)', marginBottom: '0.75rem', fontSize: '1.25rem' }}>{t('findTitle')}</h2>
                 <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', marginBottom: '1rem' }}>
                   {t('findText', { name: sign.name })}
                 </p>
                 <Link href="/" className="btn btn-gold btn-sm px-4" style={{ color: '#0d0221' }}>
-                  <i className="fas fa-magic me-2" />
+                  <i className="fas fa-magic me-2" aria-hidden="true" />
                   {t('checkMySign')}
                 </Link>
               </div>
-            </div>
+            </aside>
           </div>
         </div>
-      </section>
+      </div>
+
+      <ShareBar url={absoluteUrl(locale, path)} title={title} />
 
       {/* Other Signs */}
-      <section className="section-accent py-5">
+      <section className="section-accent py-5" aria-labelledby="other-signs">
         <div className="container">
-          <h2 className="section-title mb-2">{t('otherSigns')}</h2>
+          <h2 className="section-title mb-2" id="other-signs">{t('otherSigns')}</h2>
           <div className="section-divider" />
-          <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-3 mt-2">
-            {allSigns.filter(s => s.slug !== slug).slice(0, 6).map(s => (
-              <div className="col" key={s.slug}>
+          <ul className="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-3 mt-2 list-unstyled">
+            {otherSigns.map(s => (
+              <li className="col" key={s.slug}>
                 <ZodiacCard sign={s} />
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
           <div className="text-center mt-4">
             <Link href="/signs" className="btn btn-outline-cosmic px-4">
-              <i className="fas fa-th-large me-2" />
+              <i className="fas fa-th-large me-2" aria-hidden="true" />
               {t('viewAll')}
             </Link>
           </div>
         </div>
       </section>
-    </>
+    </article>
   )
 }

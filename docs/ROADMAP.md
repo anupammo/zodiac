@@ -71,7 +71,11 @@ The current name "ZodiacSign" on `zodiac-ruddy.vercel.app` is too generic to tra
 - [x] **i18n foundation**: `next-intl`, English at existing URLs + Hindi at `/hi/…`, `hreflang` + per-language sitemap, language switcher, Devanagari font. All UI strings live in `messages/<locale>.json`.
 - [x] Sign text moved to `content/signs/<locale>.json`; horoscope phrases in `content/horoscope/<locale>.js`.
 - [x] Fixed the Vedic (sidereal) finder, which returned the sign *after* the correct one for most birth dates.
-- [ ] Native-speaker review of the Hindi copy before promoting `/hi`.
+- [x] Bengali (`/bn`) added; every page now exists in English, Hindi and Bengali (57 pages).
+- [x] Semantic HTML (landmarks, skip link, heading order, article/aside, breadcrumbs), JSON-LD with publish/modified dates, per-sign share images, share widget on every page.
+- [x] About, Privacy and Terms pages in all three languages.
+- [ ] Native-speaker review of the Hindi and Bengali copy before promoting `/hi` and `/bn`.
+- [ ] Legal review of Privacy and Terms before launch.
 - [ ] Dynamic OG share images per sign per day (`next/og`).
 - [ ] Legal pages: privacy, terms, disclaimer, cookie consent.
 
@@ -205,10 +209,10 @@ At 1 lakh DAU with real retention data, you're in a strong position to raise a s
 | 1 | Choose brand name, buy domain, reserve social handles | Founder |
 | 2 | Point domain at Vercel, update `siteUrl` in `app/layout.js`, `app/sitemap.js`, `app/robots.js` | Dev |
 | 3 | Submit sitemap to Google Search Console + Bing | Dev |
-| 4 | Add analytics + privacy policy + disclaimer | Dev |
+| 4 | Add analytics (privacy policy + disclaimer ✅; update the policy when analytics is added) | Dev |
 | 5 | ~~Set up `next-intl` with `en` + `hi`, extract all strings~~ ✅ | Dev |
 | 6 | ~~Convert sign data to JSON content files~~ ✅ | Dev |
-| 7 | Dynamic OG share image per sign/day + WhatsApp share button | Dev |
+| 7 | ~~OG share image per sign + share buttons~~ ✅ (per-day images still to do) | Dev |
 | 8 | Start Instagram + YouTube channels; post one daily card per sign | Founder/creator |
 | 9 | Prototype the transit calculation (`astronomy-engine`) for horoscope engine v2 | Dev |
 | 10 | Weekly KPI review ritual (every Monday) | Founder |
@@ -217,10 +221,16 @@ At 1 lakh DAU with real retention data, you're in a strong position to raise a s
 
 ## Appendix: adding a language
 
-1. Add the code to `locales` and `localeNames` in `i18n/routing.js`.
-2. Copy `messages/en.json` → `messages/<code>.json` and translate (keep the keys).
-3. Copy `content/signs/en.json` → `content/signs/<code>.json` and translate.
-4. Copy `content/horoscope/en.js` → `content/horoscope/<code>.js`, translate, and register it in `lib/dailyHoroscope.js` (`pools`, `terms`).
-5. Register the sign content in `lib/zodiacData.js` (`content`).
-6. If the script needs it, add a font for `html[lang='<code>']` in `app/globals.css` (see the Hindi rule).
-7. Run `npm run build`. Every page in the new language is prerendered and added to the sitemap automatically.
+1. Add the code to `locales`, `localeNames` and `ogLocales` in `i18n/routing.js`.
+2. Copy and translate (keeping the keys): `messages/en.json`, `content/signs/en.json`, `content/horoscope/en.js` and `content/pages/en.json`.
+3. Register the new files in `lib/zodiacData.js` (`content`), `lib/dailyHoroscope.js` (`pools`, `terms`) and `components/InfoPage.js` (`content`).
+4. Add the launch date to `LOCALE_LAUNCH` in `lib/seo.js` (it becomes the translation's `datePublished`).
+5. If the script needs it, add a font in `SCRIPT_FONTS` (`app/[locale]/layout.js`) and an `html[lang='<code>']` rule in `app/globals.css`.
+6. Run `npm run build`, then the audit (all pages × all languages).
+
+## Appendix: SEO conventions
+
+- **Dates:** every page's `datePublished` / `dateModified` comes from `PAGES` in `lib/seo.js`. The same values feed the JSON-LD, the visible "Published / Updated" line and the sitemap `lastmod`. **When you materially change a page's content, bump its `modified` date there.** Never bump dates without a real change: Google treats fake freshness as spam. Horoscope and sign pages update daily automatically because their reading changes daily.
+- **Structured data:** one JSON-LD `@graph` per page (Organization, WebSite, the page, BreadcrumbList, plus Article on sign pages), built by `pageGraph()`.
+- **Share images:** `/og/<sign>.png` and `/og/default.png` are generated at build time (`app/og/[file]/route.js`).
+- **Every content page** ends with the shared `ShareBar`; the horoscope also has an inline "share this reading".

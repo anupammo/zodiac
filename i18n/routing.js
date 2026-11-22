@@ -1,7 +1,9 @@
 import { defineRouting } from 'next-intl/routing'
 
-export const locales = ['en', 'hi']
-export const localeNames = { en: 'English', hi: 'हिन्दी' }
+export const locales = ['en', 'hi', 'bn']
+export const localeNames = { en: 'English', hi: 'हिन्दी', bn: 'বাংলা' }
+// BCP 47 / Open Graph locale for each language.
+export const ogLocales = { en: 'en_US', hi: 'hi_IN', bn: 'bn_IN' }
 
 export const routing = defineRouting({
   locales,

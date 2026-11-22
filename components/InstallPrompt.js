@@ -79,7 +79,7 @@ export default function InstallPrompt() {
       <div className="d-flex align-items-start gap-3 flex-wrap flex-sm-nowrap">
         {/* <div style={{ fontSize: '2rem', flexShrink: 0 }}>✦</div> */}
         <div style={{ fontSize: '2rem', flexShrink: 0 }}>
-          <img src="/favicon-96x96.png" alt="favicon" style={{ width: '4rem', height: '4rem' }} />
+          <img src="/favicon-96x96.png" alt="" style={{ width: '4rem', height: '4rem' }} />
         </div>
 
         <div className="flex-1">

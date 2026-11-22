@@ -33,11 +33,11 @@ export default function HoroscopeCard({ horoscope, period = 'daily' }) {
                       flexShrink: 0,
                     }}
                   >
-                    <i className={`fas ${icon}`} style={{ fontSize: '0.9rem' }} />
+                    <i className={`fas ${icon}`} style={{ fontSize: '0.9rem' }} aria-hidden="true" />
                   </div>
-                  <h5 style={{ fontFamily: 'var(--font-heading)', margin: 0, fontSize: '1rem', color }} >
+                  <h3 style={{ fontFamily: 'var(--font-heading)', margin: 0, fontSize: '1rem', color }} >
                     {label}
-                  </h5>
+                  </h3>
                 </div>
                 <p style={{ color: 'var(--color-text-muted)', lineHeight: 1.8, margin: 0, fontSize: '0.95rem' }}>
                   {horoscope[key]}
@@ -49,10 +49,10 @@ export default function HoroscopeCard({ horoscope, period = 'daily' }) {
 
         {/* Lucky info */}
         <div className="cosmic-card p-4">
-          <h5 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-gold)', marginBottom: '1rem', fontSize: '1rem' }}>
-            <i className="fas fa-star me-2" />
+          <h3 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-gold)', marginBottom: '1rem', fontSize: '1rem' }}>
+            <i className="fas fa-star me-2" aria-hidden="true" />
             {t('lucky')}
-          </h5>
+          </h3>
           <div className="row g-3">
             {[
               { label: t('luckyColor'), value: horoscope.luckyColor, icon: 'fa-palette' },
@@ -61,7 +61,7 @@ export default function HoroscopeCard({ horoscope, period = 'daily' }) {
             ].map(({ label, value, icon }) => (
               <div className="col-4" key={label}>
                 <div className="text-center p-3" style={{ background: 'rgba(212,175,55,0.05)', borderRadius: 12, border: '1px solid rgba(212,175,55,0.15)' }}>
-                  <i className={`fas ${icon}`} style={{ color: 'var(--color-gold)', marginBottom: '0.5rem', display: 'block' }} />
+                  <i className={`fas ${icon}`} style={{ color: 'var(--color-gold)', marginBottom: '0.5rem', display: 'block' }} aria-hidden="true" />
                   <div style={{ color: 'var(--color-text-primary)', fontWeight: 700, fontSize: '0.9rem' }}>{value}</div>
                   <div style={{ color: 'var(--color-text-muted)', fontSize: '0.75rem' }}>{label}</div>
                 </div>
@@ -76,10 +76,10 @@ export default function HoroscopeCard({ horoscope, period = 'daily' }) {
   if (period === 'weekly') {
     return (
       <div className="cosmic-card p-4">
-        <h5 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-gold)', marginBottom: '1rem' }}>
-          <i className="fas fa-calendar-week me-2" />
+        <h3 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-gold)', marginBottom: '1rem' }}>
+          <i className="fas fa-calendar-week me-2" aria-hidden="true" />
           {t('weekTitle')}
-        </h5>
+        </h3>
         <p style={{ color: 'var(--color-text-muted)', lineHeight: 1.8, margin: 0 }}>
           {horoscope.weekly}
         </p>
@@ -89,10 +89,10 @@ export default function HoroscopeCard({ horoscope, period = 'daily' }) {
 
   return (
     <div className="cosmic-card p-4">
-      <h5 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-gold)', marginBottom: '1rem' }}>
-        <i className="fas fa-calendar-alt me-2" />
+      <h3 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-gold)', marginBottom: '1rem' }}>
+        <i className="fas fa-calendar-alt me-2" aria-hidden="true" />
         {t('monthTitle')}
-      </h5>
+      </h3>
       <p style={{ color: 'var(--color-text-muted)', lineHeight: 1.8, margin: 0 }}>
         {horoscope.monthly}
       </p>

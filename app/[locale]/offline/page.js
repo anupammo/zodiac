@@ -32,13 +32,13 @@ export default async function OfflinePage({ params }) {
           style={{ background: 'rgba(108,63,197,0.15)', border: '1px solid rgba(212,175,55,0.2)' }}
         >
           <p style={{ color: 'var(--color-text-muted)', margin: 0, fontSize: '0.9rem' }}>
-            <i className="fas fa-wifi me-2" style={{ color: '#e74c3c' }} />
+            <i className="fas fa-wifi me-2" style={{ color: '#e74c3c' }} aria-hidden="true" />
             {t('noConnection')}
           </p>
         </div>
         <div className="d-flex gap-3 justify-content-center flex-wrap">
           <Link href="/" className="btn btn-cosmic px-4">
-            <i className="fas fa-home me-2" />
+            <i className="fas fa-home me-2" aria-hidden="true" />
             {t('home')}
           </Link>
           <ReloadButton />

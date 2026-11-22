@@ -5,23 +5,27 @@ import StarField from '@/components/StarField'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import { getAllSigns } from '@/lib/zodiacData'
-import { alternatesFor } from '@/lib/site'
+import { buildMetadata, pageGraph, absoluteUrl } from '@/lib/seo'
+import JsonLd from '@/components/JsonLd'
+import ShareBar from '@/components/ShareBar'
 
 export async function generateMetadata({ params }) {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'meta' })
-  return {
-    title: { absolute: t('homeTitle') },
-    description: t('homeDescription'),
-    alternates: alternatesFor(locale, ''),
-  }
+  return buildMetadata({ locale, title: t('homeTitle'), absoluteTitle: true, description: t('homeDescription'), page: 'home' })
 }
 
 export default async function HomePage({ params }) {
   const { locale } = await params
   setRequestLocale(locale)
   const t = await getTranslations('home')
+  const meta = await getTranslations('meta')
+  const nav = await getTranslations('nav')
   const signs = getAllSigns(locale)
+  const graph = pageGraph({
+    locale, page: 'home', title: meta('homeTitle'), description: meta('homeDescription'),
+    crumbs: [{ name: nav('home'), path: '' }],
+  })
 
   const features = [
     {
@@ -56,19 +60,20 @@ export default async function HomePage({ params }) {
 
   return (
     <>
+      <JsonLd data={graph} />
       {/* ── Hero ──────────────────────────────────────────── */}
-      <section className="hero-section" id="finder" style={{ paddingTop: '80px' }}>
+      <section className="hero-section" id="finder" style={{ paddingTop: '80px' }} aria-labelledby="home-title">
         <StarField count={80} />
         <div className="container py-5" style={{ position: 'relative', zIndex: 2 }}>
           <div className="row align-items-center g-5">
             <div className="col-lg-6 hero-content animate-fade-in-up">
               <div className="d-flex align-items-center gap-2 mb-3">
                 <span className="badge-gold">
-                  <i className="fas fa-star me-1" />
+                  <i className="fas fa-star me-1" aria-hidden="true" />
                   {t('badge')}
                 </span>
               </div>
-              <h1 className="hero-title mb-3">
+              <h1 className="hero-title mb-3" id="home-title">
                 {t('heroTitleStart')}{' '}
                 <span className="shimmer-text">{t('heroTitleHighlight')}</span>{' '}
                 {t('heroTitleEnd')}
@@ -96,10 +101,10 @@ export default async function HomePage({ params }) {
       </section>
 
       {/* ── All Signs Grid ─────────────────────────────────── */}
-      <section className="section-dark py-5" id="all-signs">
+      <section className="section-dark py-5" id="all-signs" aria-labelledby="all-signs-title">
         <div className="container">
           <div className="text-center mb-5">
-            <h2 className="section-title">
+            <h2 className="section-title" id="all-signs-title">
               {t('signsTitleStart')} <span className="shimmer-text">{t('signsTitleHighlight')}</span>
             </h2>
             <div className="section-divider" />
@@ -108,21 +113,21 @@ export default async function HomePage({ params }) {
             </p>
           </div>
 
-          <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-3">
+          <ul className="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-3 list-unstyled">
             {signs.map((sign) => (
-              <div className="col" key={sign.slug}>
+              <li className="col" key={sign.slug}>
                 <ZodiacCard sign={sign} />
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 
       {/* ── Features ───────────────────────────────────────── */}
-      <section className="section-accent py-5">
+      <section className="section-accent py-5" aria-labelledby="explore-title">
         <div className="container">
           <div className="text-center mb-5">
-            <h2 className="section-title">
+            <h2 className="section-title" id="explore-title">
               {t('exploreTitleStart')} <span className="gradient-text">{t('exploreTitleHighlight')}</span>
             </h2>
             <div className="section-divider" />
@@ -149,11 +154,11 @@ export default async function HomePage({ params }) {
                         justifyContent: 'center',
                       }}
                     >
-                      <i className={`fas ${icon}`} style={{ fontSize: '1.4rem', color: 'var(--color-gold)' }} />
+                      <i className={`fas ${icon}`} style={{ fontSize: '1.4rem', color: 'var(--color-gold)' }} aria-hidden="true" />
                     </div>
-                    <h5 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)', marginBottom: '0.75rem' }}>
+                    <h3 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)', marginBottom: '0.75rem', fontSize: '1.25rem' }}>
                       {title}
-                    </h5>
+                    </h3>
                     <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', lineHeight: 1.7, margin: 0 }}>
                       {description}
                     </p>
@@ -166,7 +171,7 @@ export default async function HomePage({ params }) {
       </section>
 
       {/* ── CTA Banner ──────────────────────────────────────── */}
-      <section className="py-5 section-gradient">
+      <section className="py-5 section-gradient" aria-labelledby="cta-title">
         <div className="container">
           <div
             className="text-center p-5 rounded-4"
@@ -176,7 +181,7 @@ export default async function HomePage({ params }) {
             }}
           >
             <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🌟</div>
-            <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.5rem, 3vw, 2.2rem)', marginBottom: '1rem' }}>
+            <h2 id="cta-title" style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.5rem, 3vw, 2.2rem)', marginBottom: '1rem' }}>
               {t('ctaTitleStart')} <span className="shimmer-text">{t('ctaTitleHighlight')}</span>
             </h2>
             <p style={{ color: 'var(--color-text-muted)', maxWidth: 480, margin: '0 auto 2rem', lineHeight: 1.8 }}>
@@ -184,17 +189,19 @@ export default async function HomePage({ params }) {
             </p>
             <div className="d-flex gap-3 justify-content-center flex-wrap">
               <Link href="/horoscope" className="btn btn-cosmic px-4">
-                <i className="fas fa-moon me-2" />
+                <i className="fas fa-moon me-2" aria-hidden="true" />
                 {t('ctaHoroscope')}
               </Link>
               <Link href="/compatibility" className="btn btn-outline-cosmic px-4">
-                <i className="fas fa-heart me-2" />
+                <i className="fas fa-heart me-2" aria-hidden="true" />
                 {t('ctaCompatibility')}
               </Link>
             </div>
           </div>
         </div>
       </section>
+
+      <ShareBar url={absoluteUrl(locale)} title={meta('homeTitle')} />
     </>
   )
 }

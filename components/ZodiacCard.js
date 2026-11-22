@@ -15,8 +15,8 @@ export default function ZodiacCard({ sign }) {
   return (
     <Link href={`/signs/${sign.slug}`} className="sign-card p-3 p-md-4 h-100" style={{ background: colors.bg, borderColor: colors.border }}>
       <div className="text-center">
-        <span className="sign-emoji">{sign.emoji}</span>
-        <div className="sign-name mb-1">{sign.name}</div>
+        <span className="sign-emoji" aria-hidden="true">{sign.emoji}</span>
+        <h3 className="sign-name mb-1">{sign.name}</h3>
         <div className="sign-dates mb-2">{sign.dates.tropical}</div>
         <div className="d-flex justify-content-center gap-1 flex-wrap">
           <span
