@@ -703,3 +703,18 @@ main:focus { outline: none; }
 
 .lang-menu [lang='hi'] { font-family: 'Noto Sans Devanagari', system-ui, sans-serif; }
 .lang-menu [lang='bn'] { font-family: 'Noto Sans Bengali', system-ui, sans-serif; }
+
+/* ── Offline fallback page ────────────────────────────────── */
+/* One cached copy serves every language: show only the block that matches
+   the requested URL, and hide the (English) site chrome around it. */
+.offline-block { display: none; }
+html:not([data-offline-lang]) .offline-block[lang='en'],
+html[data-offline-lang='en'] .offline-block[lang='en'],
+html[data-offline-lang='hi'] .offline-block[lang='hi'],
+html[data-offline-lang='bn'] .offline-block[lang='bn'] { display: block; }
+html.offline-page body > header,
+html.offline-page .skip-link,
+html.offline-page footer,
+html.offline-page .pwa-banner { display: none !important; }
+html[data-offline-lang='hi'] { --font-heading: 'Noto Sans Devanagari', system-ui, sans-serif; --font-body: 'Noto Sans Devanagari', system-ui, sans-serif; }
+html[data-offline-lang='bn'] { --font-heading: 'Noto Sans Bengali', system-ui, sans-serif; --font-body: 'Noto Sans Bengali', system-ui, sans-serif; }

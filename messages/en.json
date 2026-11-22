@@ -233,6 +233,23 @@
     "label": "Breadcrumb",
     "home": "Home"
   },
+  "pwa": {
+    "name": "ZodiacSign – Zodiac Signs & Daily Horoscope",
+    "shortName": "ZodiacSign",
+    "description": "Find your zodiac sign, read your daily horoscope and check compatibility. Tropical and Vedic systems.",
+    "scFind": "Find My Sign",
+    "scFindDesc": "Find your zodiac sign from your birth date",
+    "scHoroscope": "Daily Horoscope",
+    "scHoroscopeDesc": "Read today's horoscope",
+    "scCompat": "Compatibility",
+    "scCompatDesc": "Check zodiac compatibility",
+    "shotHome": "Find your zodiac sign",
+    "shotHoroscope": "Your daily horoscope",
+    "shotSign": "Detailed sign profiles",
+    "shotWide": "ZodiacSign on desktop",
+    "offlineAvailable": "Pages you can open offline",
+    "offlineNone": "Pages you visit while online will be available here next time."
+  },
   "terms": {
     "elements": {
       "Fire": "Fire",

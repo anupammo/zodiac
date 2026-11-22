@@ -233,12 +233,46 @@
     "label": "ব্রেডক্রাম্ব",
     "home": "হোম"
   },
+  "pwa": {
+    "name": "ZodiacSign – রাশি ও দৈনিক রাশিফল",
+    "shortName": "ZodiacSign",
+    "description": "আপনার রাশি জানুন, দৈনিক রাশিফল পড়ুন ও রাশি মিলন দেখুন। সায়ন ও বৈদিক দুই পদ্ধতিই।",
+    "scFind": "আমার রাশি",
+    "scFindDesc": "জন্মতারিখ থেকে আপনার রাশি জানুন",
+    "scHoroscope": "দৈনিক রাশিফল",
+    "scHoroscopeDesc": "আজকের রাশিফল পড়ুন",
+    "scCompat": "রাশি মিলন",
+    "scCompatDesc": "রাশি মিলন দেখুন",
+    "shotHome": "আপনার রাশি জানুন",
+    "shotHoroscope": "আপনার দৈনিক রাশিফল",
+    "shotSign": "বিস্তারিত রাশি পরিচয়",
+    "shotWide": "ডেস্কটপে ZodiacSign",
+    "offlineAvailable": "যে পাতাগুলি অফলাইনে খোলা যাবে",
+    "offlineNone": "অনলাইনে থাকার সময় যে পাতাগুলি দেখবেন, পরের বার সেগুলি এখানে পাওয়া যাবে।"
+  },
   "terms": {
-    "elements": { "Fire": "অগ্নি", "Earth": "পৃথিবী", "Air": "বায়ু", "Water": "জল" },
-    "qualities": { "Cardinal": "চর", "Fixed": "স্থির", "Mutable": "দ্বিস্বভাব" },
+    "elements": {
+      "Fire": "অগ্নি",
+      "Earth": "পৃথিবী",
+      "Air": "বায়ু",
+      "Water": "জল"
+    },
+    "qualities": {
+      "Cardinal": "চর",
+      "Fixed": "স্থির",
+      "Mutable": "দ্বিস্বভাব"
+    },
     "planets": {
-      "Sun": "সূর্য", "Moon": "চন্দ্র", "Mercury": "বুধ", "Venus": "শুক্র", "Mars": "মঙ্গল",
-      "Jupiter": "বৃহস্পতি", "Saturn": "শনি", "Uranus": "ইউরেনাস", "Neptune": "নেপচুন", "Pluto": "প্লুটো"
+      "Sun": "সূর্য",
+      "Moon": "চন্দ্র",
+      "Mercury": "বুধ",
+      "Venus": "শুক্র",
+      "Mars": "মঙ্গল",
+      "Jupiter": "বৃহস্পতি",
+      "Saturn": "শনি",
+      "Uranus": "ইউরেনাস",
+      "Neptune": "নেপচুন",
+      "Pluto": "প্লুটো"
     }
   }
 }

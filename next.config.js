@@ -15,6 +15,10 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  // Apps installed before per-language manifests still check /manifest.json for updates.
+  async rewrites() {
+    return [{ source: '/manifest.json', destination: '/manifests/en.webmanifest' }]
+  },
 }
 
 module.exports = withPWA(withNextIntl(nextConfig))

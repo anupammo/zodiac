@@ -233,6 +233,23 @@
     "label": "ब्रेडक्रम्ब",
     "home": "होम"
   },
+  "pwa": {
+    "name": "ZodiacSign – राशि और दैनिक राशिफल",
+    "shortName": "ZodiacSign",
+    "description": "अपनी राशि जानें, दैनिक राशिफल पढ़ें और राशि मिलान देखें। सायन और वैदिक दोनों पद्धतियाँ।",
+    "scFind": "मेरी राशि",
+    "scFindDesc": "जन्मतिथि से अपनी राशि जानें",
+    "scHoroscope": "दैनिक राशिफल",
+    "scHoroscopeDesc": "आज का राशिफल पढ़ें",
+    "scCompat": "राशि मिलान",
+    "scCompatDesc": "राशि मिलान देखें",
+    "shotHome": "अपनी राशि जानें",
+    "shotHoroscope": "आपका दैनिक राशिफल",
+    "shotSign": "विस्तृत राशि परिचय",
+    "shotWide": "डेस्कटॉप पर ZodiacSign",
+    "offlineAvailable": "ये पेज ऑफ़लाइन खुल सकते हैं",
+    "offlineNone": "ऑनलाइन रहते हुए जो पेज आप देखेंगे, वे अगली बार यहाँ उपलब्ध होंगे।"
+  },
   "terms": {
     "elements": {
       "Fire": "अग्नि",

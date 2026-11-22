@@ -74,6 +74,7 @@ The current name "ZodiacSign" on `zodiac-ruddy.vercel.app` is too generic to tra
 - [x] Bengali (`/bn`) added; every page now exists in English, Hindi and Bengali (57 pages).
 - [x] Semantic HTML (landmarks, skip link, heading order, article/aside, breadcrumbs), JSON-LD with publish/modified dates, per-sign share images, share widget on every page.
 - [x] About, Privacy and Terms pages in all three languages.
+- [x] PWA completed: per-language manifests (app name, start page and shortcuts follow the install language), real maskable icons, current screenshots, offline page in the visitor's language listing pages available offline.
 - [ ] Native-speaker review of the Hindi and Bengali copy before promoting `/hi` and `/bn`.
 - [ ] Legal review of Privacy and Terms before launch.
 - [ ] Dynamic OG share images per sign per day (`next/og`).

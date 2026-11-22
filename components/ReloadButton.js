@@ -1,15 +1,10 @@
 'use client'
-import { useTranslations } from 'next-intl'
 
-export default function ReloadButton() {
-  const t = useTranslations('offline')
+export default function ReloadButton({ label }) {
   return (
-    <button
-      onClick={() => window.location.reload()}
-      className="btn btn-outline-cosmic px-4"
-    >
+    <button type="button" onClick={() => window.location.reload()} className="btn btn-outline-cosmic px-4">
       <i className="fas fa-redo me-2" aria-hidden="true" />
-      {t('retry')}
+      {label}
     </button>
   )
 }
